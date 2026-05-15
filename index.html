@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#05070A">
-    <title>Kalyanam Hub</title>
+    <title>Vivaha Venue </title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -324,7 +324,48 @@
         .menu-icon.green { background: rgba(72,187,120,0.12); color: #48BB78; }
         .menu-icon.red { background: rgba(245,101,101,0.12); color: #F56565; }
 
-        /* ── Filter Sheet ── */
+        /* ── Login/Auth Modal ── */
+        .auth-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); z-index: 1100;
+            align-items: center; justify-content: center; padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .auth-overlay.open { display: flex; }
+        .auth-modal {
+            background: var(--card); border: 1px solid rgba(245,197,24,0.2);
+            border-radius: 28px; padding: 28px; width: 100%; max-width: 380px;
+            animation: fadeUp 0.35s ease;
+        }
+        .auth-logo { font-family: var(--display); font-size: 32px; color: var(--gold); text-align: center; margin-bottom: 4px; }
+        .auth-sub { font-size: 13px; color: var(--dim); text-align: center; margin-bottom: 28px; }
+        .auth-tabs { display: flex; background: var(--card2); border-radius: 14px; padding: 4px; margin-bottom: 24px; }
+        .auth-tab {
+            flex: 1; text-align: center; padding: 10px; border-radius: 10px;
+            font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--dim);
+        }
+        .auth-tab.active { background: var(--gold); color: #000; }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .auth-field { margin-bottom: 14px; }
+        .auth-field label { font-size: 11px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+        .auth-field input {
+            width: 100%; background: var(--card2); border: 1px solid var(--border);
+            border-radius: 14px; padding: 13px 16px; color: var(--text);
+            font-family: var(--font); font-size: 15px; outline: none; transition: border-color 0.2s;
+        }
+        .auth-field input:focus { border-color: var(--gold); }
+        .auth-field input::placeholder { color: var(--dim2); }
+        .auth-btn {
+            width: 100%; padding: 15px; background: var(--gold); color: #000;
+            font-weight: 800; font-size: 15px; border-radius: 16px; border: none;
+            font-family: var(--font); cursor: pointer; transition: all 0.2s; margin-top: 6px;
+        }
+        .auth-btn:active { transform: scale(0.97); background: var(--gold2); }
+        .auth-error { font-size: 12px; color: #F56565; text-align: center; margin-top: 10px; min-height: 18px; }
+        .auth-skip { font-size: 12px; color: var(--dim); text-align: center; margin-top: 14px; cursor: pointer; }
+        .auth-skip span { color: var(--gold); font-weight: 600; }
+
         .sheet-overlay {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,0.6); z-index: 500;
@@ -508,7 +549,7 @@
     <div class="topbar">
         <div class="topbar-left">
             <span class="topbar-greeting">Namaste 🙏</span>
-            <span class="topbar-brand">Kalyanam Hub</span>
+            <span class="topbar-brand">Vivaha Venue</span>
         </div>
         <div class="topbar-actions">
             <div class="icon-btn" onclick="openSheet('filter-sheet')"><i class="fa-solid fa-sliders"></i></div>
@@ -531,7 +572,7 @@
             <div class="hero-title">Find Your Perfect<br><em>Wedding Venue</em></div>
             <div class="hero-sub">500+ premium venues across Andhra Pradesh & Telangana</div>
             <div class="hero-cta" onclick="goPage('explore')">
-                <i class="fa-solid fa-compass"></i> Explore Venues
+                <i class="fa-solid fa-calendar-check"></i> Book Now
             </div>
         </div>
 
@@ -784,47 +825,93 @@
             <span class="topbar-brand">Profile</span>
         </div>
         <div class="topbar-actions">
-            <div class="icon-btn"><i class="fa-solid fa-pen"></i></div>
+            <div class="icon-btn" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>
         </div>
     </div>
     <div class="scroll-area">
         <div class="profile-header">
-            <div class="avatar">R</div>
-            <div class="profile-name">Ravi Shankar</div>
-            <div class="profile-email">ravi.shankar@gmail.com</div>
+            <div class="avatar" id="profile-avatar">?</div>
+            <div class="profile-name" id="profile-name-display">Guest User</div>
+            <div class="profile-email" id="profile-email-display">Sign in to continue</div>
             <div class="profile-badges">
-                <div class="badge"><div class="badge-num">3</div><div class="badge-lbl">Bookings</div></div>
-                <div class="badge"><div class="badge-num">12</div><div class="badge-lbl">Saved</div></div>
+                <div class="badge"><div class="badge-num" id="profile-bookings-count">0</div><div class="badge-lbl">Bookings</div></div>
+                <div class="badge"><div class="badge-num" id="profile-saved-count">0</div><div class="badge-lbl">Saved</div></div>
                 <div class="badge"><div class="badge-num">4.9★</div><div class="badge-lbl">Rating</div></div>
             </div>
         </div>
         <div class="menu-list">
-            <div class="menu-item">
-                <div class="menu-icon gold"><i class="fa-solid fa-heart"></i></div>
-                <div class="menu-text"><div class="menu-label">Saved Venues</div><div class="menu-sub">12 venues saved</div></div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
-            <div class="menu-item">
+            <div class="menu-item" onclick="goPage('bookings')">
                 <div class="menu-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
-                <div class="menu-text"><div class="menu-label">My Bookings</div><div class="menu-sub">View all your bookings</div></div>
+                <div class="menu-text"><div class="menu-label">My Bookings</div><div class="menu-sub" id="profile-bookings-sub">View all your bookings</div></div>
                 <i class="fa-solid fa-chevron-right menu-arrow"></i>
             </div>
-            <div class="menu-item">
-                <div class="menu-icon green"><i class="fa-solid fa-bell"></i></div>
-                <div class="menu-text"><div class="menu-label">Notifications</div><div class="menu-sub">Manage alerts & reminders</div></div>
+            <div class="menu-item" onclick="openEditProfile()">
+                <div class="menu-icon gold"><i class="fa-solid fa-user-pen"></i></div>
+                <div class="menu-text"><div class="menu-label">Edit Profile</div><div class="menu-sub">Update name, phone &amp; details</div></div>
                 <i class="fa-solid fa-chevron-right menu-arrow"></i>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" onclick="openSheet('filter-sheet')">
+                <div class="menu-icon green"><i class="fa-solid fa-sliders"></i></div>
+                <div class="menu-text"><div class="menu-label">Preferences</div><div class="menu-sub">Venue type, location &amp; budget</div></div>
+                <i class="fa-solid fa-chevron-right menu-arrow"></i>
+            </div>
+            <div class="menu-item" onclick="alert('📞 Support: +91 98765 43210\n✉️ help@vivahavenue.in\n\nWe\'re available Mon–Sat, 9am–7pm')">
                 <div class="menu-icon gold"><i class="fa-solid fa-headset"></i></div>
-                <div class="menu-text"><div class="menu-label">Help & Support</div><div class="menu-sub">Chat with our team</div></div>
+                <div class="menu-text"><div class="menu-label">Help &amp; Support</div><div class="menu-sub">Chat with our team</div></div>
                 <i class="fa-solid fa-chevron-right menu-arrow"></i>
             </div>
-            <div class="menu-item">
-                <div class="menu-icon red"><i class="fa-solid fa-right-from-bracket"></i></div>
-                <div class="menu-text"><div class="menu-label">Sign Out</div><div class="menu-sub">Ravi Shankar</div></div>
+            <div class="menu-item" id="auth-menu-item" onclick="handleAuthMenuClick()">
+                <div class="menu-icon red"><i class="fa-solid fa-right-from-bracket" id="auth-menu-icon"></i></div>
+                <div class="menu-text">
+                    <div class="menu-label" id="auth-menu-label">Sign In</div>
+                    <div class="menu-sub" id="auth-menu-sub">Login or create account</div>
+                </div>
                 <i class="fa-solid fa-chevron-right menu-arrow"></i>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- ══ AUTH MODAL ══ -->
+<div class="auth-overlay" id="auth-modal">
+    <div class="auth-modal">
+        <div class="auth-logo">Vivaha Venue</div>
+        <div class="auth-sub">Find & book your perfect wedding venue</div>
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</div>
+            <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</div>
+        </div>
+        <!-- Login Form -->
+        <div class="auth-form active" id="form-login">
+            <div class="auth-field"><label>Name or Email</label><input type="text" id="login-email" placeholder="Your name or email"></div>
+            <div class="auth-field"><label>Password</label><input type="password" id="login-pass" placeholder="Your password"></div>
+            <button class="auth-btn" onclick="doLogin()">Sign In</button>
+            <div class="auth-error" id="login-error"></div>
+        </div>
+        <!-- Signup Form -->
+        <div class="auth-form" id="form-signup">
+            <div class="auth-field"><label>Full Name</label><input type="text" id="signup-name" placeholder="e.g. Ravi Shankar"></div>
+            <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="your@email.com"></div>
+            <div class="auth-field"><label>Phone</label><input type="tel" id="signup-phone" placeholder="+91 9XXXXXXXXX"></div>
+            <div class="auth-field"><label>Password</label><input type="password" id="signup-pass" placeholder="Create a password"></div>
+            <button class="auth-btn" onclick="doSignup()">Create Account</button>
+            <div class="auth-error" id="signup-error"></div>
+        </div>
+        <div class="auth-skip" onclick="closeAuthModal()">Continue as guest &nbsp;<span>Skip →</span></div>
+    </div>
+</div>
+
+<!-- ══ EDIT PROFILE MODAL ══ -->
+<div class="modal-overlay" id="edit-profile-modal">
+    <div class="modal" style="max-width:380px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <div style="font-size:18px;font-weight:700;"><i class="fa-solid fa-user-pen" style="color:var(--gold);margin-right:8px;"></i>Edit Profile</div>
+            <div class="icon-btn" onclick="document.getElementById('edit-profile-modal').classList.remove('open')"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <div class="auth-field"><label>Full Name</label><input type="text" id="edit-name" placeholder="Your name"></div>
+        <div class="auth-field"><label>Email</label><input type="email" id="edit-email" placeholder="your@email.com"></div>
+        <div class="auth-field"><label>Phone</label><input type="tel" id="edit-phone" placeholder="+91 9XXXXXXXXX"></div>
+        <button class="auth-btn" onclick="saveProfile()">Save Changes</button>
     </div>
 </div>
 
@@ -1067,28 +1154,158 @@
 </div>
 
 <script>
-/* ── Venue Data ── */
+/* ══════════════════════════════════════════
+   STORAGE HELPERS — bookings & user persist across refresh
+══════════════════════════════════════════ */
+function saveToStorage(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+function loadFromStorage(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; } }
+
+/* ══ Venue Data ══ */
 const venues = {
-    v1: { name: 'V Convention Center', loc: 'Benz Circle, Vijayawada', tag: 'ULTRA LUXE', priceRaw: 450000, price: '₹4,50,000', rating: '4.9', reviews: '284', cap: '1200', img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900', desc: 'A premier landmark in Vijayawada featuring grand air-conditioned halls, world-class décor, and full catering arrangements. Perfect for royal Telugu weddings and high-profile receptions.' },
-    v2: { name: 'River Bay Resort', loc: 'Godavari Bank, Rajahmundry', tag: 'VERIFIED', priceRaw: 220000, price: '₹2,20,000', rating: '4.7', reviews: '172', cap: '600', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900', desc: 'Nestled on the scenic Godavari riverbank, River Bay Resort offers a breathtaking outdoor setting for your wedding celebrations with curated floral décor and riverside dining.' },
-    v3: { name: 'Grand Elite Gardens', loc: 'Madhapur, Hyderabad', tag: 'POPULAR', priceRaw: 500000, price: '₹5,00,000', rating: '4.8', reviews: '319', cap: '1500', img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900', desc: "Hyderabad's most sought-after wedding garden. Lush landscaped grounds, multiple banquet halls, premium in-house catering, and expert event planning for the celebration of a lifetime." },
-    v4: { name: 'S Convention', loc: 'Main Road, Kakinada', tag: 'ELITE', priceRaw: 180000, price: '₹1,80,000', rating: '4.6', reviews: '98', cap: '400', img: 'https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=900', desc: 'A beautifully decorated convention hall in the heart of Kakinada. Ideal for intimate weddings and family events with personalized service and affordable elegance.' }
+    v1: { name: 'V Convention Center', loc: 'Benz Circle, Vijayawada', city: 'Vijayawada', tag: 'ULTRA LUXE', priceRaw: 450000, price: '₹4,50,000', rating: '4.9', reviews: '284', cap: '1200', img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900', desc: 'A premier landmark in Vijayawada featuring grand air-conditioned halls, world-class décor, and full catering arrangements. Perfect for royal Telugu weddings and high-profile receptions.' },
+    v2: { name: 'River Bay Resort', loc: 'Godavari Bank, Rajahmundry', city: 'Rajahmundry', tag: 'VERIFIED', priceRaw: 220000, price: '₹2,20,000', rating: '4.7', reviews: '172', cap: '600', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900', desc: 'Nestled on the scenic Godavari riverbank, River Bay Resort offers a breathtaking outdoor setting for your wedding celebrations with curated floral décor and riverside dining.' },
+    v3: { name: 'Grand Elite Gardens', loc: 'Madhapur, Hyderabad', city: 'Hyderabad', tag: 'POPULAR', priceRaw: 500000, price: '₹5,00,000', rating: '4.8', reviews: '319', cap: '1500', img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900', desc: "Hyderabad's most sought-after wedding garden. Lush landscaped grounds, multiple banquet halls, premium in-house catering, and expert event planning for the celebration of a lifetime." },
+    v4: { name: 'S Convention', loc: 'Main Road, Kakinada', city: 'Kakinada', tag: 'ELITE', priceRaw: 180000, price: '₹1,80,000', rating: '4.6', reviews: '98', cap: '400', img: 'https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=900', desc: 'A beautifully decorated convention hall in the heart of Kakinada. Ideal for intimate weddings and family events with personalized service and affordable elegance.' }
 };
 
-/* ── Bookings State ── */
-let myBookings = [
-    { id: 'KH-241001', venue: 'V Convention Center', loc: 'Benz Circle, Vijayawada', date: '14 June 2025', guests: 500, occasion: 'Wedding', status: 'confirmed', priceRaw: 450000 },
-    { id: 'KH-241002', venue: 'River Bay Resort', loc: 'Godavari Bank, Rajahmundry', date: '28 Aug 2025', guests: 300, occasion: 'Reception', status: 'pending', priceRaw: 220000 },
-    { id: 'KH-240001', venue: 'Grand Elite Gardens', loc: 'Madhapur, Hyderabad', date: '02 Jan 2025', guests: 700, occasion: 'Wedding', status: 'completed', priceRaw: 500000 }
-];
+/* ══ Persistent State ══ */
+let myBookings = loadFromStorage('vv_bookings', []);
+let currentUser = loadFromStorage('vv_user', null);
+let savedVenues = loadFromStorage('vv_saved', []);
 
-const PLATFORM_FEE_PCT = 0.02; // 2% of full hall cost
+const PLATFORM_FEE_PCT = 0.02;
 const ADVANCE_PCT = 0.30;
 const PENALTY_PCT = 0.05;
 
 function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
 
-/* ── Page Navigation ── */
+/* ══ Auth System ══ */
+function switchAuthTab(tab) {
+    document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    document.getElementById('form-login').classList.toggle('active', tab === 'login');
+    document.getElementById('form-signup').classList.toggle('active', tab === 'signup');
+    document.getElementById('login-error').textContent = '';
+    document.getElementById('signup-error').textContent = '';
+}
+
+function openAuthModal(defaultTab) {
+    switchAuthTab(defaultTab || 'login');
+    document.getElementById('auth-modal').classList.add('open');
+}
+
+function closeAuthModal() {
+    document.getElementById('auth-modal').classList.remove('open');
+}
+
+function doLogin() {
+    const emailVal = document.getElementById('login-email').value.trim();
+    const passVal = document.getElementById('login-pass').value.trim();
+    if (!emailVal || !passVal) { document.getElementById('login-error').textContent = 'Please fill all fields.'; return; }
+    // Load stored accounts
+    const accounts = loadFromStorage('vv_accounts', []);
+    const found = accounts.find(a => (a.email === emailVal || a.name === emailVal) && a.pass === passVal);
+    if (!found) { document.getElementById('login-error').textContent = 'Invalid credentials. Please try again.'; return; }
+    currentUser = { name: found.name, email: found.email, phone: found.phone || '' };
+    saveToStorage('vv_user', currentUser);
+    closeAuthModal();
+    updateProfileUI();
+    showToast('Welcome back, ' + currentUser.name.split(' ')[0] + '! 🎉');
+}
+
+function doSignup() {
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const phone = document.getElementById('signup-phone').value.trim();
+    const pass = document.getElementById('signup-pass').value.trim();
+    if (!name || !email || !pass) { document.getElementById('signup-error').textContent = 'Please fill all required fields.'; return; }
+    const accounts = loadFromStorage('vv_accounts', []);
+    if (accounts.find(a => a.email === email)) { document.getElementById('signup-error').textContent = 'Email already registered. Please sign in.'; return; }
+    accounts.push({ name, email, phone, pass });
+    saveToStorage('vv_accounts', accounts);
+    currentUser = { name, email, phone };
+    saveToStorage('vv_user', currentUser);
+    closeAuthModal();
+    updateProfileUI();
+    showToast('Account created! Welcome, ' + name.split(' ')[0] + '! 🎉');
+}
+
+function handleAuthMenuClick() {
+    if (currentUser) {
+        if (confirm('Sign out of ' + currentUser.name + '?')) {
+            currentUser = null;
+            saveToStorage('vv_user', null);
+            updateProfileUI();
+            showToast('Signed out successfully.');
+        }
+    } else {
+        openAuthModal('login');
+    }
+}
+
+function updateProfileUI() {
+    const name = currentUser ? currentUser.name : 'Guest User';
+    const email = currentUser ? currentUser.email : 'Sign in to continue';
+    const initial = currentUser ? currentUser.name.charAt(0).toUpperCase() : '?';
+    document.getElementById('profile-avatar').textContent = initial;
+    document.getElementById('profile-name-display').textContent = name;
+    document.getElementById('profile-email-display').textContent = email;
+    // Booking count
+    const activeCount = myBookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
+    document.getElementById('profile-bookings-count').textContent = myBookings.length;
+    document.getElementById('profile-saved-count').textContent = savedVenues.length;
+    document.getElementById('profile-bookings-sub').textContent = myBookings.length + ' booking' + (myBookings.length !== 1 ? 's' : '') + ' total';
+    // Topbar greeting
+    const greet = document.querySelector('#page-home .topbar-greeting');
+    if (greet) greet.textContent = currentUser ? 'Namaste, ' + currentUser.name.split(' ')[0] + ' 🙏' : 'Namaste 🙏';
+    // Auth menu item
+    document.getElementById('auth-menu-label').textContent = currentUser ? 'Sign Out' : 'Sign In / Sign Up';
+    document.getElementById('auth-menu-sub').textContent = currentUser ? currentUser.name : 'Login or create account';
+    document.getElementById('auth-menu-icon').className = currentUser ? 'fa-solid fa-right-from-bracket' : 'fa-solid fa-right-to-bracket';
+    // Dock badge
+    updateDockBadge();
+}
+
+function openEditProfile() {
+    if (!currentUser) { openAuthModal('login'); return; }
+    document.getElementById('edit-name').value = currentUser.name || '';
+    document.getElementById('edit-email').value = currentUser.email || '';
+    document.getElementById('edit-phone').value = currentUser.phone || '';
+    document.getElementById('edit-profile-modal').classList.add('open');
+}
+
+function saveProfile() {
+    const name = document.getElementById('edit-name').value.trim();
+    const email = document.getElementById('edit-email').value.trim();
+    const phone = document.getElementById('edit-phone').value.trim();
+    if (!name || !email) { alert('Name and email are required.'); return; }
+    currentUser = { ...currentUser, name, email, phone };
+    saveToStorage('vv_user', currentUser);
+    // Update in accounts store too
+    const accounts = loadFromStorage('vv_accounts', []);
+    const idx = accounts.findIndex(a => a.email === email || a.name === name);
+    if (idx >= 0) { accounts[idx] = { ...accounts[idx], name, email, phone }; saveToStorage('vv_accounts', accounts); }
+    document.getElementById('edit-profile-modal').classList.remove('open');
+    updateProfileUI();
+    showToast('Profile updated!');
+}
+
+/* ══ Toast Notification ══ */
+function showToast(msg) {
+    let t = document.getElementById('app-toast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'app-toast';
+        t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-weight:700;font-size:13px;padding:10px 20px;border-radius:50px;z-index:2000;opacity:0;transition:opacity 0.3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4)';
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
+}
+
+/* ══ Page Navigation ══ */
 let currentPage = 'home';
 function goPage(name) {
     document.getElementById('page-' + currentPage).classList.remove('active');
@@ -1097,15 +1314,25 @@ function goPage(name) {
     document.getElementById('page-' + name).classList.add('active');
     document.getElementById('dock-' + name).classList.add('active');
     if (name === 'bookings') renderBookings();
+    if (name === 'profile') updateProfileUI();
     window.scrollTo(0, 0);
 }
 
-/* ── Render Bookings ── */
+function updateDockBadge() {
+    const badge = document.querySelector('#dock-bookings .dock-badge');
+    if (badge) {
+        const cnt = myBookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
+        badge.textContent = cnt;
+        badge.style.display = cnt > 0 ? 'flex' : 'none';
+    }
+}
+
+/* ══ Render Bookings ══ */
 function renderBookings() {
     const list = document.getElementById('bookings-list');
     if (!list) return;
     if (myBookings.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-title">No Bookings Yet</div><div class="empty-sub">Book a venue to see your bookings here.</div></div>`;
+        list.innerHTML = `<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-title">No Bookings Yet</div><div class="empty-sub">Book a venue and it will appear here — even after you refresh!</div><button class="book-btn" style="margin-top:20px;max-width:200px;" onclick="goPage('explore')">Browse Venues</button></div>`;
         return;
     }
     list.innerHTML = myBookings.map((b, i) => {
@@ -1113,17 +1340,14 @@ function renderBookings() {
         const platform = b.priceRaw * PLATFORM_FEE_PCT;
         const statusLabels = { confirmed: 'CONFIRMED', pending: 'PENDING', completed: 'COMPLETED', cancelled: 'CANCELLED' };
         const statusClass  = { confirmed: 'status-confirmed', pending: 'status-pending', completed: 'status-completed', cancelled: 'status-cancelled' };
-
         let actionBtns = '';
         if (b.status === 'cancelled') {
             actionBtns = `<button class="btn-sm btn-outline" style="width:100%;opacity:0.5;cursor:default;" disabled>Booking Cancelled</button>`;
         } else if (b.status === 'completed') {
-            actionBtns = `<button class="btn-sm btn-outline" onclick="showInvoice(${i})"><i class="fa-solid fa-file-invoice"></i> Invoice</button><button class="btn-sm btn-primary">Re-book</button>`;
+            actionBtns = `<button class="btn-sm btn-outline" onclick="showInvoice(${i})"><i class="fa-solid fa-file-invoice"></i> Invoice</button><button class="btn-sm btn-primary" onclick="goPage('explore')">Re-book</button>`;
         } else {
-            // confirmed or pending
             actionBtns = `<button class="btn-sm btn-outline" onclick="showInvoice(${i})"><i class="fa-solid fa-file-invoice"></i> Invoice</button><button class="btn-sm" style="background:#F56565;color:#fff;font-weight:700;font-family:var(--font);cursor:pointer;flex:1;padding:10px;border-radius:12px;border:none;font-size:13px;" onclick="showCancelModal(${i})">Cancel</button>`;
         }
-
         return `
         <div class="booking-card" id="bcard-${i}">
             <div class="booking-head">
@@ -1142,7 +1366,7 @@ function renderBookings() {
     }).join('');
 }
 
-/* ── Cancel Modal ── */
+/* ══ Cancel Modal ══ */
 let cancelIdx = -1;
 function showCancelModal(i) {
     cancelIdx = i;
@@ -1166,213 +1390,21 @@ function processCancellation() {
     const penalty = advance * PENALTY_PCT;
     const refund = Math.max(0, advance - penalty - platform);
     myBookings[cancelIdx].status = 'cancelled';
+    saveToStorage('vv_bookings', myBookings);
     document.getElementById('cancel-modal').classList.remove('open');
     document.getElementById('cancel-confirm-msg').textContent =
         `Booking ${b.id} cancelled. Refund of ${fmt(refund)} will be processed in 5–7 business days. (5% penalty + platform fee deducted)`;
     document.getElementById('cancelled-modal').classList.add('open');
     renderBookings();
+    updateDockBadge();
     cancelIdx = -1;
 }
 
-/* ── Occasion Toggle ── */
-document.querySelectorAll('.occ-box').forEach(box => {
-    box.addEventListener('click', () => {
-        const was = box.classList.contains('active');
-        document.querySelectorAll('.occ-box').forEach(b => b.classList.remove('active'));
-        if (!was) box.classList.add('active');
-    });
-});
-
-/* ── City Chips ── */
-document.querySelectorAll('#cityChips .chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-        document.querySelectorAll('#cityChips .chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-    });
-});
-
-/* ── Filter Chips ── */
-document.querySelectorAll('.filter-chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('active'));
-});
-
-/* ── Favorites ── */
-function toggleFav(e, el) {
-    e.stopPropagation();
-    el.classList.toggle('liked');
-    el.innerHTML = el.classList.contains('liked') ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
-}
-
-/* ── Bottom Sheet ── */
-function openSheet(id) { document.getElementById(id).classList.add('open'); }
-function closeSheet(id, e) {
-    // Only close if clicking the dark overlay itself, not the sheet content
-    if (!e) { document.getElementById(id).classList.remove('open'); return; }
-    if (e.target.id === id) document.getElementById(id).classList.remove('open');
-}
-// Overlay click handlers — attached only to overlay bg
-document.getElementById('booking-sheet').addEventListener('click', function(e){
-    if (e.target === this) this.classList.remove('open');
-});
-document.getElementById('venue-sheet').addEventListener('click', function(e){
-    if (e.target === this) this.classList.remove('open');
-});
-document.getElementById('filter-sheet').addEventListener('click', function(e){
-    if (e.target === this) this.classList.remove('open');
-});
-
-/* ── Venue Detail ── */
-let currentVenueId = null;
-function openVenue(id) {
-    currentVenueId = id;
-    const v = venues[id];
-    if (!v) return;
-    document.getElementById('venue-content').innerHTML = `
-        <img class="detail-img" src="${v.img}" alt="${v.name}">
-        <div class="detail-body">
-            <div class="detail-tag-row"><div class="detail-tag">${v.tag}</div></div>
-            <div class="detail-name">${v.name}</div>
-            <div class="detail-loc"><i class="fa-solid fa-location-dot"></i> ${v.loc}</div>
-            <div class="detail-stats">
-                <div class="stat-box"><div class="stat-val">${v.rating}★</div><div class="stat-lbl">Rating</div></div>
-                <div class="stat-box"><div class="stat-val">${v.reviews}</div><div class="stat-lbl">Reviews</div></div>
-                <div class="stat-box"><div class="stat-val">${v.cap}</div><div class="stat-lbl">Capacity</div></div>
-            </div>
-            <div class="detail-desc">${v.desc}</div>
-            <div class="pay-box">
-                <div class="pay-row"><span class="lbl">Full Hall Cost (1 Day)</span><span class="val">${v.price}</span></div>
-                <div class="pay-row"><span class="lbl" style="color:var(--gold);">30% Advance Online</span><span class="val pay-highlight">${fmt(v.priceRaw * ADVANCE_PCT)}</span></div>
-                <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(v.priceRaw * PLATFORM_FEE_PCT)}</span></div>
-                <hr class="pay-divider">
-                <div class="pay-row"><span class="pay-total-lbl">Pay Now</span><span class="pay-total pay-highlight">${fmt(v.priceRaw * ADVANCE_PCT + v.priceRaw * PLATFORM_FEE_PCT)}</span></div>
-                <div class="pay-row" style="margin-top:4px;"><span class="lbl" style="font-size:12px;">Remaining at Hall</span><span class="val" style="font-size:13px;">${fmt(v.priceRaw * 0.70)}</span></div>
-            </div>
-            <div class="info-box">
-                <i class="fa-solid fa-circle-info"></i>
-                <strong>Pay 30% now</strong> to lock your date. Remaining <strong>70% paid directly at the hall</strong> on the event day. Platform fee is non-refundable.
-            </div>
-            <button class="book-btn" onclick="startBooking('${id}')">
-                <i class="fa-solid fa-calendar-check"></i> Book This Venue
-            </button>
-        </div>`;
-    openSheet('venue-sheet');
-}
-
-/* ── Booking Flow ── */
-let bookingVenueId = null;
-let currentStep = 0;
-
-function startBooking(id) {
-    bookingVenueId = id;
-    closeSheet('venue-sheet');
-    resetBookingFlow();
-    // populate payment breakdown for step 2
-    const v = venues[id];
-    const advance = v.priceRaw * ADVANCE_PCT;
-    const platform = v.priceRaw * PLATFORM_FEE_PCT;
-    document.getElementById('pb-full').textContent = v.price;
-    document.getElementById('pb-advance').textContent = fmt(advance);
-    document.getElementById('pb-platform').textContent = fmt(platform);
-    document.getElementById('pb-total').textContent = fmt(advance + platform);
-    document.getElementById('pb-remaining').textContent = fmt(v.priceRaw * 0.70);
-    setTimeout(() => openSheet('booking-sheet'), 200);
-}
-
-function resetBookingFlow() {
-    currentStep = 0;
-    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('fstep0').classList.add('active');
-    updateStepDots(0);
-    document.getElementById('b-date').value = '';
-    document.getElementById('b-occasion').value = '';
-    document.getElementById('b-guests').value = '';
-}
-
-function updateStepDots(step) {
-    [0,1,2].forEach(i => {
-        const d = document.getElementById('sdot' + i);
-        if (d) d.classList.toggle('active', i === step);
-    });
-}
-
-function bookNext(step) {
-    // Validate step 0
-    if (step === 1) {
-        const date = document.getElementById('b-date').value;
-        const occ = document.getElementById('b-occasion').value;
-        const guests = document.getElementById('b-guests').value;
-        if (!date || !occ || !guests) { alert('Please fill all fields to continue.'); return; }
-    }
-    // Validate step 1 + build confirm summary
-    if (step === 2) {
-        const name = document.getElementById('b-name').value;
-        const phone = document.getElementById('b-phone').value;
-        if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
-        const v = venues[bookingVenueId];
-        const advance = v.priceRaw * ADVANCE_PCT;
-        const platform = v.priceRaw * PLATFORM_FEE_PCT;
-        document.getElementById('confirm-summary').innerHTML = `
-            <div class="pay-row"><span class="lbl">Venue</span><span class="val" style="font-size:13px;text-align:right;max-width:55%;">${v.name}</span></div>
-            <div class="pay-row"><span class="lbl">Date</span><span class="val">${document.getElementById('b-date').value}</span></div>
-            <div class="pay-row"><span class="lbl">Occasion</span><span class="val">${document.getElementById('b-occasion').value}</span></div>
-            <div class="pay-row"><span class="lbl">Guests</span><span class="val">${document.getElementById('b-guests').value}</span></div>
-            <div class="pay-row"><span class="lbl">Name</span><span class="val">${name}</span></div>
-            <hr class="pay-divider">
-            <div class="pay-row"><span class="lbl">Full Hall Cost</span><span class="val">${v.price}</span></div>
-            <div class="pay-row"><span class="lbl">30% Advance</span><span class="val pay-highlight">${fmt(advance)}</span></div>
-            <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(platform)}</span></div>
-            <hr class="pay-divider">
-            <div class="pay-row"><span class="pay-total-lbl" style="font-size:15px;">💳 Pay Now</span><span class="pay-total pay-highlight" style="font-size:18px;">${fmt(advance + platform)}</span></div>
-            <div class="pay-row" style="background:rgba(72,187,120,0.07);padding:8px;border-radius:10px;margin-top:8px;">
-                <span class="lbl" style="font-size:12px;">🏛️ Pay at Hall</span>
-                <span class="val" style="font-size:14px;color:#48BB78;font-weight:700;">${fmt(v.priceRaw * 0.70)}</span>
-            </div>
-        `;
-    }
-    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('fstep' + step).classList.add('active');
-    updateStepDots(step);
-    currentStep = step;
-    // Scroll sheet back to top
-    const inner = document.getElementById('booking-sheet-inner');
-    if (inner) inner.scrollTop = 0;
-}
-
-function confirmBooking() {
-    const v = venues[bookingVenueId];
-    const refId = 'KH-' + Date.now().toString().slice(-6);
-    const dateVal = document.getElementById('b-date').value;
-    const d = dateVal ? new Date(dateVal).toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' }) : 'TBD';
-    myBookings.unshift({
-        id: refId,
-        venue: v.name,
-        loc: v.loc,
-        date: d,
-        guests: parseInt(document.getElementById('b-guests').value) || 0,
-        occasion: document.getElementById('b-occasion').value,
-        status: 'confirmed',
-        priceRaw: v.priceRaw,
-        name: document.getElementById('b-name').value,
-        phone: document.getElementById('b-phone').value
-    });
-    // Update dock badge
-    const badge = document.querySelector('#dock-bookings .dock-badge');
-    if (badge) badge.textContent = myBookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
-
-    document.getElementById('booking-ref').textContent = 'Ref: ' + refId;
-    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('fstep-success').classList.add('active');
-    document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
-    const inner = document.getElementById('booking-sheet-inner');
-    if (inner) inner.scrollTop = 0;
-}
-
-/* ── Invoice Modal ── */
+/* ══ Invoice Modal ══ */
 function showInvoice(i) {
     const b = myBookings[i];
     const advance = b.priceRaw * ADVANCE_PCT;
     const platform = b.priceRaw * PLATFORM_FEE_PCT;
-    // Build and show invoice modal
     const existing = document.getElementById('invoice-modal');
     if (existing) existing.remove();
     const modal = document.createElement('div');
@@ -1406,34 +1438,259 @@ function showInvoice(i) {
                 <span class="val" style="color:#48BB78;font-weight:700;">${fmt(b.priceRaw * 0.70)}</span>
             </div>
         </div>
-        <div class="info-box" style="margin-bottom:14px;">
-            <i class="fa-solid fa-circle-info"></i>
-            Cancellation: 5% penalty on advance + platform fee non-refundable. Refund in 5–7 business days.
-        </div>
+        <div class="info-box"><i class="fa-solid fa-circle-info"></i>Cancellation: 5% penalty on advance + platform fee non-refundable. Refund in 5–7 business days.</div>
         <button class="book-btn" onclick="document.getElementById('invoice-modal').remove()">Close Invoice</button>
     </div>`;
     modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
     document.body.appendChild(modal);
 }
 
-/* ── Search Filter ── */
+/* ══ Search & Filter ══ */
 function filterVenues(q) {
-    q = q.toLowerCase();
+    q = (q || '').toLowerCase().trim();
     document.querySelectorAll('#vgrid .venue-card-v').forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
+        const text = card.innerText.toLowerCase();
+        card.style.display = (!q || text.includes(q)) ? '' : 'none';
     });
 }
 
-/* ── Explore filter chips ── */
+document.getElementById('homeSearch').addEventListener('input', function() {
+    const q = this.value.trim();
+    if (q.length > 1) { goPage('explore'); setTimeout(() => { document.getElementById('exploreSearch').value = q; filterVenues(q); }, 50); }
+});
+
+document.getElementById('exploreSearch').addEventListener('input', function() { filterVenues(this.value); });
+
+document.querySelectorAll('#cityChips .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+        document.querySelectorAll('#cityChips .chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const city = chip.textContent.trim();
+        if (city === 'All') {
+            document.querySelectorAll('#vgrid .venue-card-v').forEach(c => c.style.display = '');
+        } else {
+            document.querySelectorAll('#vgrid .venue-card-v').forEach(card => {
+                card.style.display = card.innerText.includes(city) ? '' : 'none';
+            });
+            goPage('explore');
+        }
+    });
+});
+
 document.querySelectorAll('#page-explore .chip').forEach(chip => {
     chip.addEventListener('click', () => {
         document.querySelectorAll('#page-explore .chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
+        const label = chip.textContent.trim();
+        document.querySelectorAll('#vgrid .venue-card-v').forEach(card => {
+            const venueKey = card.getAttribute('onclick') ? card.getAttribute('onclick').match(/openVenue\('(\w+)'\)/)?.[1] : null;
+            const v = venueKey ? venues[venueKey] : null;
+            if (!v) { card.style.display = ''; return; }
+            let show = true;
+            if (label === 'Under ₹2L') show = v.priceRaw < 200000;
+            else if (label === '₹2L–₹5L') show = v.priceRaw >= 200000 && v.priceRaw <= 500000;
+            else if (label === '5★ Only') show = parseFloat(v.rating) >= 4.8;
+            else if (label === 'Outdoor') show = v.name.includes('Resort') || v.name.includes('Garden');
+            else if (label === 'AC Hall') show = v.tag === 'ULTRA LUXE' || v.tag === 'ELITE';
+            card.style.display = show ? '' : 'none';
+        });
     });
 });
 
-// Initial render
+document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('active'));
+});
+
+document.querySelector('#filter-sheet .btn-primary').addEventListener('click', function() {
+    closeSheet('filter-sheet'); showToast('Filters applied!');
+});
+document.querySelector('#filter-sheet .btn-outline').addEventListener('click', function() {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    closeSheet('filter-sheet'); showToast('Filters reset');
+});
+
+document.querySelectorAll('.occ-box').forEach(box => {
+    box.addEventListener('click', () => {
+        const was = box.classList.contains('active');
+        document.querySelectorAll('.occ-box').forEach(b => b.classList.remove('active'));
+        if (!was) {
+            box.classList.add('active');
+            goPage('explore');
+            const type = box.dataset.type;
+            const sel = document.getElementById('b-occasion');
+            for (let i = 0; i < sel.options.length; i++) {
+                if (sel.options[i].text.toLowerCase().startsWith(type.toLowerCase())) { sel.selectedIndex = i; break; }
+            }
+        }
+    });
+});
+
+/* ══ Favorites ══ */
+function toggleFav(e, el) {
+    e.stopPropagation();
+    el.classList.toggle('liked');
+    el.innerHTML = el.classList.contains('liked') ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
+    const cnt = document.querySelectorAll('.venue-fav.liked').length;
+    savedVenues = cnt;
+    saveToStorage('vv_saved', cnt);
+    const el2 = document.getElementById('profile-saved-count');
+    if (el2) el2.textContent = cnt;
+}
+
+/* ══ Bottom Sheet ══ */
+function openSheet(id) { document.getElementById(id).classList.add('open'); }
+function closeSheet(id, e) {
+    if (!e) { document.getElementById(id).classList.remove('open'); return; }
+    if (e.target.id === id) document.getElementById(id).classList.remove('open');
+}
+['booking-sheet','venue-sheet','filter-sheet'].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e){ if (e.target === this) this.classList.remove('open'); });
+});
+
+/* ══ Venue Detail ══ */
+let currentVenueId = null;
+function openVenue(id) {
+    currentVenueId = id;
+    const v = venues[id];
+    if (!v) return;
+    document.getElementById('venue-content').innerHTML = `
+        <img class="detail-img" src="${v.img}" alt="${v.name}">
+        <div class="detail-body">
+            <div class="detail-tag-row"><div class="detail-tag">${v.tag}</div></div>
+            <div class="detail-name">${v.name}</div>
+            <div class="detail-loc"><i class="fa-solid fa-location-dot"></i> ${v.loc}</div>
+            <div class="detail-stats">
+                <div class="stat-box"><div class="stat-val">${v.rating}★</div><div class="stat-lbl">Rating</div></div>
+                <div class="stat-box"><div class="stat-val">${v.reviews}</div><div class="stat-lbl">Reviews</div></div>
+                <div class="stat-box"><div class="stat-val">${v.cap}</div><div class="stat-lbl">Capacity</div></div>
+            </div>
+            <div class="detail-desc">${v.desc}</div>
+            <div class="pay-box">
+                <div class="pay-row"><span class="lbl">Full Hall Cost (1 Day)</span><span class="val">${v.price}</span></div>
+                <div class="pay-row"><span class="lbl" style="color:var(--gold);">30% Advance Online</span><span class="val pay-highlight">${fmt(v.priceRaw * ADVANCE_PCT)}</span></div>
+                <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(v.priceRaw * PLATFORM_FEE_PCT)}</span></div>
+                <hr class="pay-divider">
+                <div class="pay-row"><span class="pay-total-lbl">Pay Now</span><span class="pay-total pay-highlight">${fmt(v.priceRaw * ADVANCE_PCT + v.priceRaw * PLATFORM_FEE_PCT)}</span></div>
+                <div class="pay-row" style="margin-top:4px;"><span class="lbl" style="font-size:12px;">Remaining at Hall</span><span class="val" style="font-size:13px;">${fmt(v.priceRaw * 0.70)}</span></div>
+            </div>
+            <div class="info-box"><i class="fa-solid fa-circle-info"></i><strong>Pay 30% now</strong> to lock your date. Remaining <strong>70% paid directly at the hall</strong> on the event day.</div>
+            <button class="book-btn" onclick="startBooking('${id}')"><i class="fa-solid fa-calendar-check"></i> Book Now</button>
+        </div>`;
+    openSheet('venue-sheet');
+}
+
+/* ══ Booking Flow ══ */
+let bookingVenueId = null;
+let currentStep = 0;
+
+function startBooking(id) {
+    if (!currentUser) {
+        closeSheet('venue-sheet');
+        setTimeout(() => openAuthModal('signup'), 300);
+        showToast('Please sign in to book a venue');
+        return;
+    }
+    bookingVenueId = id;
+    closeSheet('venue-sheet');
+    resetBookingFlow();
+    const v = venues[id];
+    const advance = v.priceRaw * ADVANCE_PCT;
+    const platform = v.priceRaw * PLATFORM_FEE_PCT;
+    document.getElementById('pb-full').textContent = v.price;
+    document.getElementById('pb-advance').textContent = fmt(advance);
+    document.getElementById('pb-platform').textContent = fmt(platform);
+    document.getElementById('pb-total').textContent = fmt(advance + platform);
+    document.getElementById('pb-remaining').textContent = fmt(v.priceRaw * 0.70);
+    document.getElementById('b-name').value = currentUser.name || '';
+    document.getElementById('b-phone').value = currentUser.phone || '';
+    setTimeout(() => openSheet('booking-sheet'), 200);
+}
+
+function resetBookingFlow() {
+    currentStep = 0;
+    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('fstep0').classList.add('active');
+    updateStepDots(0);
+    document.getElementById('b-date').value = '';
+    document.getElementById('b-occasion').value = '';
+    document.getElementById('b-guests').value = '';
+}
+
+function updateStepDots(step) {
+    [0,1,2].forEach(i => {
+        const d = document.getElementById('sdot' + i);
+        if (d) d.classList.toggle('active', i === step);
+    });
+}
+
+function bookNext(step) {
+    if (step === 1) {
+        const date = document.getElementById('b-date').value;
+        const occ = document.getElementById('b-occasion').value;
+        const guests = document.getElementById('b-guests').value;
+        if (!date || !occ || !guests) { alert('Please fill all fields to continue.'); return; }
+    }
+    if (step === 2) {
+        const name = document.getElementById('b-name').value;
+        const phone = document.getElementById('b-phone').value;
+        if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+        const v = venues[bookingVenueId];
+        const advance = v.priceRaw * ADVANCE_PCT;
+        const platform = v.priceRaw * PLATFORM_FEE_PCT;
+        document.getElementById('confirm-summary').innerHTML = `
+            <div class="pay-row"><span class="lbl">Venue</span><span class="val" style="font-size:13px;text-align:right;max-width:55%;">${v.name}</span></div>
+            <div class="pay-row"><span class="lbl">Date</span><span class="val">${document.getElementById('b-date').value}</span></div>
+            <div class="pay-row"><span class="lbl">Occasion</span><span class="val">${document.getElementById('b-occasion').value}</span></div>
+            <div class="pay-row"><span class="lbl">Guests</span><span class="val">${document.getElementById('b-guests').value}</span></div>
+            <div class="pay-row"><span class="lbl">Name</span><span class="val">${name}</span></div>
+            <hr class="pay-divider">
+            <div class="pay-row"><span class="lbl">Full Hall Cost</span><span class="val">${v.price}</span></div>
+            <div class="pay-row"><span class="lbl">30% Advance</span><span class="val pay-highlight">${fmt(advance)}</span></div>
+            <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(platform)}</span></div>
+            <hr class="pay-divider">
+            <div class="pay-row"><span class="pay-total-lbl" style="font-size:15px;">💳 Pay Now</span><span class="pay-total pay-highlight" style="font-size:18px;">${fmt(advance + platform)}</span></div>
+            <div class="pay-row" style="background:rgba(72,187,120,0.07);padding:8px;border-radius:10px;margin-top:8px;">
+                <span class="lbl" style="font-size:12px;">🏛️ Pay at Hall</span>
+                <span class="val" style="font-size:14px;color:#48BB78;font-weight:700;">${fmt(v.priceRaw * 0.70)}</span>
+            </div>`;
+    }
+    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('fstep' + step).classList.add('active');
+    updateStepDots(step);
+    currentStep = step;
+    const inner = document.getElementById('booking-sheet-inner');
+    if (inner) inner.scrollTop = 0;
+}
+
+function confirmBooking() {
+    const v = venues[bookingVenueId];
+    const refId = 'KH-' + Date.now().toString().slice(-6);
+    const dateVal = document.getElementById('b-date').value;
+    const d = dateVal ? new Date(dateVal).toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' }) : 'TBD';
+    myBookings.unshift({
+        id: refId, venue: v.name, loc: v.loc, date: d,
+        guests: parseInt(document.getElementById('b-guests').value) || 0,
+        occasion: document.getElementById('b-occasion').value,
+        status: 'confirmed', priceRaw: v.priceRaw,
+        name: document.getElementById('b-name').value,
+        phone: document.getElementById('b-phone').value
+    });
+    saveToStorage('vv_bookings', myBookings);
+    updateDockBadge();
+    document.getElementById('booking-ref').textContent = 'Ref: ' + refId;
+    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('fstep-success').classList.add('active');
+    document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+    const inner = document.getElementById('booking-sheet-inner');
+    if (inner) inner.scrollTop = 0;
+}
+
+/* ══ Init ══ */
+updateProfileUI();
 renderBookings();
+updateDockBadge();
+if (!currentUser) setTimeout(() => openAuthModal('login'), 800);
+
 </script>
 </body>
 </html>
