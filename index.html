@@ -1,1696 +1,1304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#05070A">
-    <title>Vivaha Venue </title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root {
-            --gold: #F5C518;
-            --gold2: #E8A500;
-            --bg: #080B12;
-            --card: #0F1420;
-            --card2: #141825;
-            --text: #F0F2F8;
-            --dim: #7A859E;
-            --dim2: #4A5568;
-            --border: rgba(255,255,255,0.07);
-            --safe-top: env(safe-area-inset-top, 12px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --radius: 22px;
-            --font: 'DM Sans', sans-serif;
-            --display: 'Cormorant Garamond', serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#060810">
+<title>Vivaha Venue — Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --gold:#D4A843; --gold2:#B8892A; --gold-soft:rgba(212,168,67,0.1); --gold-border:rgba(212,168,67,0.2);
+  --bg:#060810; --bg2:#0A0D18; --card:#0E1222; --card2:#131828; --card3:#181F30;
+  --text:#EDF0FA; --text2:#BDC3D8; --dim:#636D8A; --dim2:#363E55;
+  --border:rgba(255,255,255,0.055); --border2:rgba(255,255,255,0.1);
+  --green:#34C77B; --red:#E05454; --blue:#4F8EF5;
+  --font:'Sora',sans-serif; --display:'Fraunces',serif;
+  --r:18px; --r-sm:12px;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,12px);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:calc(90px + var(--safe-b));}
+input,select,button,textarea{font-family:var(--font);}
+::-webkit-scrollbar{display:none;} * {scrollbar-width:none;}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes scaleIn{from{transform:scale(0.86);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+@keyframes rippleOut{to{transform:scale(5);opacity:0}}
+@keyframes successPop{0%{transform:scale(0.5);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes otpShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes stagger{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes calPop{from{opacity:0;transform:scale(0.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes successGlow{0%{box-shadow:0 0 0 0 rgba(52,199,123,0.5)}70%{box-shadow:0 0 0 22px rgba(52,199,123,0)}100%{box-shadow:0 0 0 0 rgba(52,199,123,0)}}
 
-        html { scroll-behavior: smooth; }
+.page{display:none;}
+.page.active{display:block;animation:fadeUp 0.36s cubic-bezier(0.23,1,0.32,1);}
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--font);
-            overflow-x: hidden;
-            min-height: 100vh;
-            padding-bottom: calc(90px + var(--safe-bottom));
-        }
+/* ── Topbar ── */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(6,8,16,0.91);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;animation:slideDown 0.4s ease;}
+.topbar-brand{font-family:var(--display);font-size:26px;color:var(--gold);line-height:1.05;}
+.topbar-greeting{font-size:11px;color:var(--dim);font-weight:600;}
+.icon-btn{width:40px;height:40px;background:var(--card);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:15px;cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden;}
+.icon-btn:active{background:var(--gold);color:#000;transform:scale(0.9);}
 
-        /* ── Status Bar Spacer ── */
-        .status-bar {
-            height: calc(var(--safe-top) + 10px);
-            background: transparent;
-        }
+/* ── Search ── */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:0 16px;height:52px;transition:border-color 0.18s,box-shadow 0.18s;}
+.search-bar:focus-within{border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(212,168,67,0.08);}
+.search-bar i{color:var(--dim);font-size:15px;transition:color 0.2s;}
+.search-bar:focus-within i{color:var(--gold);}
+.search-bar input{background:none;border:none;color:var(--text);font-family:var(--font);font-size:15px;width:100%;outline:none;font-weight:500;}
+.search-bar input::placeholder{color:var(--dim2);}
 
-        /* ── Top Bar ── */
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(8,11,18,0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .topbar-left { display: flex; flex-direction: column; }
-        .topbar-greeting { font-size: 12px; color: var(--dim); font-weight: 500; }
-        .topbar-brand {
-            font-family: var(--display);
-            font-size: 26px;
-            color: var(--gold);
-            line-height: 1;
-            letter-spacing: 0.3px;
-        }
-        .topbar-actions { display: flex; gap: 10px; }
-        .icon-btn {
-            width: 40px; height: 40px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text);
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-        .icon-btn:active { background: var(--gold); color: #000; transform: scale(0.92); }
-        .notif-dot {
-            position: absolute;
-            top: 8px; right: 8px;
-            width: 7px; height: 7px;
-            background: #F56565;
-            border-radius: 50%;
-            border: 1.5px solid var(--bg);
-        }
+/* ── Hero ── */
+.hero-banner{margin:18px 20px 0;background:linear-gradient(135deg,#120E03 0%,#090C1A 45%,#020E0A 100%);border-radius:22px;padding:26px 22px;border:1px solid rgba(212,168,67,0.12);position:relative;overflow:hidden;cursor:pointer;transition:transform 0.25s;}
+.hero-banner:active{transform:scale(0.98);}
+.hero-banner::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,168,67,0.12),transparent 70%);pointer-events:none;animation:float 5s ease-in-out infinite;}
+.urgency-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:50px;padding:5px 12px;margin-bottom:14px;font-size:11px;font-weight:700;color:var(--gold);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse-dot 1.4s infinite;}
+.hero-title{font-family:var(--display);font-size:30px;line-height:1.18;margin-bottom:12px;font-weight:700;}
+.hero-title em{color:var(--gold);font-style:normal;}
+.hero-sub{font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.6;}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;font-weight:800;font-size:13px;border-radius:13px;padding:11px 20px;cursor:pointer;position:relative;overflow:hidden;transition:transform 0.2s;font-family:var(--font);}
+.hero-cta:active{transform:scale(0.94);}
 
-        /* ── Pages ── */
-        .page { display: none; animation: fadeUp 0.35s ease; }
-        .page.active { display: block; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* ── Chips ── */
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding:0 20px 2px;scrollbar-width:none;}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:50px;padding:9px 16px;white-space:nowrap;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;color:var(--dim);letter-spacing:0.2px;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);}
+.chip.active,.chip:active{background:var(--gold);color:#000;border-color:var(--gold);transform:scale(1.04);}
 
-        /* ── Scroll Container ── */
-        .scroll-area { padding: 0 0 20px; }
+/* ── Occasion Grid ── */
+.occ-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.occ-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:15px 5px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);}
+.occ-box:hover,.occ-box:active{transform:scale(1.06);border-color:var(--gold-border);}
+.occ-icon{width:44px;height:44px;background:var(--gold-soft);border-radius:14px;display:flex;align-items:center;justify-content:center;transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);}
+.occ-box:hover .occ-icon{transform:scale(1.12) rotate(-5deg);}
+.occ-icon i{font-size:19px;color:var(--gold);}
+.occ-label{font-size:10px;font-weight:700;color:var(--dim);text-align:center;letter-spacing:0.3px;}
+.occ-box.active{background:var(--gold);border-color:var(--gold);}
+.occ-box.active .occ-icon{background:rgba(0,0,0,0.12);}
+.occ-box.active .occ-icon i,.occ-box.active .occ-label{color:#000;}
 
-        /* ── Section ── */
-        .section { padding: 22px 20px 0; }
-        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-        .section-title { font-size: 13px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 1.8px; }
-        .see-all { font-size: 12px; font-weight: 600; color: var(--gold); cursor: pointer; }
+/* ── Venue Cards ── */
+.venues-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none;}
+.venue-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.28s,border-color 0.28s;}
+.venue-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,0.6);border-color:var(--gold-border);}
+.venue-card:active{transform:scale(0.96);}
+.venue-card .img-wrap{position:relative;overflow:hidden;}
+.venue-card .img-wrap img{width:100%;object-fit:cover;display:block;transition:transform 0.5s ease;}
+.venue-card:hover .img-wrap img{transform:scale(1.05);}
+.venue-card-h{flex-shrink:0;width:232px;}
+.venue-card-h .img-wrap img{height:140px;}
+.venue-card-v{width:100%;}
+.venue-card-v .img-wrap img{height:196px;}
+.venue-tag-badge{position:absolute;top:10px;left:10px;background:rgba(6,8,16,0.82);backdrop-filter:blur(10px);border-radius:8px;padding:3px 8px;font-size:8px;font-weight:800;color:var(--gold);letter-spacing:1.2px;border:1px solid var(--gold-border);text-transform:uppercase;}
+.venue-urgency-badge{position:absolute;bottom:10px;left:10px;background:rgba(6,8,16,0.82);backdrop-filter:blur(10px);border-radius:8px;padding:3px 8px;font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;gap:5px;}
+.venue-urg-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse-dot 1.2s infinite;}
+.venue-fav{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(6,8,16,0.82);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.venue-fav:active{transform:scale(0.82);}
+.venue-fav.liked{background:rgba(224,84,84,0.2);}
+.venue-fav i{font-size:12px;color:var(--dim);transition:color 0.2s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+.venue-fav.liked i{color:var(--red);transform:scale(1.2);}
+.venue-info{padding:14px 15px 15px;}
+.venue-card-v .venue-info{padding:16px 18px 18px;}
+.venue-name{font-size:14px;font-weight:700;margin-bottom:4px;font-family:var(--display);}
+.venue-card-v .venue-name{font-size:17px;}
+.venue-loc{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:4px;margin-bottom:11px;}
+.venue-card-v .venue-loc{font-size:12px;}
+.venue-loc i{color:var(--gold);font-size:9px;}
+.venue-bottom{display:flex;justify-content:space-between;align-items:center;}
+.venue-price{font-size:15px;font-weight:800;}
+.venue-card-v .venue-price{font-size:18px;}
+.venue-price-sub{font-size:10px;color:var(--dim);}
+.venue-rating{display:flex;align-items:center;gap:4px;background:var(--gold-soft);border:1px solid var(--gold-border);padding:4px 9px;border-radius:8px;}
+.venue-rating i{font-size:9px;color:var(--gold);}
+.venue-rating span{font-size:11px;font-weight:800;color:var(--gold);}
 
-        /* ── Search Bar ── */
-        .search-wrap { padding: 16px 20px 0; }
-        .search-bar {
-            display: flex; align-items: center; gap: 10px;
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 0 16px; height: 50px;
-        }
-        .search-bar i { color: var(--dim); font-size: 15px; flex-shrink: 0; }
-        .search-bar input {
-            background: none; border: none; color: var(--text);
-            font-family: var(--font); font-size: 15px; width: 100%; outline: none;
-        }
-        .search-bar input::placeholder { color: var(--dim2); }
+/* ── Sections ── */
+.section{padding:22px 20px 0;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-title{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:2px;}
+.see-all{font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;}
 
-        /* ── Hero Banner ── */
-        .hero-banner {
-            margin: 18px 20px 0;
-            background: linear-gradient(135deg, #1A1400 0%, #0D0E18 50%, #001A14 100%);
-            border-radius: var(--radius);
-            padding: 22px;
-            border: 1px solid rgba(245,197,24,0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: -40px; right: -40px;
-            width: 160px; height: 160px;
-            background: radial-gradient(circle, rgba(245,197,24,0.15) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .hero-kicker { font-size: 11px; font-weight: 700; color: var(--gold2); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
-        .hero-title { font-family: var(--display); font-size: 28px; line-height: 1.2; margin-bottom: 10px; }
-        .hero-title em { color: var(--gold); font-style: normal; }
-        .hero-sub { font-size: 13px; color: var(--dim); margin-bottom: 18px; line-height: 1.5; }
-        .hero-cta {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--gold); color: #000; font-weight: 700;
-            font-size: 13px; border-radius: 12px; padding: 10px 18px;
-            cursor: pointer; transition: all 0.2s; font-family: var(--font);
-        }
-        .hero-cta:active { transform: scale(0.95); background: var(--gold2); }
+/* ── Skeleton ── */
+.skeleton{background:linear-gradient(90deg,var(--card) 25%,var(--card2) 50%,var(--card) 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:10px;}
 
-        /* ── City Chips ── */
-        .chip-row {
-            display: flex; gap: 8px;
-            overflow-x: auto; padding: 0 20px 2px;
-            scrollbar-width: none;
-        }
-        .chip-row::-webkit-scrollbar { display: none; }
-        .chip {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 50px; padding: 9px 16px;
-            white-space: nowrap; font-size: 13px; font-weight: 600;
-            cursor: pointer; transition: all 0.25s; flex-shrink: 0;
-            color: var(--dim);
-        }
-        .chip.active, .chip:active { background: var(--gold); color: #000; border-color: var(--gold); }
+/* ── Booking Cards ── */
+.booking-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;animation:fadeUp 0.35s ease;transition:border-color 0.2s;}
+.booking-card:hover{border-color:var(--border2);}
+.booking-status{font-size:9px;font-weight:800;padding:4px 10px;border-radius:8px;letter-spacing:0.8px;white-space:nowrap;flex-shrink:0;}
+.s-confirmed{background:rgba(52,199,123,0.12);color:var(--green);border:1px solid rgba(52,199,123,0.2);}
+.s-pending{background:rgba(212,168,67,0.12);color:var(--gold);border:1px solid var(--gold-border);}
+.s-completed{background:rgba(107,117,148,0.12);color:var(--dim);border:1px solid var(--border);}
+.s-cancelled{background:rgba(224,84,84,0.12);color:var(--red);border:1px solid rgba(224,84,84,0.2);}
 
-        /* ── Occasion Grid ── */
-        .occ-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .occ-box {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 18px; padding: 14px 5px 12px;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .occ-icon {
-            width: 42px; height: 42px;
-            background: rgba(245,197,24,0.1);
-            border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .occ-icon i { font-size: 18px; color: var(--gold); }
-        .occ-label { font-size: 10px; font-weight: 700; color: var(--dim); text-align: center; }
-        .occ-box.active { background: var(--gold); border-color: var(--gold); transform: scale(1.05); }
-        .occ-box.active .occ-icon { background: rgba(0,0,0,0.15); }
-        .occ-box.active .occ-icon i, .occ-box.active .occ-label { color: #000; }
+/* ── Profile ── */
+.menu-item{display:flex;align-items:center;gap:14px;padding:15px;background:var(--card);border:1px solid var(--border);border-radius:16px;cursor:pointer;transition:all 0.18s;}
+.menu-item:hover{border-color:var(--border2);background:var(--card2);}
+.menu-item:active{transform:scale(0.98);background:var(--card3);}
+.menu-icon{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.menu-item:hover .menu-icon{transform:scale(1.12) rotate(-4deg);}
 
-        /* ── Venue Cards ── */
-        .venues-scroll {
-            display: flex; gap: 14px;
-            overflow-x: auto; padding: 0 20px 4px;
-            scrollbar-width: none;
-        }
-        .venues-scroll::-webkit-scrollbar { display: none; }
+/* ── SHEET ── */
+.sheet-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:600;align-items:flex-end;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.sheet-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.sheet{background:var(--card);width:100%;border-radius:24px 24px 0 0;padding:0 0 calc(24px + var(--safe-b));max-height:92vh;overflow-y:auto;animation:slideUp 0.36s cubic-bezier(0.32,0.72,0,1);box-shadow:0 -8px 60px rgba(0,0,0,0.7);}
+.sheet-handle{width:36px;height:4px;background:var(--dim2);border-radius:2px;margin:13px auto 0;opacity:0.5;}
 
-        .venue-card-h {
-            flex-shrink: 0; width: 220px;
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 20px; overflow: hidden;
-            cursor: pointer; transition: all 0.3s;
-            text-decoration: none; color: inherit;
-        }
-        .venue-card-h:active { transform: scale(0.96); border-color: var(--gold); }
-        .venue-card-h img { width: 100%; height: 130px; object-fit: cover; display: block; }
-        .venue-img-wrap { position: relative; }
-        .venue-tag {
-            position: absolute; top: 10px; left: 10px;
-            background: rgba(8,11,18,0.85); backdrop-filter: blur(8px);
-            border-radius: 8px; padding: 3px 8px;
-            font-size: 9px; font-weight: 800; color: var(--gold);
-            letter-spacing: 1px;
-        }
-        .venue-fav {
-            position: absolute; top: 10px; right: 10px;
-            width: 30px; height: 30px;
-            background: rgba(8,11,18,0.85); backdrop-filter: blur(8px);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .venue-fav i { font-size: 13px; color: var(--dim); }
-        .venue-fav.liked i { color: #F56565; }
-        .venue-info { padding: 12px 14px 14px; }
-        .venue-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-        .venue-loc { font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 4px; margin-bottom: 10px; }
-        .venue-bottom { display: flex; justify-content: space-between; align-items: center; }
-        .venue-price { font-size: 15px; font-weight: 800; }
-        .venue-price-sub { font-size: 10px; color: var(--dim); font-weight: 400; }
-        .venue-rating { display: flex; align-items: center; gap: 4px; background: rgba(245,197,24,0.1); padding: 4px 8px; border-radius: 8px; }
-        .venue-rating i { font-size: 10px; color: var(--gold); }
-        .venue-rating span { font-size: 11px; font-weight: 700; color: var(--gold); }
+/* ── Modal ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(14px);}
+.modal-overlay.open{display:flex;animation:fadeIn 0.22s ease;}
+.modal{background:var(--card);border:1px solid var(--gold-border);border-radius:28px;padding:28px;width:100%;max-width:400px;animation:scaleIn 0.32s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 32px 80px rgba(0,0,0,0.75);}
 
-        /* ── Full Venue Cards (vertical grid) ── */
-        .vgrid { display: flex; flex-direction: column; gap: 16px; padding: 0 20px; }
-        .venue-card-v {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: var(--radius); overflow: hidden;
-            cursor: pointer; transition: all 0.3s;
-            text-decoration: none; color: inherit;
-        }
-        .venue-card-v:active { transform: scale(0.98); border-color: var(--gold); }
-        .venue-card-v .venue-img-wrap img { width: 100%; height: 180px; object-fit: cover; display: block; }
-        .venue-card-v .venue-info { padding: 16px 18px 18px; }
-        .venue-card-v .venue-name { font-size: 17px; margin-bottom: 5px; }
-        .venue-card-v .venue-loc { font-size: 12px; margin-bottom: 12px; }
-        .venue-card-v .venue-price { font-size: 18px; }
+/* ── Gold Button ── */
+.gold-btn{width:100%;padding:16px 24px;background:var(--gold);color:#000;font-weight:800;font-size:15px;border-radius:16px;border:none;font-family:var(--font);cursor:pointer;letter-spacing:0.2px;box-shadow:0 6px 24px rgba(212,168,67,0.3);transition:all 0.2s;position:relative;overflow:hidden;}
+.gold-btn:active{transform:scale(0.97);background:var(--gold2);}
+.gold-btn:hover{box-shadow:0 10px 36px rgba(212,168,67,0.4);}
+.ripple-span{position:absolute;width:10px;height:10px;background:rgba(0,0,0,0.2);border-radius:50%;transform:scale(0);animation:rippleOut 0.55s ease;pointer-events:none;}
 
-        /* ── Bookings Page ── */
-        .booking-list { padding: 0 20px; display: flex; flex-direction: column; gap: 14px; }
-        .booking-card {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 18px; padding: 16px;
-        }
-        .booking-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .booking-venue { font-size: 15px; font-weight: 700; }
-        .booking-status {
-            font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 8px;
-            letter-spacing: 0.5px;
-        }
-        .status-confirmed { background: rgba(72,187,120,0.15); color: #48BB78; }
-        .status-pending { background: rgba(245,197,24,0.15); color: var(--gold); }
-        .status-completed { background: rgba(120,120,140,0.15); color: var(--dim); }
-        .status-cancelled { background: rgba(245,101,101,0.15); color: #F56565; }
-        .booking-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--dim); margin-bottom: 6px; }
-        .booking-row i { width: 14px; color: var(--dim2); }
-        .booking-footer { margin-top: 14px; display: flex; gap: 10px; }
-        .btn-sm {
-            flex: 1; padding: 10px; border-radius: 12px; font-size: 13px;
-            font-weight: 700; font-family: var(--font); cursor: pointer;
-            border: none; transition: all 0.2s;
-        }
-        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-primary { background: var(--gold); color: #000; }
-        .btn-sm:active { transform: scale(0.95); opacity: 0.85; }
+/* ── Pay box ── */
+.pay-box{background:var(--card2);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:18px;}
+.pay-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;font-size:14px;}
+.pay-row:last-child{margin-bottom:0;}
+.pay-divider{border:none;border-top:1px solid var(--border);margin:13px 0;}
+.pay-highlight{color:var(--gold);}
+.info-box{background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:14px;padding:13px 15px;margin-bottom:18px;font-size:12px;color:var(--dim);line-height:1.65;}
+.info-box i{color:var(--gold);margin-right:6px;}
+.info-box strong{color:var(--text2);}
 
-        /* ── Empty State ── */
-        .empty-state { text-align: center; padding: 60px 20px; }
-        .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
-        .empty-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-        .empty-sub { font-size: 14px; color: var(--dim); line-height: 1.5; }
+/* ── Auth ── */
+.auth-tab{flex:1;text-align:center;padding:11px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);color:var(--dim);}
+.auth-tab.active{background:var(--gold);color:#000;transform:scale(1.02);}
+.auth-form{display:none;}
+.auth-form.active{display:block;animation:fadeUp 0.28s ease;}
+.field-label{font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.2px;display:block;margin-bottom:7px;}
+.field-input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;color:var(--text);font-family:var(--font);font-size:15px;outline:none;transition:border-color 0.18s,box-shadow 0.18s;margin-bottom:14px;}
+.field-input:focus{border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(212,168,67,0.08);}
+.field-input::placeholder{color:var(--dim2);}
 
-        /* ── Profile Page ── */
-        .profile-header {
-            padding: 24px 20px;
-            display: flex; flex-direction: column; align-items: center;
-            text-align: center;
-        }
-        .avatar {
-            width: 80px; height: 80px;
-            background: linear-gradient(135deg, var(--gold2), var(--gold));
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 30px; color: #000; font-weight: 800;
-            margin-bottom: 14px; font-family: var(--display);
-        }
-        .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .profile-email { font-size: 13px; color: var(--dim); margin-bottom: 18px; }
-        .profile-badges { display: flex; gap: 10px; }
-        .badge { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; text-align: center; }
-        .badge-num { font-size: 18px; font-weight: 800; color: var(--gold); }
-        .badge-lbl { font-size: 10px; color: var(--dim); font-weight: 600; }
+/* ── OTP ── */
+.otp-box{width:46px;height:54px;border-radius:12px;background:var(--card2);border:2px solid var(--border);text-align:center;font-size:22px;font-weight:800;color:var(--text);outline:none;caret-color:var(--gold);transition:border-color 0.18s,transform 0.18s,box-shadow 0.18s;font-family:var(--display);}
+.otp-box:focus{border-color:var(--gold);transform:scale(1.06);box-shadow:0 0 0 3px rgba(212,168,67,0.15);}
+.otp-box.filled{border-color:var(--gold-border);background:rgba(212,168,67,0.05);}
+.otp-shake{animation:otpShake 0.35s ease;}
 
-        .menu-list { padding: 0 20px; display: flex; flex-direction: column; gap: 4px; }
-        .menu-item {
-            display: flex; align-items: center; gap: 14px;
-            padding: 16px; background: var(--card); border: 1px solid var(--border);
-            border-radius: 16px; cursor: pointer; transition: all 0.2s;
-        }
-        .menu-item:active { background: var(--card2); }
-        .menu-icon {
-            width: 38px; height: 38px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 16px;
-        }
-        .menu-text { flex: 1; }
-        .menu-label { font-size: 14px; font-weight: 600; }
-        .menu-sub { font-size: 11px; color: var(--dim); margin-top: 2px; }
-        .menu-arrow { color: var(--dim2); font-size: 13px; }
+/* ── Calendar ── */
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);font-size:13px;font-weight:600;}
+.cal-day:hover:not(.booked):not(.past){transform:scale(1.12);background:var(--card3);}
+.cal-day.today{border:1.5px solid var(--gold-border);color:var(--gold);}
+.cal-day.selected{background:var(--gold);color:#000;transform:scale(1.1);}
+.cal-day.booked{background:rgba(224,84,84,0.1);color:var(--dim2);cursor:not-allowed;}
+.cal-day.past{opacity:0.28;cursor:not-allowed;pointer-events:none;}
+.cal-day.peak{color:var(--gold);}
+.cal-price{font-size:7px;font-weight:700;opacity:0.8;}
+.cal-day.selected .cal-price{color:#000;}
+.cal-wrap{animation:calPop 0.3s cubic-bezier(0.34,1.56,0.64,1);}
 
-        .menu-icon.gold { background: rgba(245,197,24,0.12); color: var(--gold); }
-        .menu-icon.blue { background: rgba(99,179,237,0.12); color: #63B3ED; }
-        .menu-icon.green { background: rgba(72,187,120,0.12); color: #48BB78; }
-        .menu-icon.red { background: rgba(245,101,101,0.12); color: #F56565; }
+/* ── Booking flow ── */
+.flow-step{display:none;}
+.flow-step.active{display:block;animation:fadeUp 0.3s ease;}
+.step-dot{height:8px;border-radius:4px;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);}
 
-        /* ── Login/Auth Modal ── */
-        .auth-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.85); z-index: 1100;
-            align-items: center; justify-content: center; padding: 20px;
-            backdrop-filter: blur(8px);
-        }
-        .auth-overlay.open { display: flex; }
-        .auth-modal {
-            background: var(--card); border: 1px solid rgba(245,197,24,0.2);
-            border-radius: 28px; padding: 28px; width: 100%; max-width: 380px;
-            animation: fadeUp 0.35s ease;
-        }
-        .auth-logo { font-family: var(--display); font-size: 32px; color: var(--gold); text-align: center; margin-bottom: 4px; }
-        .auth-sub { font-size: 13px; color: var(--dim); text-align: center; margin-bottom: 28px; }
-        .auth-tabs { display: flex; background: var(--card2); border-radius: 14px; padding: 4px; margin-bottom: 24px; }
-        .auth-tab {
-            flex: 1; text-align: center; padding: 10px; border-radius: 10px;
-            font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--dim);
-        }
-        .auth-tab.active { background: var(--gold); color: #000; }
-        .auth-form { display: none; }
-        .auth-form.active { display: block; }
-        .auth-field { margin-bottom: 14px; }
-        .auth-field label { font-size: 11px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
-        .auth-field input {
-            width: 100%; background: var(--card2); border: 1px solid var(--border);
-            border-radius: 14px; padding: 13px 16px; color: var(--text);
-            font-family: var(--font); font-size: 15px; outline: none; transition: border-color 0.2s;
-        }
-        .auth-field input:focus { border-color: var(--gold); }
-        .auth-field input::placeholder { color: var(--dim2); }
-        .auth-btn {
-            width: 100%; padding: 15px; background: var(--gold); color: #000;
-            font-weight: 800; font-size: 15px; border-radius: 16px; border: none;
-            font-family: var(--font); cursor: pointer; transition: all 0.2s; margin-top: 6px;
-        }
-        .auth-btn:active { transform: scale(0.97); background: var(--gold2); }
-        .auth-error { font-size: 12px; color: #F56565; text-align: center; margin-top: 10px; min-height: 18px; }
-        .auth-skip { font-size: 12px; color: var(--dim); text-align: center; margin-top: 14px; cursor: pointer; }
-        .auth-skip span { color: var(--gold); font-weight: 600; }
+/* ── Success ── */
+.success-icon{width:80px;height:80px;background:rgba(52,199,123,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;color:var(--green);animation:successPop 0.5s cubic-bezier(0.34,1.56,0.64,1), successGlow 1.5s ease 0.5s;}
 
-        .sheet-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.6); z-index: 500;
-            backdrop-filter: blur(4px);
-        }
-        .sheet-overlay.open { display: flex; align-items: flex-end; }
-        .sheet {
-            background: var(--card); width: 100%; border-radius: 28px 28px 0 0;
-            padding: 0 0 calc(30px + var(--safe-bottom));
-            max-height: 85vh; overflow-y: auto;
-            animation: slideUp 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-        }
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        .sheet-handle {
-            width: 40px; height: 4px; background: var(--dim2);
-            border-radius: 2px; margin: 14px auto 22px;
-        }
-        .sheet-title { font-size: 18px; font-weight: 700; padding: 0 20px; margin-bottom: 20px; }
-        .filter-group { padding: 0 20px; margin-bottom: 22px; }
-        .filter-group-label { font-size: 12px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
-        .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-        .filter-chip {
-            padding: 8px 16px; border-radius: 50px;
-            background: var(--card2); border: 1px solid var(--border);
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.2s;
-        }
-        .filter-chip.active { background: var(--gold); color: #000; border-color: var(--gold); }
-        .sheet-footer { padding: 0 20px; display: flex; gap: 10px; }
+/* ── Dock ── */
+.dock{position:fixed;bottom:calc(14px + var(--safe-b));left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:420px;height:68px;background:rgba(12,16,32,0.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border-radius:24px;border:1px solid var(--border);display:flex;align-items:center;z-index:1000;box-shadow:0 8px 40px rgba(0,0,0,0.65),0 1px 0 rgba(255,255,255,0.04) inset;animation:slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+.dock-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--dim2);transition:all 0.24s cubic-bezier(0.34,1.56,0.64,1);padding:10px 0;position:relative;}
+.dock-item.active{color:var(--gold);}
+.dock-item.active i{transform:translateY(-3px) scale(1.12);}
+.dock-item:active{transform:scale(0.88);}
+.dock-item i{font-size:20px;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+.dock-item span{font-size:10px;font-weight:700;letter-spacing:0.2px;}
+.dock-badge{position:absolute;top:6px;left:50%;transform:translateX(4px);min-width:16px;height:16px;background:var(--red);border-radius:8px;font-size:9px;font-weight:800;display:none;align-items:center;justify-content:center;color:#fff;padding:0 4px;border:2px solid var(--bg);animation:successPop 0.35s ease;}
 
-        /* ── Venue Detail Sheet ── */
-        .detail-sheet .sheet {
-            padding-bottom: calc(90px + var(--safe-bottom));
-        }
-        .detail-img { width: 100%; height: 240px; object-fit: cover; display: block; border-radius: 0; }
-        .detail-body { padding: 20px; }
-        .detail-tag-row { display: flex; gap: 8px; margin-bottom: 14px; }
-        .detail-tag {
-            font-size: 10px; font-weight: 800; letter-spacing: 1px;
-            padding: 4px 10px; border-radius: 8px;
-            background: rgba(245,197,24,0.12); color: var(--gold);
-        }
-        .detail-name { font-size: 24px; font-weight: 700; font-family: var(--display); margin-bottom: 6px; }
-        .detail-loc { font-size: 13px; color: var(--dim); display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
-        .detail-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
-        .stat-box { background: var(--card2); border-radius: 14px; padding: 12px; text-align: center; }
-        .stat-val { font-size: 16px; font-weight: 800; color: var(--gold); }
-        .stat-lbl { font-size: 10px; color: var(--dim); margin-top: 3px; }
-        .detail-desc { font-size: 14px; color: var(--dim); line-height: 1.65; margin-bottom: 18px; }
-        .detail-price-row { display: flex; align-items: center; justify-content: space-between; padding: 16px; background: var(--card2); border-radius: 16px; margin-bottom: 16px; }
-        .detail-price { font-size: 22px; font-weight: 800; }
-        .detail-price-lbl { font-size: 12px; color: var(--dim); }
-        .book-btn {
-            width: 100%; padding: 16px; background: var(--gold); color: #000;
-            font-weight: 800; font-size: 16px; border-radius: 16px;
-            border: none; font-family: var(--font); cursor: pointer;
-            transition: all 0.2s;
-        }
-        .book-btn:active { transform: scale(0.97); background: var(--gold2); }
+/* ── Toast ── */
+#toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:rgba(20,25,42,0.97);color:var(--text);border:1px solid var(--border2);font-weight:600;font-size:13px;padding:11px 22px;border-radius:50px;z-index:3000;opacity:0;transition:opacity 0.3s;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,0.55);pointer-events:none;}
 
-        /* ── Booking Flow Sheet ── */
-        .flow-step { display: none; }
-        .flow-step.active { display: block; }
-        .flow-field { margin-bottom: 16px; }
-        .flow-label { font-size: 12px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
-        .flow-input {
-            width: 100%; background: var(--card2); border: 1px solid var(--border);
-            border-radius: 14px; padding: 13px 16px; color: var(--text);
-            font-family: var(--font); font-size: 15px; outline: none;
-            transition: border-color 0.2s;
-        }
-        .flow-input:focus { border-color: var(--gold); }
-        .flow-input::placeholder { color: var(--dim2); }
+/* ── Profile header ── */
+.avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#000;font-family:var(--display);margin-bottom:14px;box-shadow:0 8px 32px rgba(212,168,67,0.3);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;z-index:1;}
+.avatar:hover{transform:scale(1.07);}
 
-        /* Payment breakdown box */
-        .pay-box {
-            background: var(--card2); border: 1px solid var(--border);
-            border-radius: 18px; padding: 18px; margin-bottom: 18px;
-        }
-        .pay-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 14px; }
-        .pay-row:last-child { margin-bottom: 0; }
-        .pay-row .lbl { color: var(--dim); }
-        .pay-row .val { font-weight: 600; }
-        .pay-divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
-        .pay-total { font-size: 16px; font-weight: 800; }
-        .pay-total-lbl { font-size: 14px; font-weight: 700; }
-        .pay-highlight { color: var(--gold); }
+/* ── Razorpay button ── */
+.rzpay-btn{background:linear-gradient(135deg,#0D6EFD,#0A56C7);box-shadow:0 6px 24px rgba(13,110,253,0.4);color:#fff;font-weight:800;font-size:15px;border-radius:16px;border:none;padding:16px;width:100%;cursor:pointer;font-family:var(--font);transition:all 0.2s;position:relative;overflow:hidden;}
+.rzpay-btn:hover{box-shadow:0 10px 36px rgba(13,110,253,0.55);transform:translateY(-1px);}
+.rzpay-btn:active{transform:scale(0.97);}
 
-        .info-box {
-            background: rgba(245,197,24,0.07); border: 1px solid rgba(245,197,24,0.2);
-            border-radius: 14px; padding: 13px 15px; margin-bottom: 18px;
-            font-size: 12px; color: var(--dim); line-height: 1.6;
-        }
-        .info-box i { color: var(--gold); margin-right: 6px; }
-        .info-box strong { color: var(--text); }
+/* ── Stagger ── */
+.s1{animation:stagger 0.4s ease 0.05s both;}
+.s2{animation:stagger 0.4s ease 0.13s both;}
+.s3{animation:stagger 0.4s ease 0.21s both;}
+.s4{animation:stagger 0.4s ease 0.29s both;}
+.s5{animation:stagger 0.4s ease 0.37s both;}
 
-        .success-wrap { text-align: center; padding: 30px 20px; }
-        .success-icon {
-            width: 72px; height: 72px; background: rgba(72,187,120,0.15);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 18px; font-size: 32px; color: #48BB78;
-        }
-        .success-title { font-family: var(--display); font-size: 26px; margin-bottom: 8px; }
-        .success-sub { font-size: 14px; color: var(--dim); line-height: 1.6; margin-bottom: 22px; }
-        .success-ref { background: var(--card2); border-radius: 12px; padding: 10px 16px; font-size: 13px; color: var(--gold); font-weight: 700; display: inline-block; margin-bottom: 22px; }
+/* ── Back button inside sheet ── */
+.sheet-back{display:flex;align-items:center;gap:10px;padding:6px 20px 0;cursor:pointer;user-select:none;}
+.sheet-back-btn{width:36px;height:36px;background:var(--card2);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text2);flex-shrink:0;transition:all 0.18s;}
+.sheet-back:active .sheet-back-btn{background:var(--gold);color:#000;transform:scale(0.9);}
+.sheet-back-label{font-size:13px;color:var(--dim);font-weight:600;}
 
-        /* Cancel Modal */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.7); z-index: 900;
-            align-items: center; justify-content: center; padding: 20px;
-            backdrop-filter: blur(6px);
-        }
-        .modal-overlay.open { display: flex; }
-        .modal {
-            background: var(--card); border: 1px solid var(--border);
-            border-radius: 24px; padding: 24px; width: 100%; max-width: 360px;
-            animation: fadeUp 0.3s ease;
-        }
-        .modal-icon {
-            width: 56px; height: 56px; background: rgba(245,101,101,0.15);
-            border-radius: 18px; display: flex; align-items: center; justify-content: center;
-            font-size: 24px; color: #F56565; margin-bottom: 16px;
-        }
-        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-        .modal-body { font-size: 13px; color: var(--dim); line-height: 1.65; margin-bottom: 16px; }
-        .penalty-box {
-            background: rgba(245,101,101,0.08); border: 1px solid rgba(245,101,101,0.2);
-            border-radius: 14px; padding: 13px; margin-bottom: 18px;
-        }
-        .penalty-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
-        .penalty-row:last-child { margin-bottom: 0; font-weight: 700; }
-        .penalty-red { color: #F56565; }
-        .penalty-green { color: #48BB78; }
-        .modal-actions { display: flex; gap: 10px; }
-        .step-indicator { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
-        .step-dot { width: 8px; height: 8px; border-radius: 4px; background: var(--dim2); transition: all 0.3s; }
-        .step-dot.active { width: 24px; background: var(--gold); }
+/* ── Sheet closing animation ── */
+@keyframes slideDown2{from{transform:translateY(0)}to{transform:translateY(110%)}}
+.sheet-closing .sheet{animation:slideDown2 0.3s cubic-bezier(0.4,0,1,1) forwards !important;}
 
-        /* ── Dock ── */
-        .dock {
-            position: fixed; bottom: calc(14px + var(--safe-bottom)); left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px); max-width: 400px;
-            height: 68px;
-            background: rgba(15,20,32,0.97);
-            backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
-            border-radius: 24px; border: 1px solid var(--border);
-            display: flex; align-items: center;
-            z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        }
-        .dock-item {
-            flex: 1; display: flex; flex-direction: column;
-            align-items: center; gap: 4px; cursor: pointer;
-            color: var(--dim2); transition: all 0.25s; padding: 10px 0;
-            position: relative; text-decoration: none;
-        }
-        .dock-item i { font-size: 20px; transition: all 0.3s; }
-        .dock-item span { font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
-        .dock-item.active { color: var(--gold); }
-        .dock-item.active i { transform: translateY(-2px); }
-        .dock-badge {
-            position: absolute; top: 6px; left: 50%; transform: translateX(4px);
-            min-width: 16px; height: 16px; background: #F56565;
-            border-radius: 8px; font-size: 9px; font-weight: 800;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; padding: 0 4px;
-            border: 2px solid var(--bg);
-        }
-    </style>
+/* ── Occasion active highlight ── */
+.occ-box.active{background:var(--gold) !important;border-color:var(--gold) !important;transform:scale(1.06) !important;}
+.occ-box.active .occ-icon{background:rgba(0,0,0,0.12) !important;}
+.occ-box.active .occ-icon i,.occ-box.active .occ-label{color:#000 !important;}
+</style>
 </head>
 <body>
 
-<!-- ══ HOME PAGE ══ -->
+<!-- ══ HOME ══ -->
 <div class="page active" id="page-home">
-    <div class="status-bar"></div>
-    <div class="topbar">
-        <div class="topbar-left">
-            <span class="topbar-greeting">Namaste 🙏</span>
-            <span class="topbar-brand">Vivaha Venue</span>
-        </div>
-        <div class="topbar-actions">
-            <div class="icon-btn" onclick="openSheet('filter-sheet')"><i class="fa-solid fa-sliders"></i></div>
-            <div class="icon-btn" onclick="goTo('notifications')"><i class="fa-regular fa-bell"></i><div class="notif-dot"></div></div>
-        </div>
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar">
+    <div>
+      <div class="topbar-greeting" id="home-greeting">Namaste 🙏</div>
+      <div class="topbar-brand">Vivaha Venue</div>
     </div>
-
-    <div class="scroll-area">
-        <!-- Search -->
-        <div class="search-wrap">
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="homeSearch" placeholder="Search venues, cities...">
-            </div>
-        </div>
-
-        <!-- Hero Banner -->
-        <div class="hero-banner">
-            <div class="hero-kicker">🌟 Featured</div>
-            <div class="hero-title">Find Your Perfect<br><em>Wedding Venue</em></div>
-            <div class="hero-sub">500+ premium venues across Andhra Pradesh & Telangana</div>
-            <div class="hero-cta" onclick="goPage('explore')">
-                <i class="fa-solid fa-calendar-check"></i> Book Now
-            </div>
-        </div>
-
-        <!-- Cities -->
-        <div class="section">
-            <div class="section-header">
-                <span class="section-title">Popular Cities</span>
-                <span class="see-all">View All</span>
-            </div>
-        </div>
-        <div class="chip-row" id="cityChips">
-            <div class="chip active">All</div>
-            <div class="chip">Kakinada</div>
-            <div class="chip">Vijayawada</div>
-            <div class="chip">Hyderabad</div>
-            <div class="chip">Vizag</div>
-            <div class="chip">Rajahmundry</div>
-            <div class="chip">Tirupati</div>
-        </div>
-
-        <!-- Occasions -->
-        <div class="section">
-            <div class="section-header">
-                <span class="section-title">Browse by Occasion</span>
-            </div>
-            <div class="occ-grid" id="occGrid">
-                <div class="occ-box" data-type="wedding">
-                    <div class="occ-icon"><i class="fa-solid fa-heart"></i></div>
-                    <div class="occ-label">Wedding</div>
-                </div>
-                <div class="occ-box" data-type="reception">
-                    <div class="occ-icon"><i class="fa-solid fa-champagne-glasses"></i></div>
-                    <div class="occ-label">Reception</div>
-                </div>
-                <div class="occ-box" data-type="engagement">
-                    <div class="occ-icon"><i class="fa-solid fa-ring"></i></div>
-                    <div class="occ-label">Engagement</div>
-                </div>
-                <div class="occ-box" data-type="birthday">
-                    <div class="occ-icon"><i class="fa-solid fa-cake-candles"></i></div>
-                    <div class="occ-label">Birthday</div>
-                </div>
-                <div class="occ-box" data-type="corporate">
-                    <div class="occ-icon"><i class="fa-solid fa-briefcase"></i></div>
-                    <div class="occ-label">Corporate</div>
-                </div>
-                <div class="occ-box" data-type="haldi">
-                    <div class="occ-icon"><i class="fa-solid fa-sun"></i></div>
-                    <div class="occ-label">Haldi</div>
-                </div>
-                <div class="occ-box" data-type="sangeet">
-                    <div class="occ-icon"><i class="fa-solid fa-music"></i></div>
-                    <div class="occ-label">Sangeet</div>
-                </div>
-                <div class="occ-box" data-type="mehendi">
-                    <div class="occ-icon"><i class="fa-solid fa-hand-sparkles"></i></div>
-                    <div class="occ-label">Mehendi</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Featured Venues Horizontal -->
-        <div class="section">
-            <div class="section-header">
-                <span class="section-title">Top Picks</span>
-                <span class="see-all" onclick="goPage('explore')">See All</span>
-            </div>
-        </div>
-        <div class="venues-scroll">
-            <div class="venue-card-h" onclick="openVenue('v1')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=500" alt="V Convention">
-                    <div class="venue-tag">ULTRA LUXE</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">V Convention Center</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Vijayawada</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹4.5L</div><div class="venue-price-sub">/day</div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.9</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="venue-card-h" onclick="openVenue('v2')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" alt="River Bay">
-                    <div class="venue-tag">VERIFIED</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">River Bay Resort</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Rajahmundry</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹2.2L</div><div class="venue-price-sub">/day</div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.7</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="venue-card-h" onclick="openVenue('v3')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=500" alt="Grand Elite">
-                    <div class="venue-tag">POPULAR</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">Grand Elite Gardens</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Hyderabad</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹5L</div><div class="venue-price-sub">/day</div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.8</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="venue-card-h" onclick="openVenue('v4')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=500" alt="S Convention">
-                    <div class="venue-tag">ELITE</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">S Convention</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Kakinada</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹1.8L</div><div class="venue-price-sub">/day</div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.6</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="icon-btn" onclick="openAuthModal()"><i class="fa-solid fa-circle-user"></i></div>
+  </div>
+  <div style="padding:0 0 20px;">
+    <!-- Search -->
+    <div style="padding:16px 20px 0;">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="homeSearch" type="text" placeholder="Search city, hall name...">
+      </div>
     </div>
+    <!-- Hero -->
+    <div class="hero-banner" onclick="goPage('explore')">
+      <div class="urgency-pill"><div class="live-dot"></div> 47 bookings confirmed this week</div>
+      <div class="hero-title">Your Dream<br><em>Wedding Venue</em><br>Awaits</div>
+      <div class="hero-sub">500+ premium halls across AP & Telangana. Pay just 30% to lock your date.</div>
+      <div class="hero-cta"><i class="fa-solid fa-calendar-check"></i> Book Now</div>
+    </div>
+    <!-- Cities -->
+    <div class="section"><div class="section-header"><span class="section-title">Browse by City</span></div></div>
+    <div class="chip-row" id="cityChips">
+      <div class="chip active" data-city="All" onclick="filterByCity(this)">All Cities</div>
+      <div class="chip" data-city="Hyderabad" onclick="filterByCity(this)">Hyderabad</div>
+      <div class="chip" data-city="Vijayawada" onclick="filterByCity(this)">Vijayawada</div>
+      <div class="chip" data-city="Rajahmundry" onclick="filterByCity(this)">Rajahmundry</div>
+      <div class="chip" data-city="Tirupati" onclick="filterByCity(this)">Tirupati</div>
+      <div class="chip" data-city="Vizag" onclick="filterByCity(this)">Vizag</div>
+    </div>
+    <!-- Occasions -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">What's the Occasion?</span></div>
+      <div class="occ-grid">
+        <div class="occ-box" onclick="occFilter(this,'wedding')"><div class="occ-icon"><i class="fa-solid fa-rings-wedding"></i></div><div class="occ-label">Wedding</div></div>
+        <div class="occ-box" onclick="occFilter(this,'reception')"><div class="occ-icon"><i class="fa-solid fa-champagne-glasses"></i></div><div class="occ-label">Reception</div></div>
+        <div class="occ-box" onclick="occFilter(this,'engagement')"><div class="occ-icon"><i class="fa-solid fa-gem"></i></div><div class="occ-label">Engagement</div></div>
+        <div class="occ-box" onclick="occFilter(this,'sangeet')"><div class="occ-icon"><i class="fa-solid fa-music"></i></div><div class="occ-label">Sangeet</div></div>
+        <div class="occ-box" onclick="occFilter(this,'mehendi')"><div class="occ-icon"><i class="fa-solid fa-hand-holding-heart"></i></div><div class="occ-label">Mehendi</div></div>
+        <div class="occ-box" onclick="occFilter(this,'birthday')"><div class="occ-icon"><i class="fa-solid fa-cake-candles"></i></div><div class="occ-label">Birthday</div></div>
+        <div class="occ-box" onclick="occFilter(this,'corporate')"><div class="occ-icon"><i class="fa-solid fa-briefcase"></i></div><div class="occ-label">Corporate</div></div>
+        <div class="occ-box" onclick="occFilter(this,'haldi')"><div class="occ-icon"><i class="fa-solid fa-sun"></i></div><div class="occ-label">Haldi</div></div>
+      </div>
+    </div>
+    <!-- Featured -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">Top Venues</span><span class="see-all" onclick="goPage('explore')">See All →</span></div>
+    </div>
+    <div class="venues-scroll" id="featuredVenues"></div>
+  </div>
 </div>
 
-<!-- ══ EXPLORE PAGE ══ -->
+<!-- ══ EXPLORE ══ -->
 <div class="page" id="page-explore">
-    <div class="status-bar"></div>
-    <div class="topbar">
-        <div class="topbar-left">
-            <span class="topbar-greeting">500+ Venues</span>
-            <span class="topbar-brand">Explore</span>
-        </div>
-        <div class="topbar-actions">
-            <div class="icon-btn" onclick="openSheet('filter-sheet')"><i class="fa-solid fa-sliders"></i></div>
-        </div>
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="icon-btn" onclick="goPage('home')" style="flex-shrink:0;"><i class="fa-solid fa-arrow-left"></i></div>
+      <div><div class="topbar-greeting">500+ Venues</div><div class="topbar-brand">Explore</div></div>
     </div>
-    <div class="scroll-area">
-        <div class="search-wrap">
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="exploreSearch" placeholder="Search venues or cities..." oninput="filterVenues(this.value)">
-            </div>
-        </div>
-        <div class="section" style="padding-bottom: 16px;">
-            <div class="chip-row" style="padding: 0;">
-                <div class="chip active">All</div>
-                <div class="chip">Under ₹2L</div>
-                <div class="chip">₹2L–₹5L</div>
-                <div class="chip">5★ Only</div>
-                <div class="chip">Outdoor</div>
-                <div class="chip">AC Hall</div>
-            </div>
-        </div>
-        <div class="vgrid" id="vgrid">
-            <div class="venue-card-v" onclick="openVenue('v1')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800" alt="">
-                    <div class="venue-tag">ULTRA LUXE</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">V Convention Center</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Benz Circle, Vijayawada</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹4,50,000 <span class="venue-price-sub">/day</span></div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.9</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="venue-card-v" onclick="openVenue('v2')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800" alt="">
-                    <div class="venue-tag">VERIFIED</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">River Bay Resort</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Godavari Bank, Rajahmundry</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹2,20,000 <span class="venue-price-sub">/day</span></div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.7</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="venue-card-v" onclick="openVenue('v3')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800" alt="">
-                    <div class="venue-tag">POPULAR</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">Grand Elite Gardens</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Madhapur, Hyderabad</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹5,00,000 <span class="venue-price-sub">/day</span></div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.8</span></div>
-                    </div>
-                </div>
-            </div>
-            <div class="venue-card-v" onclick="openVenue('v4')">
-                <div class="venue-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=800" alt="">
-                    <div class="venue-tag">ELITE</div>
-                    <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
-                </div>
-                <div class="venue-info">
-                    <div class="venue-name">S Convention</div>
-                    <div class="venue-loc"><i class="fa-solid fa-location-dot"></i> Main Road, Kakinada</div>
-                    <div class="venue-bottom">
-                        <div><div class="venue-price">₹1,80,000 <span class="venue-price-sub">/day</span></div></div>
-                        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>4.6</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="icon-btn" onclick="openSheet('filter-sheet')"><i class="fa-solid fa-sliders"></i></div>
+  </div>
+  <div style="padding:0 0 20px;">
+    <div style="padding:16px 20px 0;">
+      <div class="search-bar"><i class="fa-solid fa-magnifying-glass"></i><input id="exploreSearch" type="text" placeholder="Search venues or cities..."></div>
     </div>
+    <div class="chip-row" style="padding:14px 20px 0;" id="exploreChips">
+      <div class="chip active" onclick="filterExplore(this,'All')">All</div>
+      <div class="chip" onclick="filterExplore(this,'Under ₹2L')">Under ₹2L</div>
+      <div class="chip" onclick="filterExplore(this,'₹2L–₹5L')">₹2L–₹5L</div>
+      <div class="chip" onclick="filterExplore(this,'5★')">5★ Only</div>
+      <div class="chip" onclick="filterExplore(this,'Outdoor')">Outdoor</div>
+      <div class="chip" onclick="filterExplore(this,'AC Hall')">AC Hall</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;padding:16px 20px 0;" id="venueGrid"></div>
+  </div>
 </div>
 
-<!-- ══ BOOKINGS PAGE ══ -->
+<!-- ══ BOOKINGS ══ -->
 <div class="page" id="page-bookings">
-    <div class="status-bar"></div>
-    <div class="topbar">
-        <div class="topbar-left">
-            <span class="topbar-greeting">My Events</span>
-            <span class="topbar-brand">Bookings</span>
-        </div>
-    </div>
-    <div class="scroll-area" style="padding-top: 20px;">
-        <div class="booking-list" id="bookings-list">
-            <!-- Rendered by JS -->
-        </div>
-    </div>
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar"><div><div class="topbar-greeting">My Events</div><div class="topbar-brand">Bookings</div></div></div>
+  <div style="display:flex;flex-direction:column;gap:14px;padding:20px 20px 0;" id="bookingsList"></div>
 </div>
 
-<!-- ══ PROFILE PAGE ══ -->
+<!-- ══ PROFILE ══ -->
 <div class="page" id="page-profile">
-    <div class="status-bar"></div>
-    <div class="topbar">
-        <div class="topbar-left">
-            <span class="topbar-greeting">Account</span>
-            <span class="topbar-brand">Profile</span>
-        </div>
-        <div class="topbar-actions">
-            <div class="icon-btn" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>
-        </div>
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar">
+    <div><div class="topbar-greeting">Account</div><div class="topbar-brand">Profile</div></div>
+    <div class="icon-btn" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>
+  </div>
+  <div>
+    <!-- Header -->
+    <div style="padding:28px 20px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:140px;background:linear-gradient(180deg,rgba(212,168,67,0.07),transparent);border-radius:0 0 40px 40px;pointer-events:none;"></div>
+      <div class="avatar" id="profileAvatar">?</div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:700;margin-bottom:4px;" id="profileName">Guest User</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:20px;" id="profileEmail">Sign in to continue</div>
+      <div style="display:flex;gap:10px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 16px;text-align:center;"><div style="font-size:19px;font-weight:800;color:var(--gold);font-family:var(--display);" id="profileBookingCount">0</div><div style="font-size:10px;color:var(--dim);font-weight:600;margin-top:2px;">Bookings</div></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 16px;text-align:center;"><div style="font-size:19px;font-weight:800;color:var(--gold);font-family:var(--display);" id="profileSavedCount">0</div><div style="font-size:10px;color:var(--dim);font-weight:600;margin-top:2px;">Saved</div></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 16px;text-align:center;"><div style="font-size:19px;font-weight:800;color:var(--gold);font-family:var(--display);">4.9★</div><div style="font-size:10px;color:var(--dim);font-weight:600;margin-top:2px;">Rating</div></div>
+      </div>
     </div>
-    <div class="scroll-area">
-        <div class="profile-header">
-            <div class="avatar" id="profile-avatar">?</div>
-            <div class="profile-name" id="profile-name-display">Guest User</div>
-            <div class="profile-email" id="profile-email-display">Sign in to continue</div>
-            <div class="profile-badges">
-                <div class="badge"><div class="badge-num" id="profile-bookings-count">0</div><div class="badge-lbl">Bookings</div></div>
-                <div class="badge"><div class="badge-num" id="profile-saved-count">0</div><div class="badge-lbl">Saved</div></div>
-                <div class="badge"><div class="badge-num">4.9★</div><div class="badge-lbl">Rating</div></div>
-            </div>
-        </div>
-        <div class="menu-list">
-            <div class="menu-item" onclick="goPage('bookings')">
-                <div class="menu-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
-                <div class="menu-text"><div class="menu-label">My Bookings</div><div class="menu-sub" id="profile-bookings-sub">View all your bookings</div></div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
-            <div class="menu-item" onclick="openEditProfile()">
-                <div class="menu-icon gold"><i class="fa-solid fa-user-pen"></i></div>
-                <div class="menu-text"><div class="menu-label">Edit Profile</div><div class="menu-sub">Update name, phone &amp; details</div></div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
-            <div class="menu-item" onclick="openSheet('filter-sheet')">
-                <div class="menu-icon green"><i class="fa-solid fa-sliders"></i></div>
-                <div class="menu-text"><div class="menu-label">Preferences</div><div class="menu-sub">Venue type, location &amp; budget</div></div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
-            <div class="menu-item" onclick="alert('📞 Support: +91 98765 43210\n✉️ help@vivahavenue.in\n\nWe\'re available Mon–Sat, 9am–7pm')">
-                <div class="menu-icon gold"><i class="fa-solid fa-headset"></i></div>
-                <div class="menu-text"><div class="menu-label">Help &amp; Support</div><div class="menu-sub">Chat with our team</div></div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
-            <div class="menu-item" id="auth-menu-item" onclick="handleAuthMenuClick()">
-                <div class="menu-icon red"><i class="fa-solid fa-right-from-bracket" id="auth-menu-icon"></i></div>
-                <div class="menu-text">
-                    <div class="menu-label" id="auth-menu-label">Sign In</div>
-                    <div class="menu-sub" id="auth-menu-sub">Login or create account</div>
-                </div>
-                <i class="fa-solid fa-chevron-right menu-arrow"></i>
-            </div>
-        </div>
+    <!-- Menu -->
+    <div style="display:flex;flex-direction:column;gap:8px;padding:0 20px;">
+      <div class="menu-item s1" onclick="goPage('bookings')"><div class="menu-icon" style="background:rgba(79,142,245,0.1);border:1px solid rgba(79,142,245,0.2);color:var(--blue);"><i class="fa-solid fa-calendar-check"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;">My Bookings</div><div style="font-size:11px;color:var(--dim);margin-top:2px;" id="profileBookingSub">View all your bookings</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+      <div class="menu-item s2" onclick="openEditProfile()"><div class="menu-icon" style="background:var(--gold-soft);border:1px solid var(--gold-border);color:var(--gold);"><i class="fa-solid fa-user-pen"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;">Edit Profile</div><div style="font-size:11px;color:var(--dim);margin-top:2px;">Update name, email & phone</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+      <div class="menu-item s3" onclick="alert('📞 +91 98765 43210\n✉️ support@vivahavenue.in')"><div class="menu-icon" style="background:rgba(52,199,123,0.1);border:1px solid rgba(52,199,123,0.2);color:var(--green);"><i class="fa-solid fa-headset"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;">Help & Support</div><div style="font-size:11px;color:var(--dim);margin-top:2px;">support@vivahavenue.in</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+      <div class="menu-item s4" id="authMenuItem" onclick="handleAuthMenu()"><div class="menu-icon" style="background:rgba(224,84,84,0.1);border:1px solid rgba(224,84,84,0.2);color:var(--red);"><i class="fa-solid fa-right-to-bracket" id="authMenuIcon"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;" id="authMenuLabel">Sign In / Sign Up</div><div style="font-size:11px;color:var(--dim);margin-top:2px;" id="authMenuSub">Login or create account</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
     </div>
+  </div>
+</div>
+
+<!-- ══ DOCK ══ -->
+<nav class="dock">
+  <div class="dock-item active" id="dock-home" onclick="goPage('home')"><i class="fa-solid fa-house-chimney"></i><span>Home</span></div>
+  <div class="dock-item" id="dock-explore" onclick="goPage('explore')"><i class="fa-solid fa-compass"></i><span>Explore</span></div>
+  <div class="dock-item" id="dock-bookings" onclick="goPage('bookings')"><i class="fa-solid fa-calendar-check"></i><span>Bookings</span><div class="dock-badge" id="dockBadge">0</div></div>
+  <div class="dock-item" id="dock-profile" onclick="goPage('profile')"><i class="fa-solid fa-circle-user"></i><span>Profile</span></div>
+</nav>
+<div id="toast"></div>
+
+<!-- ══ VENUE DETAIL SHEET ══ -->
+<div class="sheet-overlay" id="venue-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <!-- Back button -->
+    <div class="sheet-back" onclick="closeSheet('venue-sheet')">
+      <div class="sheet-back-btn"><i class="fa-solid fa-arrow-left"></i></div>
+      <span class="sheet-back-label">Back</span>
+    </div>
+    <div id="venueContent"></div>
+  </div>
+</div>
+
+<!-- ══ BOOKING SHEET ══ -->
+<div class="sheet-overlay" id="booking-sheet">
+  <div class="sheet" id="bookingSheetInner">
+    <div class="sheet-handle"></div>
+    <!-- Step dots -->
+    <div style="display:flex;gap:6px;justify-content:center;margin:20px 0 24px;" id="stepDots">
+      <div class="step-dot" id="sdot0" style="width:28px;background:var(--gold);"></div>
+      <div class="step-dot" id="sdot1" style="width:8px;background:var(--dim2);"></div>
+      <div class="step-dot" id="sdot2" style="width:8px;background:var(--dim2);"></div>
+    </div>
+    <!-- Step 0: Calendar + event -->
+    <div class="flow-step active" id="fstep0" style="padding:0 20px;">
+      <!-- Back to venue detail -->
+      <div class="sheet-back" style="padding:0 0 16px 0;" onclick="bookingBackToVenue()">
+        <div class="sheet-back-btn"><i class="fa-solid fa-arrow-left"></i></div>
+        <span class="sheet-back-label">Back to venue</span>
+      </div>
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;">STEP 1 OF 3</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:4px;">Pick Your Date</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:20px;">Peak dates cost more. Red = already booked.</div>
+      <!-- Calendar rendered by JS -->
+      <div id="calendarContainer"></div>
+      <div id="selectedDateBanner" style="display:none;background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:14px;padding:12px 16px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;animation:fadeUp 0.25s ease;">
+        <div><div style="font-size:11px;color:var(--dim);font-weight:600;">Selected Date</div><div style="font-weight:700;color:var(--gold);font-family:var(--display);font-size:15px;" id="selectedDateLabel">—</div></div>
+        <div id="peakBadge" style="display:none;background:rgba(212,168,67,0.15);border-radius:10px;padding:4px 10px;font-size:11px;font-weight:800;color:var(--gold);">+0% peak</div>
+      </div>
+      <div style="margin-top:18px;"><label class="field-label">Occasion</label>
+        <select class="field-input" id="b-occasion"><option value="">Select...</option><option>Wedding</option><option>Reception</option><option>Engagement</option><option>Sangeet</option><option>Mehendi / Haldi</option><option>Birthday</option><option>Corporate</option></select>
+      </div>
+      <div><label class="field-label">Expected Guests</label><input class="field-input" type="number" id="b-guests" placeholder="e.g. 500"></div>
+      <button class="gold-btn" style="margin-top:8px;margin-bottom:24px;" onclick="bookNext(1)">Continue <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></button>
+    </div>
+    <!-- Step 1: Contact + breakdown -->
+    <div class="flow-step" id="fstep1" style="padding:0 20px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;">STEP 2 OF 3</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:4px;">Contact & Payment</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:20px;">Only 30% advance to confirm your booking.</div>
+      <label class="field-label">Your Name</label><input class="field-input" id="b-name" placeholder="Full name">
+      <label class="field-label">Phone</label><input class="field-input" type="tel" id="b-phone" placeholder="+91 9XXXXXXXXX">
+      <div class="pay-box" id="payBreakdown"></div>
+      <div class="info-box"><i class="fa-solid fa-circle-info"></i><strong>How it works:</strong> 30% advance secures your date. Remaining 70% paid at the hall on the day.</div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;">
+        <button onclick="bookNext(0)" style="padding:14px 18px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">← Back</button>
+        <button class="gold-btn" style="flex:1;" onclick="bookNext(2)">Review & Confirm</button>
+      </div>
+    </div>
+    <!-- Step 2: Confirm + pay -->
+    <div class="flow-step" id="fstep2" style="padding:0 20px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;">STEP 3 OF 3</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:20px;">Confirm & Pay</div>
+      <div class="pay-box" id="confirmSummary"></div>
+      <div style="background:linear-gradient(135deg,rgba(13,110,253,0.08),rgba(13,110,253,0.04));border:1px solid rgba(13,110,253,0.2);border-radius:14px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;background:rgba(13,110,253,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💳</div>
+        <div><div style="font-weight:700;font-size:14px;margin-bottom:2px;">Razorpay Secure Payment</div><div style="font-size:11px;color:var(--dim);">256-bit SSL · UPI · Cards · Net Banking · Wallets</div></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;">
+        <button onclick="bookNext(1)" style="padding:14px 18px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">← Back</button>
+        <button class="rzpay-btn" style="flex:2;" id="payBtn" onclick="processPayment()">🔒 Pay Now</button>
+      </div>
+    </div>
+    <!-- Success -->
+    <div class="flow-step" id="fstep-success" style="padding:0 20px;">
+      <div style="text-align:center;padding:30px 0;">
+        <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+        <div style="font-family:var(--display);font-size:28px;font-weight:700;margin-bottom:8px;">Booking Confirmed! 🎉</div>
+        <div style="font-size:14px;color:var(--dim);line-height:1.65;margin-bottom:22px;">Your advance is received. The venue has been notified. Pay the remaining 70% at the hall on your event day.</div>
+        <div style="background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:12px;padding:11px 18px;font-size:13px;color:var(--gold);font-weight:800;display:inline-block;margin-bottom:22px;letter-spacing:1px;" id="successRef">Ref: KH-000000</div>
+        <button class="gold-btn" onclick="closeSheet('booking-sheet');goPage('bookings');resetBookingFlow();">View My Bookings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FILTER SHEET ══ -->
+<div class="sheet-overlay" id="filter-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-family:var(--display);font-size:20px;font-weight:700;padding:16px 20px 0;margin-bottom:20px;">Filter Venues</div>
+    <div style="padding:0 20px;margin-bottom:22px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;">Budget</div><div style="display:flex;flex-wrap:wrap;gap:8px;" id="filterBudget"><div class="chip" onclick="toggleFilterChip(this)">Under ₹1L</div><div class="chip" onclick="toggleFilterChip(this)">₹1L–₹2L</div><div class="chip" onclick="toggleFilterChip(this)">₹2L–₹5L</div><div class="chip" onclick="toggleFilterChip(this)">Above ₹5L</div></div></div>
+    <div style="padding:0 20px;margin-bottom:22px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;">Occasion</div><div style="display:flex;flex-wrap:wrap;gap:8px;"><div class="chip" onclick="toggleFilterChip(this)">Wedding</div><div class="chip" onclick="toggleFilterChip(this)">Reception</div><div class="chip" onclick="toggleFilterChip(this)">Engagement</div><div class="chip" onclick="toggleFilterChip(this)">Corporate</div></div></div>
+    <div style="padding:0 20px;display:flex;gap:10px;">
+      <button onclick="closeSheet('filter-sheet')" style="flex:1;padding:14px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">Reset</button>
+      <button class="gold-btn" style="flex:2;" onclick="closeSheet('filter-sheet');showToast('Filters applied ✓');">Apply Filters</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ AUTH MODAL ══ -->
-<div class="auth-overlay" id="auth-modal">
-    <div class="auth-modal">
-        <div class="auth-logo">Vivaha Venue</div>
-        <div class="auth-sub">Find & book your perfect wedding venue</div>
-        <div class="auth-tabs">
-            <div class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</div>
-            <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</div>
-        </div>
-        <!-- Login Form -->
-        <div class="auth-form active" id="form-login">
-            <div class="auth-field"><label>Name or Email</label><input type="text" id="login-email" placeholder="Your name or email"></div>
-            <div class="auth-field"><label>Password</label><input type="password" id="login-pass" placeholder="Your password"></div>
-            <button class="auth-btn" onclick="doLogin()">Sign In</button>
-            <div class="auth-error" id="login-error"></div>
-        </div>
-        <!-- Signup Form -->
-        <div class="auth-form" id="form-signup">
-            <div class="auth-field"><label>Full Name</label><input type="text" id="signup-name" placeholder="e.g. Ravi Shankar"></div>
-            <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="your@email.com"></div>
-            <div class="auth-field"><label>Phone</label><input type="tel" id="signup-phone" placeholder="+91 9XXXXXXXXX"></div>
-            <div class="auth-field"><label>Password</label><input type="password" id="signup-pass" placeholder="Create a password"></div>
-            <button class="auth-btn" onclick="doSignup()">Create Account</button>
-            <div class="auth-error" id="signup-error"></div>
-        </div>
-        <div class="auth-skip" onclick="closeAuthModal()">Continue as guest &nbsp;<span>Skip →</span></div>
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <div style="font-family:var(--display);font-size:34px;color:var(--gold);text-align:center;margin-bottom:5px;">Vivaha Venue</div>
+    <div style="font-size:13px;color:var(--dim);text-align:center;margin-bottom:24px;">Book your dream Telugu wedding hall</div>
+    <!-- Auth main view -->
+    <div id="authMainView">
+      <div style="display:flex;background:var(--card2);border-radius:12px;padding:4px;margin-bottom:24px;">
+        <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Sign In</div>
+        <div class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Sign Up</div>
+      </div>
+      <!-- Login -->
+      <div class="auth-form active" id="formLogin">
+        <label class="field-label">Email / Phone / Name</label><input class="field-input" type="text" id="loginEmail" placeholder="your@email.com">
+        <label class="field-label">Password</label><input class="field-input" type="password" id="loginPass" placeholder="Password">
+        <button class="gold-btn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket" style="margin-right:8px;"></i>Sign In</button>
+      </div>
+      <!-- Signup -->
+      <div class="auth-form" id="formSignup">
+        <label class="field-label">Full Name</label><input class="field-input" id="signupName" placeholder="Ravi Kumar">
+        <label class="field-label">Email</label><input class="field-input" type="email" id="signupEmail" placeholder="you@email.com">
+        <label class="field-label">Phone</label><input class="field-input" type="tel" id="signupPhone" placeholder="+91 9XXXXXXXXX">
+        <label class="field-label">Password</label><input class="field-input" type="password" id="signupPass" placeholder="Create password">
+        <button class="gold-btn" onclick="doSignup()"><i class="fa-solid fa-user-plus" style="margin-right:8px;"></i>Create Account & Verify OTP</button>
+      </div>
+      <div style="font-size:12px;color:var(--dim);text-align:center;margin-top:16px;cursor:pointer;" onclick="closeModal('auth-modal')">Continue as guest &nbsp;<span style="color:var(--gold);font-weight:700;">Skip →</span></div>
     </div>
+    <!-- OTP view -->
+    <div id="authOtpView" style="display:none;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;cursor:pointer;" onclick="backFromOTP()">
+        <div style="width:32px;height:32px;background:var(--card2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--dim);">←</div>
+        <span style="font-size:12px;color:var(--dim);font-weight:600;">Back</span>
+      </div>
+      <div style="font-family:var(--display);font-size:26px;font-weight:700;margin-bottom:6px;">Verify OTP</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:10px;line-height:1.55;" id="otpSubText">Enter the 6-digit code sent to your phone.</div>
+      <div style="background:rgba(79,142,245,0.08);border:1px solid rgba(79,142,245,0.2);border-radius:12px;padding:10px 14px;margin-bottom:22px;font-size:12px;color:var(--blue);">
+        <i class="fa-solid fa-circle-info" style="margin-right:6px;"></i> Demo OTP: <strong style="font-size:16px;letter-spacing:4px;" id="demoOtpDisplay">——</strong>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="otpBoxes">
+        <input class="otp-box" maxlength="1" type="tel" id="otp0">
+        <input class="otp-box" maxlength="1" type="tel" id="otp1">
+        <input class="otp-box" maxlength="1" type="tel" id="otp2">
+        <input class="otp-box" maxlength="1" type="tel" id="otp3">
+        <input class="otp-box" maxlength="1" type="tel" id="otp4">
+        <input class="otp-box" maxlength="1" type="tel" id="otp5">
+      </div>
+      <div style="font-size:12px;color:var(--red);text-align:center;margin-bottom:10px;min-height:18px;" id="otpError"></div>
+      <div style="font-size:12px;color:var(--dim);text-align:center;" id="otpTimerDisplay">Resend in 60s</div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ EDIT PROFILE MODAL ══ -->
 <div class="modal-overlay" id="edit-profile-modal">
-    <div class="modal" style="max-width:380px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-            <div style="font-size:18px;font-weight:700;"><i class="fa-solid fa-user-pen" style="color:var(--gold);margin-right:8px;"></i>Edit Profile</div>
-            <div class="icon-btn" onclick="document.getElementById('edit-profile-modal').classList.remove('open')"><i class="fa-solid fa-xmark"></i></div>
-        </div>
-        <div class="auth-field"><label>Full Name</label><input type="text" id="edit-name" placeholder="Your name"></div>
-        <div class="auth-field"><label>Email</label><input type="email" id="edit-email" placeholder="your@email.com"></div>
-        <div class="auth-field"><label>Phone</label><input type="tel" id="edit-phone" placeholder="+91 9XXXXXXXXX"></div>
-        <button class="auth-btn" onclick="saveProfile()">Save Changes</button>
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <div style="font-family:var(--display);font-size:20px;font-weight:700;">Edit Profile</div>
+      <div onclick="closeModal('edit-profile-modal')" style="width:32px;height:32px;background:var(--card2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--dim);">✕</div>
     </div>
-</div>
-
-<!-- ══ BOTTOM DOCK ══ -->
-<nav class="dock">
-    <div class="dock-item active" onclick="goPage('home')" id="dock-home">
-        <i class="fa-solid fa-house-chimney"></i>
-        <span>Home</span>
-    </div>
-    <div class="dock-item" onclick="goPage('explore')" id="dock-explore">
-        <i class="fa-solid fa-compass"></i>
-        <span>Explore</span>
-    </div>
-    <div class="dock-item" onclick="goPage('bookings')" id="dock-bookings">
-        <i class="fa-solid fa-calendar-check"></i>
-        <span>Bookings</span>
-        <div class="dock-badge">2</div>
-    </div>
-    <div class="dock-item" onclick="goPage('profile')" id="dock-profile">
-        <i class="fa-solid fa-circle-user"></i>
-        <span>Profile</span>
-    </div>
-</nav>
-
-<!-- ══ FILTER SHEET ══ -->
-<div class="sheet-overlay" id="filter-sheet" onclick="closeSheet('filter-sheet', event)">
-    <div class="sheet">
-        <div class="sheet-handle"></div>
-        <div class="sheet-title">Filter Venues</div>
-        <div class="filter-group">
-            <div class="filter-group-label">Budget</div>
-            <div class="filter-chips">
-                <div class="filter-chip active">Any</div>
-                <div class="filter-chip">Under ₹1L</div>
-                <div class="filter-chip">₹1L–₹3L</div>
-                <div class="filter-chip">₹3L–₹5L</div>
-                <div class="filter-chip">₹5L+</div>
-            </div>
-        </div>
-        <div class="filter-group">
-            <div class="filter-group-label">Venue Type</div>
-            <div class="filter-chips">
-                <div class="filter-chip active">All</div>
-                <div class="filter-chip">Indoor Hall</div>
-                <div class="filter-chip">Outdoor Garden</div>
-                <div class="filter-chip">Resort</div>
-                <div class="filter-chip">Farmhouse</div>
-            </div>
-        </div>
-        <div class="filter-group">
-            <div class="filter-group-label">Guest Capacity</div>
-            <div class="filter-chips">
-                <div class="filter-chip">100–300</div>
-                <div class="filter-chip">300–500</div>
-                <div class="filter-chip active">500–1000</div>
-                <div class="filter-chip">1000+</div>
-            </div>
-        </div>
-        <div class="filter-group">
-            <div class="filter-group-label">Amenities</div>
-            <div class="filter-chips">
-                <div class="filter-chip">AC</div>
-                <div class="filter-chip active">Parking</div>
-                <div class="filter-chip active">Catering</div>
-                <div class="filter-chip">Décor</div>
-                <div class="filter-chip">DJ</div>
-            </div>
-        </div>
-        <div class="sheet-footer">
-            <button class="btn-sm btn-outline" onclick="closeSheet('filter-sheet')">Reset</button>
-            <button class="btn-sm btn-primary" onclick="closeSheet('filter-sheet')">Apply Filters</button>
-        </div>
-    </div>
-</div>
-
-<!-- ══ VENUE DETAIL SHEET ══ -->
-<div class="sheet-overlay detail-sheet" id="venue-sheet" onclick="closeSheet('venue-sheet', event)">
-    <div class="sheet" style="max-height: 92vh; padding-bottom: calc(30px + var(--safe-bottom)); overflow-y:auto;">
-        <div style="display:flex;align-items:center;padding:14px 20px 10px;">
-            <div class="sheet-handle" style="margin:0 auto 0 0;"></div>
-            <div class="icon-btn" onclick="closeSheet('venue-sheet')"><i class="fa-solid fa-xmark"></i></div>
-        </div>
-        <div id="venue-content"></div>
-    </div>
-</div>
-
-<!-- ══ BOOKING FLOW SHEET ══ -->
-<div class="sheet-overlay" id="booking-sheet">
-    <div class="sheet" id="booking-sheet-inner" style="max-height: 95vh; overflow-y:auto; padding-bottom: calc(40px + var(--safe-bottom));">
-        <div style="display:flex;align-items:center;padding:14px 20px 0; position:sticky; top:0; background:var(--card); z-index:10; border-radius:28px 28px 0 0;">
-            <div class="sheet-handle" style="margin:0 auto 0 0;"></div>
-            <div class="icon-btn" onclick="closeSheet('booking-sheet')"><i class="fa-solid fa-xmark"></i></div>
-        </div>
-        <div style="padding: 10px 20px 60px;">
-
-            <!-- Step Dots -->
-            <div class="step-indicator">
-                <div class="step-dot active" id="sdot0"></div>
-                <div class="step-dot" id="sdot1"></div>
-                <div class="step-dot" id="sdot2"></div>
-            </div>
-
-            <!-- STEP 1: Event Details -->
-            <div class="flow-step active" id="fstep0">
-                <div class="detail-tag-row"><div class="detail-tag">STEP 1 OF 3</div></div>
-                <div class="detail-name" style="margin-bottom:4px;">Event Details</div>
-                <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Tell us about your celebration</p>
-
-                <div class="flow-field">
-                    <div class="flow-label">Event Date</div>
-                    <input type="date" class="flow-input" id="b-date">
-                </div>
-                <div class="flow-field">
-                    <div class="flow-label">Occasion Type</div>
-                    <select class="flow-input" id="b-occasion" style="appearance:none;">
-                        <option value="">Select occasion...</option>
-                        <option>Wedding</option>
-                        <option>Reception</option>
-                        <option>Engagement</option>
-                        <option>Birthday</option>
-                        <option>Corporate</option>
-                        <option>Sangeet</option>
-                        <option>Mehendi / Haldi</option>
-                    </select>
-                </div>
-                <div class="flow-field">
-                    <div class="flow-label">Expected Guests</div>
-                    <input type="number" class="flow-input" id="b-guests" placeholder="e.g. 300">
-                </div>
-                <button class="book-btn" style="margin-top:8px;" onclick="bookNext(1)">Continue <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-
-            <!-- STEP 2: Contact + Payment Breakdown -->
-            <div class="flow-step" id="fstep1">
-                <div class="detail-tag-row"><div class="detail-tag">STEP 2 OF 3</div></div>
-                <div class="detail-name" style="margin-bottom:4px;">Contact & Payment</div>
-                <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Only 30% advance to confirm your booking</p>
-
-                <div class="flow-field">
-                    <div class="flow-label">Your Name</div>
-                    <input type="text" class="flow-input" id="b-name" placeholder="Full name">
-                </div>
-                <div class="flow-field">
-                    <div class="flow-label">Phone Number</div>
-                    <input type="tel" class="flow-input" id="b-phone" placeholder="+91 9XXXXXXXXX">
-                </div>
-
-                <!-- Payment Breakdown -->
-                <div class="pay-box" id="pay-breakdown">
-                    <div class="pay-row"><span class="lbl">Hall Cost (Full Day)</span><span class="val" id="pb-full">—</span></div>
-                    <div class="pay-row"><span class="lbl">30% Advance (Online)</span><span class="val pay-highlight" id="pb-advance">—</span></div>
-                    <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val" id="pb-platform">—</span></div>
-                    <hr class="pay-divider">
-                    <div class="pay-row">
-                        <span class="pay-total-lbl" style="font-size:15px;">💳 Pay Now</span>
-                        <span class="pay-total pay-highlight" id="pb-total" style="font-size:18px;">—</span>
-                    </div>
-                    <hr class="pay-divider">
-                    <div class="pay-row" style="background:rgba(72,187,120,0.07);padding:8px;border-radius:10px;margin-top:4px;">
-                        <span class="lbl" style="font-size:12px;">🏛️ Pay at Hall on Event Day</span>
-                        <span class="val" id="pb-remaining" style="font-size:14px;color:#48BB78;font-weight:700;">—</span>
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <strong>How it works:</strong> Pay only 30% advance online to confirm your slot. The remaining <strong>70% is paid directly at the venue</strong> on the event day. Platform fee is non-refundable.
-                </div>
-
-                <div style="display:flex;gap:10px;margin-top:8px;">
-                    <button class="btn-sm btn-outline" onclick="bookNext(0)"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <button class="btn-sm btn-primary" style="flex:2;" onclick="bookNext(2)">Review & Confirm</button>
-                </div>
-            </div>
-
-            <!-- STEP 3: Confirm -->
-            <div class="flow-step" id="fstep2">
-                <div class="detail-tag-row"><div class="detail-tag">STEP 3 OF 3</div></div>
-                <div class="detail-name" style="margin-bottom:4px;">Confirm Booking</div>
-                <p style="font-size:13px;color:var(--dim);margin-bottom:20px;">Review your booking summary before paying</p>
-
-                <div class="pay-box" id="confirm-summary"></div>
-
-                <div class="info-box" style="border-color: rgba(245,101,101,0.25); background: rgba(245,101,101,0.05);">
-                    <i class="fa-solid fa-triangle-exclamation" style="color:#F56565;"></i>
-                    <strong>Cancellation Policy:</strong> If cancelled, 5% of the advance + full platform fee will be deducted. The remaining balance will be refunded within 5–7 business days.
-                </div>
-
-                <div style="display:flex;gap:10px;margin-top:8px;">
-                    <button class="btn-sm btn-outline" onclick="bookNext(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <button class="btn-sm btn-primary" style="flex:2;" onclick="confirmBooking()"><i class="fa-solid fa-lock"></i> Pay & Confirm</button>
-                </div>
-            </div>
-
-            <!-- SUCCESS -->
-            <div class="flow-step" id="fstep-success">
-                <div class="success-wrap">
-                    <div class="success-icon"><i class="fa-solid fa-check"></i></div>
-                    <div class="success-title">Booking Confirmed! 🎉</div>
-                    <div class="success-sub">Your advance payment is received. The venue has been notified. Pay the remaining amount directly at the hall on your event day.</div>
-                    <div class="success-ref" id="booking-ref">Ref: KH-000000</div>
-                    <button class="book-btn" onclick="closeSheet('booking-sheet'); goPage('bookings'); resetBookingFlow();">
-                        View My Bookings
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    <label class="field-label">Full Name</label><input class="field-input" id="editName">
+    <label class="field-label">Email</label><input class="field-input" type="email" id="editEmail">
+    <label class="field-label">Phone</label><input class="field-input" type="tel" id="editPhone">
+    <button class="gold-btn" onclick="saveProfile()">Save Changes</button>
+  </div>
 </div>
 
 <!-- ══ CANCEL MODAL ══ -->
 <div class="modal-overlay" id="cancel-modal">
-    <div class="modal">
-        <div class="modal-icon"><i class="fa-solid fa-circle-xmark"></i></div>
-        <div class="modal-title">Cancel Booking?</div>
-        <div class="modal-body">This action cannot be undone. Please review the cancellation charges below before proceeding.</div>
-        <div class="penalty-box" id="cancel-breakdown">
-            <div class="penalty-row"><span>Advance Paid</span><span id="cp-advance">—</span></div>
-            <div class="penalty-row"><span>5% Cancellation Penalty</span><span class="penalty-red" id="cp-penalty">—</span></div>
-            <div class="penalty-row"><span>Platform Fee (Non-Refundable)</span><span class="penalty-red" id="cp-platform">—</span></div>
-            <div style="border-top:1px solid rgba(245,101,101,0.2);margin:10px 0;"></div>
-            <div class="penalty-row"><span style="font-weight:700;">Refund Amount</span><span class="penalty-green" id="cp-refund" style="font-weight:800;">—</span></div>
-        </div>
-        <div class="modal-actions">
-            <button class="btn-sm btn-outline" onclick="document.getElementById('cancel-modal').classList.remove('open')">Keep Booking</button>
-            <button class="btn-sm" style="background:#F56565;color:#fff;flex:1;" onclick="processCancellation()">Yes, Cancel</button>
-        </div>
+  <div class="modal">
+    <div style="width:56px;height:56px;background:rgba(224,84,84,0.12);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--red);margin-bottom:16px;border:1px solid rgba(224,84,84,0.2);"><i class="fa-solid fa-circle-xmark"></i></div>
+    <div style="font-family:var(--display);font-size:20px;font-weight:700;margin-bottom:8px;">Cancel Booking?</div>
+    <div style="font-size:13px;color:var(--dim);line-height:1.65;margin-bottom:16px;">This cannot be undone.</div>
+    <div style="background:rgba(224,84,84,0.06);border:1px solid rgba(224,84,84,0.18);border-radius:14px;padding:14px;margin-bottom:20px;" id="cancelBreakdown"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="closeModal('cancel-modal')" style="flex:1;padding:13px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">Keep</button>
+      <button onclick="processCancellation()" style="flex:1;padding:13px;background:var(--red);border:none;border-radius:14px;color:#fff;font-weight:800;cursor:pointer;font-family:var(--font);">Yes, Cancel</button>
     </div>
+  </div>
 </div>
 
-<!-- ══ CANCELLED SUCCESS MODAL ══ -->
-<div class="modal-overlay" id="cancelled-modal">
-    <div class="modal" style="text-align:center;">
-        <div style="font-size:40px;margin-bottom:14px;">✅</div>
-        <div class="modal-title">Booking Cancelled</div>
-        <div class="modal-body" id="cancel-confirm-msg">Your refund will be processed in 5–7 business days.</div>
-        <button class="btn-sm btn-primary" style="width:100%;" onclick="document.getElementById('cancelled-modal').classList.remove('open')">Done</button>
+<!-- ══ INVOICE MODAL ══ -->
+<div class="modal-overlay" id="invoice-modal">
+  <div class="modal" style="max-height:88vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:var(--display);font-size:20px;font-weight:700;"><i class="fa-solid fa-file-invoice" style="color:var(--gold);margin-right:8px;"></i>Invoice</div>
+      <div onclick="closeModal('invoice-modal')" style="width:32px;height:32px;background:var(--card2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--dim);">✕</div>
     </div>
+    <div id="invoiceContent"></div>
+    <button class="gold-btn" onclick="closeModal('invoice-modal')">Close</button>
+  </div>
+</div>
+
+<!-- ══ RAZORPAY MOCK ══ -->
+<div class="modal-overlay" id="rzpay-modal">
+  <div class="modal" style="background:#12122A;border-color:rgba(13,110,253,0.3);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:38px;height:38px;background:#0D6EFD;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">💳</div>
+      <div>
+        <div style="font-size:12px;color:#aaa;">Razorpay Secure Checkout</div>
+        <div style="font-family:var(--display);font-size:17px;font-weight:700;" id="rzVenueName">—</div>
+      </div>
+    </div>
+    <div style="background:rgba(13,110,253,0.08);border:1px solid rgba(13,110,253,0.2);border-radius:14px;padding:18px;margin-bottom:20px;">
+      <div style="font-size:10px;color:#aaa;letter-spacing:1px;margin-bottom:4px;">TOTAL AMOUNT</div>
+      <div style="font-family:var(--display);font-size:28px;font-weight:700;" id="rzAmount">—</div>
+      <div style="font-size:11px;color:#aaa;margin-top:4px;">30% advance + platform fee</div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Card Number</div>
+      <input readonly value="4242 4242 4242 4242" style="width:100%;background:#0d1117;border:1px solid #222;border-radius:12px;padding:13px;color:#fff;font-family:var(--font);font-size:15px;outline:none;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Expiry</div><input readonly value="12/27" style="width:100%;background:#0d1117;border:1px solid #222;border-radius:12px;padding:13px;color:#fff;font-family:var(--font);font-size:15px;outline:none;"></div>
+      <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">CVV</div><input type="password" readonly value="123" style="width:100%;background:#0d1117;border:1px solid #222;border-radius:12px;padding:13px;color:#fff;font-family:var(--font);font-size:15px;outline:none;"></div>
+    </div>
+    <button class="rzpay-btn" id="rzPayBtn" onclick="rzPayConfirm()">Pay <span id="rzPayAmount">—</span> Securely →</button>
+    <div style="text-align:center;margin-top:12px;font-size:11px;color:#555;">🔒 256-bit SSL encrypted · Razorpay certified</div>
+  </div>
 </div>
 
 <script>
-/* ══════════════════════════════════════════
-   STORAGE HELPERS — bookings & user persist across refresh
-══════════════════════════════════════════ */
-function saveToStorage(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
-function loadFromStorage(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; } }
+/* ═══════════════════════════════════════════════════
+   VIVAHA VENUE — PREMIUM HTML
+   OYO-level polish, OTP, Razorpay, Calendar
+═══════════════════════════════════════════════════ */
 
-/* ══ Venue Data ══ */
-const venues = {
-    v1: { name: 'V Convention Center', loc: 'Benz Circle, Vijayawada', city: 'Vijayawada', tag: 'ULTRA LUXE', priceRaw: 450000, price: '₹4,50,000', rating: '4.9', reviews: '284', cap: '1200', img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900', desc: 'A premier landmark in Vijayawada featuring grand air-conditioned halls, world-class décor, and full catering arrangements. Perfect for royal Telugu weddings and high-profile receptions.' },
-    v2: { name: 'River Bay Resort', loc: 'Godavari Bank, Rajahmundry', city: 'Rajahmundry', tag: 'VERIFIED', priceRaw: 220000, price: '₹2,20,000', rating: '4.7', reviews: '172', cap: '600', img: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900', desc: 'Nestled on the scenic Godavari riverbank, River Bay Resort offers a breathtaking outdoor setting for your wedding celebrations with curated floral décor and riverside dining.' },
-    v3: { name: 'Grand Elite Gardens', loc: 'Madhapur, Hyderabad', city: 'Hyderabad', tag: 'POPULAR', priceRaw: 500000, price: '₹5,00,000', rating: '4.8', reviews: '319', cap: '1500', img: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900', desc: "Hyderabad's most sought-after wedding garden. Lush landscaped grounds, multiple banquet halls, premium in-house catering, and expert event planning for the celebration of a lifetime." },
-    v4: { name: 'S Convention', loc: 'Main Road, Kakinada', city: 'Kakinada', tag: 'ELITE', priceRaw: 180000, price: '₹1,80,000', rating: '4.6', reviews: '98', cap: '400', img: 'https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=900', desc: 'A beautifully decorated convention hall in the heart of Kakinada. Ideal for intimate weddings and family events with personalized service and affordable elegance.' }
+// ── Storage ──
+const sGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}};
+const sSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
+
+// ── Venue Data ──
+const VENUES={
+  v1:{id:'v1',name:'Dasapalla Convention',city:'Vijayawada',loc:'M.G. Road, Vijayawada',tag:'ULTRA LUXE',priceRaw:480000,price:'₹4,80,000',rating:4.9,reviews:312,cap:1400,urgency:'Only 2 dates left in June',img:'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=90',desc:'Vijayawada\'s most iconic five-star convention with 1,400 capacity AC banquets, in-house Andhra catering, valet parking, and 10,000 sq ft of landscaped lawns. Trusted by 300+ royal weddings.',amenities:['AC Banquet','Catering','Parking','Decor','DJ Hall','Bridal Suite'],reviews:[{name:'Ravi K.',stars:5,text:'Absolutely magnificent. Every detail was taken care of.'},{name:'Priya M.',stars:5,text:'Felt like a 5-star. Highly recommend!'}]},
+  v2:{id:'v2',name:'Godavari Riverfront',city:'Rajahmundry',loc:'Innispeta, Rajahmundry',tag:'SCENIC',priceRaw:240000,price:'₹2,40,000',rating:4.7,reviews:189,cap:700,urgency:'Booked 14× this month',img:'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=90',desc:'Set on the banks of the Godavari, this resort offers breathtaking river views, open-air mandapam, floating flower décor, and traditional Kuchipudi performance arrangements.',amenities:['River View','Mandapam','Catering','Boat Ride','Decor','Sound'],reviews:[{name:'Lakshmi T.',stars:5,text:'Magical setting. Our guests were stunned.'},{name:'Vikram N.',stars:4,text:'The river view is unmatched.'}]},
+  v3:{id:'v3',name:'Taj Mahal Gardens',city:'Hyderabad',loc:'Jubilee Hills, Hyderabad',tag:'PREMIUM',priceRaw:550000,price:'₹5,50,000',rating:4.8,reviews:428,cap:1800,urgency:'Booked 23× this week',img:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=90',desc:'Hyderabad\'s grandest wedding garden — 3 acres in Jubilee Hills with crystal ballroom, Mughal-style lawns, open amphitheatre, and 18-cuisine catering.',amenities:['Crystal Ballroom','3 Acres','Amphitheatre','18 Cuisines','Valet','Bridal Suite'],reviews:[{name:'Sai P.',stars:5,text:'Absolutely the best venue in Hyderabad.'},{name:'Kavya R.',stars:5,text:'Every rupee well spent!'}]},
+  v4:{id:'v4',name:'Sri Tirumala Convention',city:'Tirupati',loc:'TP Area, Tirupati',tag:'DIVINE',priceRaw:195000,price:'₹1,95,000',rating:4.6,reviews:134,cap:500,urgency:'Available — book now!',img:'https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=900&q=90',desc:'A spiritually serene venue near the sacred hills of Tirupati. Perfect for traditional Brahmin weddings with in-house purohit arrangements and sattvic catering.',amenities:['Purohit','Sattvic Catering','AC Hall','Parking','Decor','Gen Set'],reviews:[{name:'Venkateswara R.',stars:5,text:'Divine experience. Perfect for our vedic wedding.'}]},
+  v5:{id:'v5',name:'Novotel Vizag Bay',city:'Vizag',loc:'Beach Road, Visakhapatnam',tag:'BEACHFRONT',priceRaw:720000,price:'₹7,20,000',rating:4.9,reviews:267,cap:1200,urgency:'Only 1 slot left in July',img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=900&q=90',desc:'The only beachfront 5-star wedding venue on the Bay of Bengal. Sunset ceremonies on private beach, infinity pool receptions, and international catering by Michelin-trained chefs.',amenities:['Private Beach','Infinity Pool','International Cuisine','Spa','Penthouse','Helipad'],reviews:[{name:'Rohit A.',stars:5,text:'Sunset wedding on the beach — unforgettable!'},{name:'Deepika V.',stars:5,text:'5-star in every sense.'}]}
 };
 
-/* ══ Persistent State ══ */
-let myBookings = loadFromStorage('vv_bookings', []);
-let currentUser = loadFromStorage('vv_user', null);
-let savedVenues = loadFromStorage('vv_saved', []);
+const fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const ADVANCE=0.30,PLATFORM=0.02;
 
-const PLATFORM_FEE_PCT = 0.02;
-const ADVANCE_PCT = 0.30;
-const PENALTY_PCT = 0.05;
+// ── State ──
+let currentUser=sGet('vv_user',null);
+let myBookings=sGet('vv_bookings',[]);
+let savedVenues=sGet('vv_saved',0);
+let currentPage='home';
+let currentVenueId=null;
+let bookingVenueId=null;
+let cancelIdx=-1;
+let invoiceIdx=-1;
+let selectedBookingDate=null;
+let bookingMultiplier=1.0;
 
-function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+// ── Calendar data ──
+const TODAY=new Date(); TODAY.setHours(0,0,0,0);
+const BOOKED_DATES=new Set();
+[3,7,14,18,22,28,35,42,50,58,65].forEach(off=>{const d=new Date(TODAY);d.setDate(d.getDate()+off);BOOKED_DATES.add(d.toDateString());});
+function getMultiplier(d){const m=d.getMonth(),dow=d.getDay(),dt=d.getDate();if(m>=10||m<=1)return 1.30;if(dow>=5||dow===0)return 1.20;if([6,11,16,22,27].includes(dt))return 1.15;return 1.0;}
+function isPeak(d){return getMultiplier(d)>=1.15;}
 
-/* ══ Auth System ══ */
-function switchAuthTab(tab) {
-    document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
-    document.getElementById('form-login').classList.toggle('active', tab === 'login');
-    document.getElementById('form-signup').classList.toggle('active', tab === 'signup');
-    document.getElementById('login-error').textContent = '';
-    document.getElementById('signup-error').textContent = '';
+// ── Toast ──
+let toastT=null;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(toastT);toastT=setTimeout(()=>t.style.opacity='0',2800);
 }
 
-function openAuthModal(defaultTab) {
-    switchAuthTab(defaultTab || 'login');
-    document.getElementById('auth-modal').classList.add('open');
+// ── Ripple ──
+function addRipple(e,btn){
+  const r=document.createElement('span');r.className='ripple-span';
+  const rect=btn.getBoundingClientRect();
+  r.style.left=(e.clientX-rect.left-5)+'px';r.style.top=(e.clientY-rect.top-5)+'px';
+  btn.appendChild(r);r.addEventListener('animationend',()=>r.remove());
+}
+document.querySelectorAll('.gold-btn,.rzpay-btn,.hero-cta').forEach(b=>b.addEventListener('click',e=>addRipple(e,b)));
+
+// ── Page Nav ──
+function goPage(name){
+  if(name===currentPage)return;
+  document.getElementById('page-'+currentPage).classList.remove('active');
+  document.getElementById('dock-'+currentPage).classList.remove('active');
+  currentPage=name;
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('dock-'+name).classList.add('active');
+  if(name==='bookings')renderBookings();
+  if(name==='profile')updateProfileUI();
+  if(name==='explore')renderVenueGrid();
 }
 
-function closeAuthModal() {
-    document.getElementById('auth-modal').classList.remove('open');
+// ── Dock Badge ──
+function updateDockBadge(){
+  const cnt=myBookings.filter(b=>b.status==='confirmed'||b.status==='pending').length;
+  const el=document.getElementById('dockBadge');
+  el.textContent=cnt;el.style.display=cnt>0?'flex':'none';
 }
 
-function doLogin() {
-    const emailVal = document.getElementById('login-email').value.trim();
-    const passVal = document.getElementById('login-pass').value.trim();
-    if (!emailVal || !passVal) { document.getElementById('login-error').textContent = 'Please fill all fields.'; return; }
-    // Load stored accounts
-    const accounts = loadFromStorage('vv_accounts', []);
-    const found = accounts.find(a => (a.email === emailVal || a.name === emailVal) && a.pass === passVal);
-    if (!found) { document.getElementById('login-error').textContent = 'Invalid credentials. Please try again.'; return; }
-    currentUser = { name: found.name, email: found.email, phone: found.phone || '' };
-    saveToStorage('vv_user', currentUser);
-    closeAuthModal();
-    updateProfileUI();
-    showToast('Welcome back, ' + currentUser.name.split(' ')[0] + '! 🎉');
+// ── Render Venue Card HTML ──
+function venueCardHTML(v,variant='h'){
+  const isV=variant==='v';
+  const imgH=isV?196:140;
+  return `<div class="venue-card ${isV?'venue-card-v':'venue-card-h'}" onclick="openVenue('${v.id}')">
+    <div class="img-wrap">
+      <img src="${v.img}" alt="${v.name}" style="height:${imgH}px;">
+      <div class="venue-tag-badge">${v.tag}</div>
+      <div class="venue-urgency-badge"><div class="venue-urg-dot"></div>${v.urgency}</div>
+      <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
+    </div>
+    <div class="venue-info">
+      <div class="venue-name">${v.name}</div>
+      <div class="venue-loc"><i class="fa-solid fa-location-dot"></i>${v.loc}</div>
+      <div class="venue-bottom">
+        <div><div class="venue-price">${v.price}<span class="venue-price-sub"> /day</span></div></div>
+        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>${v.rating}</span></div>
+      </div>
+    </div>
+  </div>`;
 }
 
-function doSignup() {
-    const name = document.getElementById('signup-name').value.trim();
-    const email = document.getElementById('signup-email').value.trim();
-    const phone = document.getElementById('signup-phone').value.trim();
-    const pass = document.getElementById('signup-pass').value.trim();
-    if (!name || !email || !pass) { document.getElementById('signup-error').textContent = 'Please fill all required fields.'; return; }
-    const accounts = loadFromStorage('vv_accounts', []);
-    if (accounts.find(a => a.email === email)) { document.getElementById('signup-error').textContent = 'Email already registered. Please sign in.'; return; }
-    accounts.push({ name, email, phone, pass });
-    saveToStorage('vv_accounts', accounts);
-    currentUser = { name, email, phone };
-    saveToStorage('vv_user', currentUser);
-    closeAuthModal();
-    updateProfileUI();
-    showToast('Account created! Welcome, ' + name.split(' ')[0] + '! 🎉');
+// ── Featured Venues (Home) ──
+function renderFeatured(){
+  const el=document.getElementById('featuredVenues');
+  el.innerHTML=Object.values(VENUES).slice(0,5).map(v=>venueCardHTML(v,'h')).join('');
 }
 
-function handleAuthMenuClick() {
-    if (currentUser) {
-        if (confirm('Sign out of ' + currentUser.name + '?')) {
-            currentUser = null;
-            saveToStorage('vv_user', null);
-            updateProfileUI();
-            showToast('Signed out successfully.');
-        }
-    } else {
-        openAuthModal('login');
-    }
-}
-
-function updateProfileUI() {
-    const name = currentUser ? currentUser.name : 'Guest User';
-    const email = currentUser ? currentUser.email : 'Sign in to continue';
-    const initial = currentUser ? currentUser.name.charAt(0).toUpperCase() : '?';
-    document.getElementById('profile-avatar').textContent = initial;
-    document.getElementById('profile-name-display').textContent = name;
-    document.getElementById('profile-email-display').textContent = email;
-    // Booking count
-    const activeCount = myBookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
-    document.getElementById('profile-bookings-count').textContent = myBookings.length;
-    document.getElementById('profile-saved-count').textContent = savedVenues.length;
-    document.getElementById('profile-bookings-sub').textContent = myBookings.length + ' booking' + (myBookings.length !== 1 ? 's' : '') + ' total';
-    // Topbar greeting
-    const greet = document.querySelector('#page-home .topbar-greeting');
-    if (greet) greet.textContent = currentUser ? 'Namaste, ' + currentUser.name.split(' ')[0] + ' 🙏' : 'Namaste 🙏';
-    // Auth menu item
-    document.getElementById('auth-menu-label').textContent = currentUser ? 'Sign Out' : 'Sign In / Sign Up';
-    document.getElementById('auth-menu-sub').textContent = currentUser ? currentUser.name : 'Login or create account';
-    document.getElementById('auth-menu-icon').className = currentUser ? 'fa-solid fa-right-from-bracket' : 'fa-solid fa-right-to-bracket';
-    // Dock badge
-    updateDockBadge();
-}
-
-function openEditProfile() {
-    if (!currentUser) { openAuthModal('login'); return; }
-    document.getElementById('edit-name').value = currentUser.name || '';
-    document.getElementById('edit-email').value = currentUser.email || '';
-    document.getElementById('edit-phone').value = currentUser.phone || '';
-    document.getElementById('edit-profile-modal').classList.add('open');
-}
-
-function saveProfile() {
-    const name = document.getElementById('edit-name').value.trim();
-    const email = document.getElementById('edit-email').value.trim();
-    const phone = document.getElementById('edit-phone').value.trim();
-    if (!name || !email) { alert('Name and email are required.'); return; }
-    currentUser = { ...currentUser, name, email, phone };
-    saveToStorage('vv_user', currentUser);
-    // Update in accounts store too
-    const accounts = loadFromStorage('vv_accounts', []);
-    const idx = accounts.findIndex(a => a.email === email || a.name === name);
-    if (idx >= 0) { accounts[idx] = { ...accounts[idx], name, email, phone }; saveToStorage('vv_accounts', accounts); }
-    document.getElementById('edit-profile-modal').classList.remove('open');
-    updateProfileUI();
-    showToast('Profile updated!');
-}
-
-/* ══ Toast Notification ══ */
-function showToast(msg) {
-    let t = document.getElementById('app-toast');
-    if (!t) {
-        t = document.createElement('div');
-        t.id = 'app-toast';
-        t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-weight:700;font-size:13px;padding:10px 20px;border-radius:50px;z-index:2000;opacity:0;transition:opacity 0.3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4)';
-        document.body.appendChild(t);
-    }
-    t.textContent = msg;
-    t.style.opacity = '1';
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2800);
-}
-
-/* ══ Page Navigation ══ */
-let currentPage = 'home';
-function goPage(name) {
-    document.getElementById('page-' + currentPage).classList.remove('active');
-    document.getElementById('dock-' + currentPage).classList.remove('active');
-    currentPage = name;
-    document.getElementById('page-' + name).classList.add('active');
-    document.getElementById('dock-' + name).classList.add('active');
-    if (name === 'bookings') renderBookings();
-    if (name === 'profile') updateProfileUI();
-    window.scrollTo(0, 0);
-}
-
-function updateDockBadge() {
-    const badge = document.querySelector('#dock-bookings .dock-badge');
-    if (badge) {
-        const cnt = myBookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
-        badge.textContent = cnt;
-        badge.style.display = cnt > 0 ? 'flex' : 'none';
-    }
-}
-
-/* ══ Render Bookings ══ */
-function renderBookings() {
-    const list = document.getElementById('bookings-list');
-    if (!list) return;
-    if (myBookings.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-title">No Bookings Yet</div><div class="empty-sub">Book a venue and it will appear here — even after you refresh!</div><button class="book-btn" style="margin-top:20px;max-width:200px;" onclick="goPage('explore')">Browse Venues</button></div>`;
-        return;
-    }
-    list.innerHTML = myBookings.map((b, i) => {
-        const advance = b.priceRaw * ADVANCE_PCT;
-        const platform = b.priceRaw * PLATFORM_FEE_PCT;
-        const statusLabels = { confirmed: 'CONFIRMED', pending: 'PENDING', completed: 'COMPLETED', cancelled: 'CANCELLED' };
-        const statusClass  = { confirmed: 'status-confirmed', pending: 'status-pending', completed: 'status-completed', cancelled: 'status-cancelled' };
-        let actionBtns = '';
-        if (b.status === 'cancelled') {
-            actionBtns = `<button class="btn-sm btn-outline" style="width:100%;opacity:0.5;cursor:default;" disabled>Booking Cancelled</button>`;
-        } else if (b.status === 'completed') {
-            actionBtns = `<button class="btn-sm btn-outline" onclick="showInvoice(${i})"><i class="fa-solid fa-file-invoice"></i> Invoice</button><button class="btn-sm btn-primary" onclick="goPage('explore')">Re-book</button>`;
-        } else {
-            actionBtns = `<button class="btn-sm btn-outline" onclick="showInvoice(${i})"><i class="fa-solid fa-file-invoice"></i> Invoice</button><button class="btn-sm" style="background:#F56565;color:#fff;font-weight:700;font-family:var(--font);cursor:pointer;flex:1;padding:10px;border-radius:12px;border:none;font-size:13px;" onclick="showCancelModal(${i})">Cancel</button>`;
-        }
-        return `
-        <div class="booking-card" id="bcard-${i}">
-            <div class="booking-head">
-                <div class="booking-venue">${b.venue}</div>
-                <div class="booking-status ${statusClass[b.status] || 'status-completed'}">${statusLabels[b.status] || b.status.toUpperCase()}</div>
-            </div>
-            <div class="booking-row"><i class="fa-solid fa-calendar"></i> ${b.date}</div>
-            <div class="booking-row"><i class="fa-solid fa-location-dot"></i> ${b.loc}</div>
-            <div class="booking-row"><i class="fa-solid fa-users"></i> ${b.guests} Guests · ${b.occasion}</div>
-            <div class="booking-row"><i class="fa-solid fa-indian-rupee-sign"></i> Advance Paid: <strong>${fmt(advance)}</strong> &nbsp;·&nbsp; Ref: <span style="color:var(--gold);">${b.id}</span></div>
-            <div class="booking-row" style="background:rgba(72,187,120,0.07);border-radius:10px;padding:8px 10px;margin-top:4px;">
-                <i class="fa-solid fa-store" style="color:#48BB78;"></i> <span style="color:#48BB78;font-weight:600;">Pay ${fmt(b.priceRaw * 0.70)} directly at the hall on event day</span>
-            </div>
-            <div class="booking-footer" style="gap:8px;">${actionBtns}</div>
-        </div>`;
-    }).join('');
-}
-
-/* ══ Cancel Modal ══ */
-let cancelIdx = -1;
-function showCancelModal(i) {
-    cancelIdx = i;
-    const b = myBookings[i];
-    const advance = b.priceRaw * ADVANCE_PCT;
-    const platform = b.priceRaw * PLATFORM_FEE_PCT;
-    const penalty = advance * PENALTY_PCT;
-    const refund = advance - penalty - platform;
-    document.getElementById('cp-advance').textContent = fmt(advance);
-    document.getElementById('cp-penalty').textContent = '-' + fmt(penalty);
-    document.getElementById('cp-platform').textContent = '-' + fmt(platform);
-    document.getElementById('cp-refund').textContent = fmt(Math.max(0, refund));
-    document.getElementById('cancel-modal').classList.add('open');
-}
-
-function processCancellation() {
-    if (cancelIdx < 0) return;
-    const b = myBookings[cancelIdx];
-    const advance = b.priceRaw * ADVANCE_PCT;
-    const platform = b.priceRaw * PLATFORM_FEE_PCT;
-    const penalty = advance * PENALTY_PCT;
-    const refund = Math.max(0, advance - penalty - platform);
-    myBookings[cancelIdx].status = 'cancelled';
-    saveToStorage('vv_bookings', myBookings);
-    document.getElementById('cancel-modal').classList.remove('open');
-    document.getElementById('cancel-confirm-msg').textContent =
-        `Booking ${b.id} cancelled. Refund of ${fmt(refund)} will be processed in 5–7 business days. (5% penalty + platform fee deducted)`;
-    document.getElementById('cancelled-modal').classList.add('open');
-    renderBookings();
-    updateDockBadge();
-    cancelIdx = -1;
-}
-
-/* ══ Invoice Modal ══ */
-function showInvoice(i) {
-    const b = myBookings[i];
-    const advance = b.priceRaw * ADVANCE_PCT;
-    const platform = b.priceRaw * PLATFORM_FEE_PCT;
-    const existing = document.getElementById('invoice-modal');
-    if (existing) existing.remove();
-    const modal = document.createElement('div');
-    modal.id = 'invoice-modal';
-    modal.className = 'modal-overlay open';
-    modal.innerHTML = `
-    <div class="modal" style="max-height:85vh;overflow-y:auto;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <div style="font-size:18px;font-weight:700;"><i class="fa-solid fa-file-invoice" style="color:var(--gold);margin-right:8px;"></i>Invoice</div>
-            <div class="icon-btn" onclick="document.getElementById('invoice-modal').remove()"><i class="fa-solid fa-xmark"></i></div>
-        </div>
-        <div style="background:rgba(245,197,24,0.07);border:1px solid rgba(245,197,24,0.2);border-radius:14px;padding:14px;margin-bottom:16px;">
-            <div style="font-size:11px;color:var(--dim);margin-bottom:4px;">BOOKING REFERENCE</div>
-            <div style="font-size:18px;font-weight:800;color:var(--gold);">${b.id}</div>
-        </div>
-        <div class="pay-box" style="margin-bottom:14px;">
-            <div class="pay-row"><span class="lbl">Venue</span><span class="val" style="font-size:13px;text-align:right;max-width:58%;">${b.venue}</span></div>
-            <div class="pay-row"><span class="lbl">Location</span><span class="val" style="font-size:12px;text-align:right;max-width:55%;color:var(--dim);">${b.loc}</span></div>
-            <div class="pay-row"><span class="lbl">Event Date</span><span class="val">${b.date}</span></div>
-            <div class="pay-row"><span class="lbl">Occasion</span><span class="val">${b.occasion}</span></div>
-            <div class="pay-row"><span class="lbl">Guests</span><span class="val">${b.guests}</span></div>
-            <div class="pay-row"><span class="lbl">Name</span><span class="val">${b.name || 'N/A'}</span></div>
-            <hr class="pay-divider">
-            <div class="pay-row"><span class="lbl">Full Hall Cost</span><span class="val">${fmt(b.priceRaw)}</span></div>
-            <div class="pay-row"><span class="lbl">30% Advance Paid</span><span class="val pay-highlight">${fmt(advance)}</span></div>
-            <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(platform)}</span></div>
-            <hr class="pay-divider">
-            <div class="pay-row"><span class="pay-total-lbl">Total Paid Online</span><span class="pay-total pay-highlight">${fmt(advance + platform)}</span></div>
-            <div class="pay-row" style="background:rgba(72,187,120,0.07);padding:8px;border-radius:10px;margin-top:8px;">
-                <span class="lbl" style="font-size:12px;">🏛️ Pay at Hall</span>
-                <span class="val" style="color:#48BB78;font-weight:700;">${fmt(b.priceRaw * 0.70)}</span>
-            </div>
-        </div>
-        <div class="info-box"><i class="fa-solid fa-circle-info"></i>Cancellation: 5% penalty on advance + platform fee non-refundable. Refund in 5–7 business days.</div>
-        <button class="book-btn" onclick="document.getElementById('invoice-modal').remove()">Close Invoice</button>
+// ── Explore Grid ──
+let exploreFilterMode='All';
+function renderVenueGrid(){
+  const q=document.getElementById('exploreSearch').value.toLowerCase();
+  const filtered=Object.values(VENUES).filter(v=>{
+    // city filter from home chips
+    if(cityFilterActive&&cityFilterActive!=='All'&&v.city!==cityFilterActive)return false;
+    // text search
+    if(q&&!v.name.toLowerCase().includes(q)&&!v.city.toLowerCase().includes(q))return false;
+    // price/type chips
+    if(exploreFilterMode==='Under ₹2L')return v.priceRaw<200000;
+    if(exploreFilterMode==='₹2L–₹5L')return v.priceRaw>=200000&&v.priceRaw<=500000;
+    if(exploreFilterMode==='5★')return v.rating>=4.8;
+    if(exploreFilterMode==='Outdoor')return v.tag==='SCENIC'||v.tag==='BEACHFRONT'||v.name.includes('Garden');
+    if(exploreFilterMode==='AC Hall')return v.tag==='ULTRA LUXE'||v.tag==='DIVINE'||v.cap>800;
+    return true;
+  });
+  const grid=document.getElementById('venueGrid');
+  if(!filtered.length){
+    grid.innerHTML=`<div style="text-align:center;padding:64px 20px;">
+      <div style="font-size:52px;opacity:0.2;margin-bottom:16px;">🏛️</div>
+      <div style="font-family:var(--display);font-size:20px;font-weight:700;margin-bottom:8px;">No venues found</div>
+      <div style="font-size:14px;color:var(--dim);">Try a different filter or city</div>
+      <button onclick="cityFilterActive='All';exploreFilterMode='All';renderVenueGrid();" style="margin-top:16px;padding:10px 20px;background:var(--gold);color:#000;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);">Clear Filters</button>
     </div>`;
-    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
-    document.body.appendChild(modal);
+    return;
+  }
+  grid.innerHTML=filtered.map((v,i)=>`<div class="s${Math.min(i+1,5)}">${venueCardHTML(v,'v')}</div>`).join('');
 }
 
-/* ══ Search & Filter ══ */
-function filterVenues(q) {
-    q = (q || '').toLowerCase().trim();
-    document.querySelectorAll('#vgrid .venue-card-v').forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = (!q || text.includes(q)) ? '' : 'none';
-    });
+function filterExplore(chip,mode){
+  document.querySelectorAll('#exploreChips .chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  exploreFilterMode=mode;
+  cityFilterActive='All'; // reset city when using price/type chips
+  renderVenueGrid();
 }
 
-document.getElementById('homeSearch').addEventListener('input', function() {
-    const q = this.value.trim();
-    if (q.length > 1) { goPage('explore'); setTimeout(() => { document.getElementById('exploreSearch').value = q; filterVenues(q); }, 50); }
+document.getElementById('exploreSearch').addEventListener('input',renderVenueGrid);
+document.getElementById('homeSearch').addEventListener('input',function(){
+  if(this.value.length>1){goPage('explore');setTimeout(()=>{document.getElementById('exploreSearch').value=this.value;renderVenueGrid();},60);}
 });
 
-document.getElementById('exploreSearch').addEventListener('input', function() { filterVenues(this.value); });
-
-document.querySelectorAll('#cityChips .chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-        document.querySelectorAll('#cityChips .chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        const city = chip.textContent.trim();
-        if (city === 'All') {
-            document.querySelectorAll('#vgrid .venue-card-v').forEach(c => c.style.display = '');
-        } else {
-            document.querySelectorAll('#vgrid .venue-card-v').forEach(card => {
-                card.style.display = card.innerText.includes(city) ? '' : 'none';
-            });
-            goPage('explore');
-        }
-    });
-});
-
-document.querySelectorAll('#page-explore .chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-        document.querySelectorAll('#page-explore .chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        const label = chip.textContent.trim();
-        document.querySelectorAll('#vgrid .venue-card-v').forEach(card => {
-            const venueKey = card.getAttribute('onclick') ? card.getAttribute('onclick').match(/openVenue\('(\w+)'\)/)?.[1] : null;
-            const v = venueKey ? venues[venueKey] : null;
-            if (!v) { card.style.display = ''; return; }
-            let show = true;
-            if (label === 'Under ₹2L') show = v.priceRaw < 200000;
-            else if (label === '₹2L–₹5L') show = v.priceRaw >= 200000 && v.priceRaw <= 500000;
-            else if (label === '5★ Only') show = parseFloat(v.rating) >= 4.8;
-            else if (label === 'Outdoor') show = v.name.includes('Resort') || v.name.includes('Garden');
-            else if (label === 'AC Hall') show = v.tag === 'ULTRA LUXE' || v.tag === 'ELITE';
-            card.style.display = show ? '' : 'none';
-        });
-    });
-});
-
-document.querySelectorAll('.filter-chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('active'));
-});
-
-document.querySelector('#filter-sheet .btn-primary').addEventListener('click', function() {
-    closeSheet('filter-sheet'); showToast('Filters applied!');
-});
-document.querySelector('#filter-sheet .btn-outline').addEventListener('click', function() {
-    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-    closeSheet('filter-sheet'); showToast('Filters reset');
-});
-
-document.querySelectorAll('.occ-box').forEach(box => {
-    box.addEventListener('click', () => {
-        const was = box.classList.contains('active');
-        document.querySelectorAll('.occ-box').forEach(b => b.classList.remove('active'));
-        if (!was) {
-            box.classList.add('active');
-            goPage('explore');
-            const type = box.dataset.type;
-            const sel = document.getElementById('b-occasion');
-            for (let i = 0; i < sel.options.length; i++) {
-                if (sel.options[i].text.toLowerCase().startsWith(type.toLowerCase())) { sel.selectedIndex = i; break; }
-            }
-        }
-    });
-});
-
-/* ══ Favorites ══ */
-function toggleFav(e, el) {
-    e.stopPropagation();
-    el.classList.toggle('liked');
-    el.innerHTML = el.classList.contains('liked') ? '<i class="fa-solid fa-heart"></i>' : '<i class="fa-regular fa-heart"></i>';
-    const cnt = document.querySelectorAll('.venue-fav.liked').length;
-    savedVenues = cnt;
-    saveToStorage('vv_saved', cnt);
-    const el2 = document.getElementById('profile-saved-count');
-    if (el2) el2.textContent = cnt;
+// ── City filter ──
+let cityFilterActive='All';
+function filterByCity(chip){
+  document.querySelectorAll('#cityChips .chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  cityFilterActive=chip.dataset.city;
+  goPage('explore');
+  setTimeout(()=>{
+    // Apply city filter to explore chips
+    exploreFilterMode='All';
+    document.querySelectorAll('#exploreChips .chip').forEach(c=>c.classList.remove('active'));
+    document.querySelector('#exploreChips .chip').classList.add('active');
+    renderVenueGrid();
+  },60);
 }
 
-/* ══ Bottom Sheet ══ */
-function openSheet(id) { document.getElementById(id).classList.add('open'); }
-function closeSheet(id, e) {
-    if (!e) { document.getElementById(id).classList.remove('open'); return; }
-    if (e.target.id === id) document.getElementById(id).classList.remove('open');
-}
-['booking-sheet','venue-sheet','filter-sheet'].forEach(id => {
-    document.getElementById(id).addEventListener('click', function(e){ if (e.target === this) this.classList.remove('open'); });
-});
-
-/* ══ Venue Detail ══ */
-let currentVenueId = null;
-function openVenue(id) {
-    currentVenueId = id;
-    const v = venues[id];
-    if (!v) return;
-    document.getElementById('venue-content').innerHTML = `
-        <img class="detail-img" src="${v.img}" alt="${v.name}">
-        <div class="detail-body">
-            <div class="detail-tag-row"><div class="detail-tag">${v.tag}</div></div>
-            <div class="detail-name">${v.name}</div>
-            <div class="detail-loc"><i class="fa-solid fa-location-dot"></i> ${v.loc}</div>
-            <div class="detail-stats">
-                <div class="stat-box"><div class="stat-val">${v.rating}★</div><div class="stat-lbl">Rating</div></div>
-                <div class="stat-box"><div class="stat-val">${v.reviews}</div><div class="stat-lbl">Reviews</div></div>
-                <div class="stat-box"><div class="stat-val">${v.cap}</div><div class="stat-lbl">Capacity</div></div>
-            </div>
-            <div class="detail-desc">${v.desc}</div>
-            <div class="pay-box">
-                <div class="pay-row"><span class="lbl">Full Hall Cost (1 Day)</span><span class="val">${v.price}</span></div>
-                <div class="pay-row"><span class="lbl" style="color:var(--gold);">30% Advance Online</span><span class="val pay-highlight">${fmt(v.priceRaw * ADVANCE_PCT)}</span></div>
-                <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(v.priceRaw * PLATFORM_FEE_PCT)}</span></div>
-                <hr class="pay-divider">
-                <div class="pay-row"><span class="pay-total-lbl">Pay Now</span><span class="pay-total pay-highlight">${fmt(v.priceRaw * ADVANCE_PCT + v.priceRaw * PLATFORM_FEE_PCT)}</span></div>
-                <div class="pay-row" style="margin-top:4px;"><span class="lbl" style="font-size:12px;">Remaining at Hall</span><span class="val" style="font-size:13px;">${fmt(v.priceRaw * 0.70)}</span></div>
-            </div>
-            <div class="info-box"><i class="fa-solid fa-circle-info"></i><strong>Pay 30% now</strong> to lock your date. Remaining <strong>70% paid directly at the hall</strong> on the event day.</div>
-            <button class="book-btn" onclick="startBooking('${id}')"><i class="fa-solid fa-calendar-check"></i> Book Now</button>
-        </div>`;
-    openSheet('venue-sheet');
+// ── Occasion filter → go to explore, show matching venues ──
+let occFilterActive='';
+function occFilter(el,type){
+  // Highlight active box
+  document.querySelectorAll('.occ-box').forEach(b=>b.classList.remove('active'));
+  // Find the occ-box (el might be inner icon, bubble up)
+  const box=el.closest('.occ-box')||el;
+  box.classList.add('active');
+  occFilterActive=type;
+  goPage('explore');
+  setTimeout(()=>{
+    exploreFilterMode='All';
+    cityFilterActive='All';
+    document.querySelectorAll('#exploreChips .chip').forEach(c=>c.classList.remove('active'));
+    document.querySelector('#exploreChips .chip').classList.add('active');
+    // Pre-fill occasion in booking form
+    const sel=document.getElementById('b-occasion');
+    if(sel){for(let i=0;i<sel.options.length;i++){if(sel.options[i].text.toLowerCase().startsWith(type.toLowerCase())){sel.selectedIndex=i;break;}}}
+    renderVenueGrid();
+    showToast(`Showing all venues for ${type.charAt(0).toUpperCase()+type.slice(1)} 🎉`);
+  },80);
 }
 
-/* ══ Booking Flow ══ */
-let bookingVenueId = null;
-let currentStep = 0;
+function toggleFilterChip(c){c.classList.toggle('active');}
 
-function startBooking(id) {
-    if (!currentUser) {
-        closeSheet('venue-sheet');
-        setTimeout(() => openAuthModal('signup'), 300);
-        showToast('Please sign in to book a venue');
-        return;
+// ── Fav ──
+function toggleFav(e,el){
+  e.stopPropagation();
+  el.classList.toggle('liked');
+  el.innerHTML=el.classList.contains('liked')?'<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>';
+  savedVenues=document.querySelectorAll('.venue-fav.liked').length;
+  sSet('vv_saved',savedVenues);
+  const c=document.getElementById('profileSavedCount');if(c)c.textContent=savedVenues;
+}
+
+// ── Sheets — with swipe-down-to-close ──
+function openSheet(id){
+  const el=document.getElementById(id);
+  el.classList.add('open');
+  el.classList.remove('sheet-closing');
+  document.body.style.overflow='hidden';
+}
+function closeSheet(id){
+  const overlay=document.getElementById(id);
+  overlay.classList.add('sheet-closing');
+  document.body.style.overflow='';
+  setTimeout(()=>{
+    overlay.classList.remove('open');
+    overlay.classList.remove('sheet-closing');
+  },320);
+}
+// Tap backdrop to close
+['venue-sheet','booking-sheet','filter-sheet'].forEach(id=>{
+  const overlay=document.getElementById(id);
+  overlay.addEventListener('click',function(e){if(e.target===this)closeSheet(id);});
+  // Swipe down to close
+  const sheet=overlay.querySelector('.sheet');
+  let touchStartY=0,touchStartScrollTop=0;
+  overlay.addEventListener('touchstart',e=>{touchStartY=e.touches[0].clientY;touchStartScrollTop=sheet.scrollTop;},{passive:true});
+  overlay.addEventListener('touchmove',e=>{
+    const dy=e.touches[0].clientY-touchStartY;
+    if(dy>0&&touchStartScrollTop<=0){
+      sheet.style.transform=`translateY(${dy}px)`;
+      sheet.style.transition='none';
     }
-    bookingVenueId = id;
-    closeSheet('venue-sheet');
-    resetBookingFlow();
-    const v = venues[id];
-    const advance = v.priceRaw * ADVANCE_PCT;
-    const platform = v.priceRaw * PLATFORM_FEE_PCT;
-    document.getElementById('pb-full').textContent = v.price;
-    document.getElementById('pb-advance').textContent = fmt(advance);
-    document.getElementById('pb-platform').textContent = fmt(platform);
-    document.getElementById('pb-total').textContent = fmt(advance + platform);
-    document.getElementById('pb-remaining').textContent = fmt(v.priceRaw * 0.70);
-    document.getElementById('b-name').value = currentUser.name || '';
-    document.getElementById('b-phone').value = currentUser.phone || '';
-    setTimeout(() => openSheet('booking-sheet'), 200);
+  },{passive:true});
+  overlay.addEventListener('touchend',e=>{
+    const dy=e.changedTouches[0].clientY-touchStartY;
+    sheet.style.transform='';
+    sheet.style.transition='';
+    if(dy>80&&touchStartScrollTop<=0)closeSheet(id);
+  },{passive:true});
+});
+
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+['auth-modal','edit-profile-modal','cancel-modal','invoice-modal','rzpay-modal'].forEach(id=>{
+  const el=document.getElementById(id);if(el)el.addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+
+// ── Back from booking step 0 → reopen venue detail ──
+function bookingBackToVenue(){
+  closeSheet('booking-sheet');
+  setTimeout(()=>{
+    if(bookingVenueId)openVenue(bookingVenueId);
+  },350);
 }
 
-function resetBookingFlow() {
-    currentStep = 0;
-    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('fstep0').classList.add('active');
-    updateStepDots(0);
-    document.getElementById('b-date').value = '';
-    document.getElementById('b-occasion').value = '';
-    document.getElementById('b-guests').value = '';
+// ── Calendar Render ──
+function renderCalendar(venuePrice){
+  const container=document.getElementById('calendarContainer');
+  const now=new Date();
+  let viewYear=now.getFullYear(),viewMonth=now.getMonth();
+
+  function draw(){
+    const first=new Date(viewYear,viewMonth,1).getDay();
+    const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
+    const monthName=new Date(viewYear,viewMonth,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+
+    const cells=[];
+    for(let i=0;i<first;i++)cells.push(null);
+    for(let d=1;d<=daysInMonth;d++)cells.push(new Date(viewYear,viewMonth,d));
+
+    container.innerHTML=`<div class="cal-wrap" style="background:var(--card2);border-radius:18px;padding:20px 16px;border:1px solid var(--border);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <button onclick="calPrev(${venuePrice})" style="background:var(--card3);border:1px solid var(--border);border-radius:10px;width:34px;height:34px;color:var(--text);cursor:pointer;font-size:16px;">‹</button>
+        <div style="font-family:var(--display);font-size:17px;font-weight:700;">${monthName}</div>
+        <button onclick="calNext(${venuePrice})" style="background:var(--card3);border:1px solid var(--border);border-radius:10px;width:34px;height:34px;color:var(--text);cursor:pointer;font-size:16px;">›</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;">
+        ${['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div style="text-align:center;font-size:10px;font-weight:700;color:var(--dim);padding-bottom:6px;">${d}</div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">
+        ${cells.map(d=>{
+          if(!d) return '<div></div>';
+          const isBooked=BOOKED_DATES.has(d.toDateString());
+          const isPast=d<TODAY;
+          const isToday=d.toDateString()===TODAY.toDateString();
+          const isSel=selectedBookingDate&&d.toDateString()===selectedBookingDate.toDateString();
+          const mult=getMultiplier(d);
+          const peak=mult>=1.15;
+          let cls='cal-day';
+          if(isSel)cls+=' selected';
+          else if(isBooked)cls+=' booked';
+          else if(isPast)cls+=' past';
+          else if(isToday)cls+=' today';
+          else if(peak)cls+=' peak';
+          const pctLabel=mult===1.30?'+30%':mult===1.20?'+20%':mult===1.15?'+15%':'';
+          return `<div class="${cls}" onclick="selectCalDate(${d.getTime()},${venuePrice})" title="${isBooked?'Booked':isPast?'Past':peak?`Peak: ${fmt(venuePrice*mult)}`:'Available'}">
+            <span>${d.getDate()}</span>
+            ${!isPast&&!isBooked&&peak?`<span class="cal-price">${pctLabel}</span>`:''}
+            ${isBooked?`<span class="cal-price" style="color:var(--red);">✕</span>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:14px;margin-top:16px;flex-wrap:wrap;">
+        ${[['var(--red)','Booked'],['var(--gold)','Peak Price'],['var(--green)','Available']].map(([c,l])=>`<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dim);"><div style="width:8px;height:8px;border-radius:2px;background:${c};"></div>${l}</div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  window._calVenuePrice=venuePrice;
+  window.calPrev=function(vp){viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}draw();};
+  window.calNext=function(vp){viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}draw();};
+
+  draw();
 }
 
-function updateStepDots(step) {
-    [0,1,2].forEach(i => {
-        const d = document.getElementById('sdot' + i);
-        if (d) d.classList.toggle('active', i === step);
-    });
+function selectCalDate(ts,venuePrice){
+  const d=new Date(ts);
+  if(BOOKED_DATES.has(d.toDateString())||d<TODAY)return;
+  selectedBookingDate=d;
+  bookingMultiplier=getMultiplier(d);
+  renderCalendar(venuePrice);
+  const banner=document.getElementById('selectedDateBanner');
+  banner.style.display='flex';
+  document.getElementById('selectedDateLabel').textContent=d.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const pb=document.getElementById('peakBadge');
+  if(bookingMultiplier>1){
+    pb.style.display='block';
+    pb.textContent=`+${Math.round((bookingMultiplier-1)*100)}% peak`;
+  } else pb.style.display='none';
 }
 
-function bookNext(step) {
-    if (step === 1) {
-        const date = document.getElementById('b-date').value;
-        const occ = document.getElementById('b-occasion').value;
-        const guests = document.getElementById('b-guests').value;
-        if (!date || !occ || !guests) { alert('Please fill all fields to continue.'); return; }
-    }
-    if (step === 2) {
-        const name = document.getElementById('b-name').value;
-        const phone = document.getElementById('b-phone').value;
-        if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
-        const v = venues[bookingVenueId];
-        const advance = v.priceRaw * ADVANCE_PCT;
-        const platform = v.priceRaw * PLATFORM_FEE_PCT;
-        document.getElementById('confirm-summary').innerHTML = `
-            <div class="pay-row"><span class="lbl">Venue</span><span class="val" style="font-size:13px;text-align:right;max-width:55%;">${v.name}</span></div>
-            <div class="pay-row"><span class="lbl">Date</span><span class="val">${document.getElementById('b-date').value}</span></div>
-            <div class="pay-row"><span class="lbl">Occasion</span><span class="val">${document.getElementById('b-occasion').value}</span></div>
-            <div class="pay-row"><span class="lbl">Guests</span><span class="val">${document.getElementById('b-guests').value}</span></div>
-            <div class="pay-row"><span class="lbl">Name</span><span class="val">${name}</span></div>
-            <hr class="pay-divider">
-            <div class="pay-row"><span class="lbl">Full Hall Cost</span><span class="val">${v.price}</span></div>
-            <div class="pay-row"><span class="lbl">30% Advance</span><span class="val pay-highlight">${fmt(advance)}</span></div>
-            <div class="pay-row"><span class="lbl">Platform Fee (2%)</span><span class="val">${fmt(platform)}</span></div>
-            <hr class="pay-divider">
-            <div class="pay-row"><span class="pay-total-lbl" style="font-size:15px;">💳 Pay Now</span><span class="pay-total pay-highlight" style="font-size:18px;">${fmt(advance + platform)}</span></div>
-            <div class="pay-row" style="background:rgba(72,187,120,0.07);padding:8px;border-radius:10px;margin-top:8px;">
-                <span class="lbl" style="font-size:12px;">🏛️ Pay at Hall</span>
-                <span class="val" style="font-size:14px;color:#48BB78;font-weight:700;">${fmt(v.priceRaw * 0.70)}</span>
-            </div>`;
-    }
-    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('fstep' + step).classList.add('active');
-    updateStepDots(step);
-    currentStep = step;
-    const inner = document.getElementById('booking-sheet-inner');
-    if (inner) inner.scrollTop = 0;
+// ── Venue Detail ──
+function openVenue(id){
+  currentVenueId=id;
+  const v=VENUES[id];if(!v)return;
+  const adv=v.priceRaw*ADVANCE,pf=v.priceRaw*PLATFORM;
+  document.getElementById('venueContent').innerHTML=`
+    <img src="${v.img}" alt="${v.name}" style="width:100%;height:250px;object-fit:cover;display:block;">
+    <div style="padding:20px 20px 0;">
+      <div style="display:flex;gap:8px;margin-bottom:14px;"><div style="font-size:9px;font-weight:800;letter-spacing:1.2px;padding:4px 10px;border-radius:8px;background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-border);text-transform:uppercase;">${v.tag}</div></div>
+      <div style="font-family:var(--display);font-size:26px;font-weight:700;line-height:1.2;margin-bottom:6px;">${v.name}</div>
+      <div style="font-size:13px;color:var(--dim);display:flex;align-items:center;gap:6px;margin-bottom:18px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);"></i>${v.loc}</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+        ${[[`${v.rating}★`,'Rating'],[v.reviews,'Reviews'],[v.cap,'Capacity']].map(([val,lbl])=>`<div style="background:var(--card2);border-radius:14px;padding:12px;text-align:center;border:1px solid var(--border);"><div style="font-size:17px;font-weight:800;color:var(--gold);font-family:var(--display);">${val}</div><div style="font-size:10px;color:var(--dim);margin-top:3px;font-weight:600;">${lbl}</div></div>`).join('')}
+      </div>
+      <div style="font-size:14px;color:var(--dim);line-height:1.72;margin-bottom:20px;">${v.desc}</div>
+      <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Amenities</div><div style="display:flex;flex-wrap:wrap;gap:8px;">${v.amenities.map(a=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);">${a}</div>`).join('')}</div></div>
+      <div class="pay-box">
+        <div class="pay-row"><span style="color:var(--dim);">Full Hall Cost</span><span style="font-weight:600;">${v.price}</span></div>
+        <div class="pay-row"><span style="color:var(--gold);">30% Advance Online</span><span class="pay-highlight" style="font-weight:700;">${fmt(adv)}</span></div>
+        <div class="pay-row"><span style="color:var(--dim);">Platform Fee (2%)</span><span style="font-weight:600;">${fmt(pf)}</span></div>
+        <hr class="pay-divider">
+        <div class="pay-row"><span style="font-weight:700;font-size:15px;">💳 Pay Now</span><span class="pay-highlight" style="font-weight:800;font-size:17px;">${fmt(adv+pf)}</span></div>
+        <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall on Event Day</span><span style="color:var(--green);font-weight:700;">${fmt(v.priceRaw*0.70)}</span></div>
+      </div>
+      <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Guest Reviews</div>${v.reviews.map(r=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gold);font-family:var(--display);">${r.name.charAt(0)}</div><div><div style="font-size:13px;font-weight:700;">${r.name}</div><div style="color:var(--gold);font-size:12px;">${'★'.repeat(r.stars)}</div></div></div><div style="font-size:13px;color:var(--dim);line-height:1.5;">${r.text}</div></div>`).join('')}</div>
+      <div style="background:linear-gradient(0,var(--card) 60%,transparent);position:sticky;bottom:0;padding-top:16px;padding-bottom:8px;">
+        <button class="gold-btn" onclick="startBooking('${v.id}')"><i class="fa-solid fa-calendar-check" style="margin-right:8px;"></i>Book Now — ${fmt(adv+pf)} advance</button>
+      </div>
+      <div style="height:16px;"></div>
+    </div>`;
+  openSheet('venue-sheet');
 }
 
-function confirmBooking() {
-    const v = venues[bookingVenueId];
-    const refId = 'KH-' + Date.now().toString().slice(-6);
-    const dateVal = document.getElementById('b-date').value;
-    const d = dateVal ? new Date(dateVal).toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' }) : 'TBD';
-    myBookings.unshift({
-        id: refId, venue: v.name, loc: v.loc, date: d,
-        guests: parseInt(document.getElementById('b-guests').value) || 0,
-        occasion: document.getElementById('b-occasion').value,
-        status: 'confirmed', priceRaw: v.priceRaw,
-        name: document.getElementById('b-name').value,
-        phone: document.getElementById('b-phone').value
-    });
-    saveToStorage('vv_bookings', myBookings);
-    updateDockBadge();
-    document.getElementById('booking-ref').textContent = 'Ref: ' + refId;
-    document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('fstep-success').classList.add('active');
-    document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
-    const inner = document.getElementById('booking-sheet-inner');
-    if (inner) inner.scrollTop = 0;
+// ── Start Booking ──
+function startBooking(id){
+  if(!currentUser){closeSheet('venue-sheet');setTimeout(()=>openAuthModal(),300);showToast('Please sign in to book');return;}
+  bookingVenueId=id;closeSheet('venue-sheet');
+  selectedBookingDate=null;bookingMultiplier=1.0;
+  resetBookingFlow();
+  const v=VENUES[id];
+  document.getElementById('b-name').value=currentUser.name||'';
+  document.getElementById('b-phone').value=currentUser.phone||'';
+  // Render calendar
+  renderCalendar(v.priceRaw);
+  setTimeout(()=>openSheet('booking-sheet'),200);
 }
 
-/* ══ Init ══ */
-updateProfileUI();
+function resetBookingFlow(){
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep0').classList.add('active');
+  updateStepDots(0);
+  document.getElementById('b-occasion').value='';
+  document.getElementById('b-guests').value='';
+  const b=document.getElementById('selectedDateBanner');if(b)b.style.display='none';
+}
+
+function updateStepDots(step){
+  [0,1,2].forEach(i=>{
+    const d=document.getElementById('sdot'+i);if(!d)return;
+    d.style.width=i===step?'28px':'8px';
+    d.style.background=i===step?'var(--gold)':i<step?'rgba(212,168,67,0.4)':'var(--dim2)';
+  });
+}
+
+function bookNext(step){
+  if(step===1){
+    if(!selectedBookingDate){showToast('Please select a date');return;}
+    if(!document.getElementById('b-occasion').value){showToast('Select an occasion');return;}
+    if(!document.getElementById('b-guests').value){showToast('Enter guest count');return;}
+    // Build pay breakdown
+    const v=VENUES[bookingVenueId];
+    const adjPrice=v.priceRaw*bookingMultiplier;
+    const adv=adjPrice*ADVANCE,pf=adjPrice*PLATFORM;
+    const dateLabel=selectedBookingDate.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+    document.getElementById('payBreakdown').innerHTML=`
+      <div class="pay-row"><span style="color:var(--dim);">Date</span><span style="font-weight:600;">${dateLabel}</span></div>
+      <div class="pay-row"><span style="color:var(--dim);">Occasion</span><span style="font-weight:600;">${document.getElementById('b-occasion').value}</span></div>
+      ${bookingMultiplier>1?`<div class="pay-row"><span style="color:var(--dim);">Peak Adjustment</span><span style="color:var(--gold);font-weight:600;">+${Math.round((bookingMultiplier-1)*100)}%</span></div>`:''}
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="color:var(--dim);">Full Hall Cost</span><span style="font-weight:600;">${fmt(adjPrice)}</span></div>
+      <div class="pay-row"><span style="color:var(--gold);">30% Advance</span><span class="pay-highlight" style="font-weight:700;">${fmt(adv)}</span></div>
+      <div class="pay-row"><span style="color:var(--dim);">Platform Fee (2%)</span><span style="font-weight:600;">${fmt(pf)}</span></div>
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="font-weight:700;font-size:15px;">💳 Pay via Razorpay</span><span class="pay-highlight" style="font-weight:800;font-size:17px;">${fmt(adv+pf)}</span></div>
+      <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall</span><span style="color:var(--green);font-weight:700;">${fmt(adjPrice*0.70)}</span></div>`;
+  }
+  if(step===2){
+    if(!document.getElementById('b-name').value){showToast('Enter your name');return;}
+    if(!document.getElementById('b-phone').value){showToast('Enter your phone');return;}
+    // Build confirm summary
+    const v=VENUES[bookingVenueId];
+    const adjPrice=v.priceRaw*bookingMultiplier;
+    const adv=adjPrice*ADVANCE,pf=adjPrice*PLATFORM;
+    const dateLabel=selectedBookingDate.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+    document.getElementById('confirmSummary').innerHTML=`
+      ${[['Venue',v.name],['Location',v.loc],['Date',dateLabel],['Occasion',document.getElementById('b-occasion').value],['Guests',document.getElementById('b-guests').value+' pax'],['Name',document.getElementById('b-name').value],['Phone',document.getElementById('b-phone').value]].map(([l,val])=>`<div class="pay-row"><span style="color:var(--dim);">${l}</span><span style="font-weight:600;text-align:right;max-width:55%;">${val}</span></div>`).join('')}
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="font-weight:700;font-size:16px;">💳 Pay via Razorpay</span><span class="pay-highlight" style="font-weight:800;font-size:18px;">${fmt(adv+pf)}</span></div>
+      <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall</span><span style="color:var(--green);font-weight:700;">${fmt(adjPrice*0.70)}</span></div>`;
+    // Update pay button
+    document.getElementById('rzPayBtn').innerHTML=`🔒 Pay ${fmt(adv+pf)} Securely →`;
+  }
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep'+step).classList.add('active');
+  updateStepDots(step);
+  const inner=document.getElementById('bookingSheetInner');if(inner)inner.scrollTop=0;
+}
+
+// ── Razorpay Mock ──
+function processPayment(){
+  const v=VENUES[bookingVenueId];
+  const adjPrice=v.priceRaw*bookingMultiplier;
+  const adv=adjPrice*ADVANCE,pf=adjPrice*PLATFORM;
+  document.getElementById('rzVenueName').textContent=v.name;
+  document.getElementById('rzAmount').textContent=fmt(adv+pf);
+  document.getElementById('rzPayAmount').textContent=fmt(adv+pf);
+  openModal('rzpay-modal');
+}
+
+function rzPayConfirm(){
+  const btn=document.getElementById('rzPayBtn');
+  btn.textContent='⏳ Processing...';btn.disabled=true;btn.style.opacity='0.7';
+  setTimeout(()=>{
+    closeModal('rzpay-modal');
+    confirmBookingFinal();
+  },1800);
+}
+
+function confirmBookingFinal(){
+  const v=VENUES[bookingVenueId];
+  const refId='KH-'+Date.now().toString().slice(-6);
+  const adjPrice=v.priceRaw*bookingMultiplier;
+  const dateLabel=selectedBookingDate.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  myBookings.unshift({
+    id:refId,venue:v.name,loc:v.loc,date:dateLabel,
+    guests:parseInt(document.getElementById('b-guests').value)||0,
+    occasion:document.getElementById('b-occasion').value,
+    status:'confirmed',priceRaw:adjPrice,
+    name:document.getElementById('b-name').value,
+    phone:document.getElementById('b-phone').value,
+    multiplier:bookingMultiplier,
+    peakNote:bookingMultiplier>1?`Peak pricing applied (+${Math.round((bookingMultiplier-1)*100)}%)`:'',
+    // mark date as booked
+    bookedDateStr:selectedBookingDate.toDateString()
+  });
+  BOOKED_DATES.add(selectedBookingDate.toDateString());
+  sSet('vv_bookings',myBookings);
+  updateDockBadge();
+  document.getElementById('successRef').textContent='Ref: '+refId;
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep-success').classList.add('active');
+  document.querySelectorAll('#stepDots .step-dot').forEach(d=>{d.style.background='var(--green)';d.style.width='8px';});
+  const inner=document.getElementById('bookingSheetInner');if(inner)inner.scrollTop=0;
+  showToast(`🎉 Confirmed! Ref: ${refId}`);
+}
+
+// ── Render Bookings ──
+function renderBookings(){
+  const list=document.getElementById('bookingsList');if(!list)return;
+  if(!myBookings.length){
+    list.innerHTML='<div style="text-align:center;padding:80px 20px;"><div style="font-size:52px;opacity:0.2;margin-bottom:16px;">📅</div><div style="font-family:var(--display);font-size:20px;font-weight:700;margin-bottom:8px;">No Bookings Yet</div><div style="font-size:14px;color:var(--dim);line-height:1.6;">Book a venue — persists after refresh!</div></div>';
+    return;
+  }
+  const sc={confirmed:'s-confirmed',pending:'s-pending',completed:'s-completed',cancelled:'s-cancelled'};
+  const sl={confirmed:'CONFIRMED',pending:'PENDING',completed:'COMPLETED',cancelled:'CANCELLED'};
+  list.innerHTML=myBookings.map((b,i)=>{
+    const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+    let btns='';
+    if(b.status==='cancelled')btns=`<button style="flex:1;padding:10px;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--dim2);font-weight:700;font-size:12px;cursor:default;font-family:var(--font);opacity:0.5;">Cancelled</button>`;
+    else btns=`<button onclick="showInvoice(${i})" style="flex:1;padding:10px;background:transparent;border:1px solid var(--border2);border-radius:12px;color:var(--text2);font-weight:700;font-size:12px;cursor:pointer;font-family:var(--font);"><i class="fa-solid fa-file-invoice" style="margin-right:6px;"></i>Invoice</button><button onclick="showCancelModal(${i})" style="flex:1;padding:10px;background:rgba(224,84,84,0.1);border:1px solid rgba(224,84,84,0.2);border-radius:12px;color:var(--red);font-weight:700;font-size:12px;cursor:pointer;font-family:var(--font);">Cancel</button>`;
+    return `<div class="booking-card s${Math.min(i+1,5)}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:13px;gap:8px;">
+        <div style="font-family:var(--display);font-size:16px;font-weight:700;flex:1;">${b.venue}</div>
+        <div class="booking-status ${sc[b.status]||'s-completed'}">${sl[b.status]||b.status.toUpperCase()}</div>
+      </div>
+      ${[['fa-calendar',b.date],['fa-location-dot',b.loc],['fa-users',`${b.guests} guests · ${b.occasion}`]].map(([ico,val])=>`<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);margin-bottom:6px;"><i class="fa-solid ${ico}" style="width:14px;font-size:10px;color:var(--dim2);flex-shrink:0;"></i>${val}</div>`).join('')}
+      ${b.peakNote?`<div style="font-size:11px;color:var(--gold);margin-bottom:6px;">⚡ ${b.peakNote}</div>`:''}
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);margin-bottom:10px;"><i class="fa-solid fa-indian-rupee-sign" style="width:14px;font-size:10px;color:var(--dim2);"></i>Advance: <strong style="color:var(--text);margin-left:2px;">${fmt(adv)}</strong>&nbsp;·&nbsp;<span style="color:var(--gold);font-weight:700;font-size:11px;">${b.id}</span></div>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(52,199,123,0.06);border-radius:10px;padding:8px 10px;margin-bottom:12px;font-size:12px;"><i class="fa-solid fa-store" style="color:var(--green);font-size:11px;"></i><span style="color:var(--green);font-weight:600;">Pay ${fmt(b.priceRaw*0.70)} at hall on event day</span></div>
+      <div style="display:flex;gap:8px;">${btns}</div>
+    </div>`;
+  }).join('');
+}
+
+function showCancelModal(i){
+  cancelIdx=i;
+  const b=myBookings[i];
+  const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+  const pen=adv*0.05,ref=Math.max(0,adv-pen-pf);
+  document.getElementById('cancelBreakdown').innerHTML=`
+    ${[['Advance Paid',fmt(adv),''],['5% Penalty',`-${fmt(pen)}`,'var(--red)'],['Platform Fee',`-${fmt(pf)}`,'var(--red)']].map(([l,v,c])=>`<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;"><span style="color:var(--dim);">${l}</span><span style="color:${c||'var(--text)'};font-weight:600;">${v}</span></div>`).join('')}
+    <div style="border-top:1px solid rgba(224,84,84,0.18);margin:10px 0;"></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="font-weight:700;">Refund</span><span style="color:var(--green);font-weight:800;">${fmt(ref)}</span></div>`;
+  openModal('cancel-modal');
+}
+
+function processCancellation(){
+  if(cancelIdx<0)return;
+  const b=myBookings[cancelIdx];
+  const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+  const pen=adv*0.05,ref=Math.max(0,adv-pen-pf);
+  myBookings[cancelIdx].status='cancelled';
+  sSet('vv_bookings',myBookings);
+  closeModal('cancel-modal');
+  showToast(`Cancelled. Refund of ${fmt(ref)} in 5–7 days.`);
+  renderBookings();updateDockBadge();cancelIdx=-1;
+}
+
+function showInvoice(i){
+  invoiceIdx=i;const b=myBookings[i];
+  const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+  document.getElementById('invoiceContent').innerHTML=`
+    <div style="background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:14px;padding:14px;margin-bottom:16px;">
+      <div style="font-size:10px;color:var(--dim);font-weight:700;letter-spacing:1px;margin-bottom:4px;">BOOKING REFERENCE</div>
+      <div style="font-family:var(--display);font-size:20px;font-weight:800;color:var(--gold);letter-spacing:1px;">${b.id}</div>
+    </div>
+    <div class="pay-box" style="margin-bottom:16px;">
+      ${[['Venue',b.venue],['Date',b.date],['Occasion',b.occasion],['Guests',b.guests],['Name',b.name]].map(([l,v])=>`<div class="pay-row"><span style="color:var(--dim);">${l}</span><span style="font-weight:600;text-align:right;max-width:55%;">${v}</span></div>`).join('')}
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="color:var(--dim);">Advance Paid</span><span class="pay-highlight" style="font-weight:700;">${fmt(adv)}</span></div>
+      <div class="pay-row"><span style="color:var(--dim);">Platform Fee</span><span style="font-weight:600;">${fmt(pf)}</span></div>
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="font-weight:700;font-size:15px;">Total Paid Online</span><span class="pay-highlight" style="font-weight:800;font-size:17px;">${fmt(adv+pf)}</span></div>
+      <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall</span><span style="color:var(--green);font-weight:700;">${fmt(b.priceRaw*0.70)}</span></div>
+    </div>`;
+  openModal('invoice-modal');
+}
+
+// ── Profile UI ──
+function updateProfileUI(){
+  const init=currentUser?currentUser.name.charAt(0).toUpperCase():'?';
+  document.getElementById('profileAvatar').textContent=init;
+  document.getElementById('profileName').textContent=currentUser?currentUser.name:'Guest User';
+  document.getElementById('profileEmail').textContent=currentUser?currentUser.email:'Sign in to continue';
+  document.getElementById('profileBookingCount').textContent=myBookings.length;
+  document.getElementById('profileSavedCount').textContent=typeof savedVenues==='number'?savedVenues:0;
+  document.getElementById('profileBookingSub').textContent=myBookings.length+' booking'+(myBookings.length!==1?'s':'')+' total';
+  document.getElementById('home-greeting').textContent=currentUser?`Namaste, ${currentUser.name.split(' ')[0]} 🙏`:'Namaste 🙏';
+  document.getElementById('authMenuLabel').textContent=currentUser?'Sign Out':'Sign In / Sign Up';
+  document.getElementById('authMenuSub').textContent=currentUser?currentUser.name:'Login or create account';
+  document.getElementById('authMenuIcon').className=currentUser?'fa-solid fa-right-from-bracket':'fa-solid fa-right-to-bracket';
+  updateDockBadge();
+}
+
+function handleAuthMenu(){
+  if(currentUser){if(confirm(`Sign out of ${currentUser.name}?`)){currentUser=null;sSet('vv_user',null);updateProfileUI();showToast('Signed out.');}}
+  else openAuthModal();
+}
+
+function openEditProfile(){
+  if(!currentUser){openAuthModal();return;}
+  document.getElementById('editName').value=currentUser.name||'';
+  document.getElementById('editEmail').value=currentUser.email||'';
+  document.getElementById('editPhone').value=currentUser.phone||'';
+  openModal('edit-profile-modal');
+}
+function saveProfile(){
+  const name=document.getElementById('editName').value.trim();
+  const email=document.getElementById('editEmail').value.trim();
+  const phone=document.getElementById('editPhone').value.trim();
+  if(!name||!email){showToast('Name and email required');return;}
+  currentUser={...currentUser,name,email,phone};sSet('vv_user',currentUser);
+  closeModal('edit-profile-modal');updateProfileUI();showToast('Profile updated!');
+}
+
+// ── AUTH ──
+let otpCode='',otpContext='',otpTimer=null,otpSeconds=60;
+let pendingUser=null;
+
+function openAuthModal(){
+  switchTab('login');
+  document.getElementById('authMainView').style.display='block';
+  document.getElementById('authOtpView').style.display='none';
+  openModal('auth-modal');
+}
+function switchTab(t){
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('tabSignup').classList.toggle('active',t==='signup');
+  document.getElementById('formLogin').classList.toggle('active',t==='login');
+  document.getElementById('formSignup').classList.toggle('active',t==='signup');
+}
+function doLogin(){
+  const cred=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value.trim();
+  if(!cred||!pass){showToast('Fill all fields');return;}
+  const accounts=sGet('vv_accounts',[]);
+  const found=accounts.find(a=>(a.email===cred||a.phone===cred||a.name===cred)&&a.pass===pass);
+  if(!found){showToast('Invalid credentials');return;}
+  currentUser={name:found.name,email:found.email,phone:found.phone||''};
+  sSet('vv_user',currentUser);closeModal('auth-modal');updateProfileUI();showToast(`Welcome back, ${currentUser.name.split(' ')[0]}! 🎉`);
+}
+function doSignup(){
+  const name=document.getElementById('signupName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const phone=document.getElementById('signupPhone').value.trim();
+  const pass=document.getElementById('signupPass').value.trim();
+  if(!name||!email||!pass){showToast('Fill all fields');return;}
+  pendingUser={name,email,phone,pass};
+  switchToOTP();
+}
+function switchToOTP(){
+  otpCode=String(Math.floor(100000+Math.random()*900000));
+  document.getElementById('demoOtpDisplay').textContent=otpCode;
+  document.getElementById('otpSubText').textContent=`OTP sent to ${pendingUser?.phone||'your phone'}. Enter below.`;
+  document.getElementById('authMainView').style.display='none';
+  document.getElementById('authOtpView').style.display='block';
+  [0,1,2,3,4,5].forEach(i=>{const b=document.getElementById('otp'+i);b.value='';b.classList.remove('filled');});
+  document.getElementById('otpError').textContent='';
+  startOTPTimer();
+  setTimeout(()=>document.getElementById('otp0').focus(),300);
+}
+function startOTPTimer(){
+  clearInterval(otpTimer);otpSeconds=60;
+  const el=document.getElementById('otpTimerDisplay');
+  el.textContent='Resend in 60s';
+  otpTimer=setInterval(()=>{
+    otpSeconds--;
+    if(otpSeconds<=0){clearInterval(otpTimer);el.innerHTML='<span onclick="resendOTP()" style="color:var(--gold);cursor:pointer;font-weight:700;">Resend OTP</span>';}
+    else el.textContent=`Resend in ${otpSeconds}s`;
+  },1000);
+}
+function resendOTP(){otpCode=String(Math.floor(100000+Math.random()*900000));document.getElementById('demoOtpDisplay').textContent=otpCode;startOTPTimer();showToast('New OTP sent!');}
+function backFromOTP(){clearInterval(otpTimer);document.getElementById('authOtpView').style.display='none';document.getElementById('authMainView').style.display='block';}
+
+// OTP box wiring
+[0,1,2,3,4,5].forEach(i=>{
+  const box=document.getElementById('otp'+i);
+  box.addEventListener('input',e=>{
+    const v=e.target.value.replace(/\D/,'').slice(-1);
+    box.value=v;box.classList.toggle('filled',v!=='');
+    if(v&&i<5)document.getElementById('otp'+(i+1)).focus();
+    const full=[0,1,2,3,4,5].map(j=>document.getElementById('otp'+j).value).join('');
+    if(full.length===6)verifyOTP(full);
+  });
+  box.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!box.value&&i>0)document.getElementById('otp'+(i-1)).focus();});
+});
+
+function verifyOTP(entered){
+  if(entered===otpCode){
+    clearInterval(otpTimer);
+    const accounts=sGet('vv_accounts',[]);
+    if(!accounts.find(a=>a.email===pendingUser.email))accounts.push(pendingUser);
+    sSet('vv_accounts',accounts);
+    currentUser={name:pendingUser.name,email:pendingUser.email,phone:pendingUser.phone};
+    sSet('vv_user',currentUser);
+    closeModal('auth-modal');updateProfileUI();
+    showToast(`Account created! Welcome, ${currentUser.name.split(' ')[0]}! 🎉`);
+  } else {
+    document.getElementById('otpError').textContent='Wrong OTP. Try again.';
+    const boxes=document.getElementById('otpBoxes');
+    boxes.classList.add('otp-shake');setTimeout(()=>boxes.classList.remove('otp-shake'),400);
+    [0,1,2,3,4,5].forEach(i=>{document.getElementById('otp'+i).value='';document.getElementById('otp'+i).classList.remove('filled');});
+    document.getElementById('otp0').focus();
+  }
+}
+
+// ── INIT ──
+renderFeatured();
+renderVenueGrid();
 renderBookings();
+updateProfileUI();
 updateDockBadge();
-if (!currentUser) setTimeout(() => openAuthModal('login'), 800);
-
+if(!currentUser)setTimeout(()=>openAuthModal(),900);
 </script>
 </body>
 </html>
