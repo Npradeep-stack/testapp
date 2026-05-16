@@ -1,222 +1,1195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kalyanam Hub | Premier Venues</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root { 
-            --gold: #FACC15; 
-            --bg: #05070A; 
-            --card: #0F131E; 
-            --text: #F8FAFC; 
-            --dim: #94A3B8; 
-            --border: rgba(255, 255, 255, 0.08); 
-        }
-        
-        /* Reset & Base */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; padding-bottom: 120px; overflow-x: hidden; }
-        .container { width: 92%; max-width: 1200px; margin: 0 auto; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#060810">
+<title>Vivaha Venue — Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --gold:#D4A843; --gold2:#B8892A; --gold-soft:rgba(212,168,67,0.1); --gold-border:rgba(212,168,67,0.2);
+  --bg:#060810; --bg2:#0A0D18; --card:#0E1222; --card2:#131828; --card3:#181F30;
+  --text:#EDF0FA; --text2:#BDC3D8; --dim:#636D8A; --dim2:#363E55;
+  --border:rgba(255,255,255,0.055); --border2:rgba(255,255,255,0.1);
+  --green:#34C77B; --red:#E05454; --blue:#4F8EF5;
+  --font:'Sora',sans-serif; --display:'Fraunces',serif;
+  --r:18px; --r-sm:12px;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,12px);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{height:100%;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);overflow-x:hidden;min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:calc(90px + var(--safe-b));}
+input,select,button,textarea{font-family:var(--font);}
+::-webkit-scrollbar{display:none;} * {scrollbar-width:none;}
 
-        /* Hero & Search */
-        .hero { padding: 30px 0 10px; }
-        .hero h1 { font-family: 'Playfair Display'; font-size: 32px; color: var(--gold); margin-bottom: 8px; }
-        .search-row { display: flex; gap: 12px; margin-bottom: 30px; }
-        .search-container { 
-            flex: 1; background: var(--card); border: 1px solid var(--border); 
-            border-radius: 18px; padding: 0 18px; height: 56px; display: flex; align-items: center;
-        }
-        .search-container input { background: transparent; border: none; color: white; width: 100%; outline: none; margin-left: 12px; font-size: 15px; }
-        .filter-btn { width: 56px; height: 56px; background: var(--card); border: 1px solid var(--border); border-radius: 18px; color: var(--gold); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes scaleIn{from{transform:scale(0.86);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+@keyframes rippleOut{to{transform:scale(5);opacity:0}}
+@keyframes successPop{0%{transform:scale(0.5);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes otpShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes stagger{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes calPop{from{opacity:0;transform:scale(0.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes successGlow{0%{box-shadow:0 0 0 0 rgba(52,199,123,0.5)}70%{box-shadow:0 0 0 22px rgba(52,199,123,0)}100%{box-shadow:0 0 0 0 rgba(52,199,123,0)}}
 
-        .section-label { font-size: 11px; font-weight: 800; color: var(--dim); margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 1.5px; }
+.page{display:none;}
+.page.active{display:block;animation:fadeUp 0.36s cubic-bezier(0.23,1,0.32,1);}
 
-        /* Popular Cities */
-        .city-row { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 25px; scrollbar-width: none; }
-        .city-row::-webkit-scrollbar { display: none; }
-        .city-chip { background: var(--card); border: 1px solid var(--border); padding: 10px 18px; border-radius: 50px; white-space: nowrap; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .city-chip:active { background: var(--gold); color: #000; }
+/* ── Topbar ── */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(6,8,16,0.91);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;animation:slideDown 0.4s ease;}
+.topbar-brand{font-family:var(--display);font-size:26px;color:var(--gold);line-height:1.05;}
+.topbar-greeting{font-size:11px;color:var(--dim);font-weight:600;}
+.icon-btn{width:40px;height:40px;background:var(--card);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:15px;cursor:pointer;transition:all 0.18s;position:relative;overflow:hidden;}
+.icon-btn:active{background:var(--gold);color:#000;transform:scale(0.9);}
 
-        /* Occasion Boxes (Symbol Top, Text Bottom) */
-        .occasion-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 30px; }
-        .occasion-box {
-            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-            padding: 15px 5px; display: flex; flex-direction: column; align-items: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
-        }
-        .occasion-box i { font-size: 22px; color: var(--gold); margin-bottom: 8px; pointer-events: none; }
-        .occasion-box span { font-size: 10px; font-weight: 700; pointer-events: none; }
-        .occasion-box.active { background: #FFFFFF; border-color: #FFFFFF; transform: translateY(-5px); }
-        .occasion-box.active i, .occasion-box.active span { color: #000000; }
+/* ── Search ── */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:0 16px;height:52px;transition:border-color 0.18s,box-shadow 0.18s;}
+.search-bar:focus-within{border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(212,168,67,0.08);}
+.search-bar i{color:var(--dim);font-size:15px;transition:color 0.2s;}
+.search-bar:focus-within i{color:var(--gold);}
+.search-bar input{background:none;border:none;color:var(--text);font-family:var(--font);font-size:15px;width:100%;outline:none;font-weight:500;}
+.search-bar input::placeholder{color:var(--dim2);}
 
-        /* Venue Cards */
-        .hall-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
-        .hall-card { 
-            background: var(--card); border-radius: 28px; border: 1px solid var(--border); 
-            text-decoration: none; color: inherit; overflow: hidden; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0; transform: translateY(20px);
-        }
-        .hall-card.visible { opacity: 1; transform: translateY(0); }
-        .hall-card:active { transform: scale(0.96); border-color: var(--gold); }
+/* ── Hero ── */
+.hero-banner{margin:18px 20px 0;background:linear-gradient(135deg,#120E03 0%,#090C1A 45%,#020E0A 100%);border-radius:22px;padding:26px 22px;border:1px solid rgba(212,168,67,0.12);position:relative;overflow:hidden;cursor:pointer;transition:transform 0.25s;}
+.hero-banner:active{transform:scale(0.98);}
+.hero-banner::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,168,67,0.12),transparent 70%);pointer-events:none;animation:float 5s ease-in-out infinite;}
+.urgency-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:50px;padding:5px 12px;margin-bottom:14px;font-size:11px;font-weight:700;color:var(--gold);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse-dot 1.4s infinite;}
+.hero-title{font-family:var(--display);font-size:30px;line-height:1.18;margin-bottom:12px;font-weight:700;}
+.hero-title em{color:var(--gold);font-style:normal;}
+.hero-sub{font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.6;}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;font-weight:800;font-size:13px;border-radius:13px;padding:11px 20px;cursor:pointer;position:relative;overflow:hidden;transition:transform 0.2s;font-family:var(--font);}
+.hero-cta:active{transform:scale(0.94);}
 
-        .img-box { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .tag { 
-            position: absolute; top: 15px; right: 15px; background: rgba(15, 19, 30, 0.8); 
-            backdrop-filter: blur(10px); color: var(--gold); padding: 5px 10px; border-radius: 8px; font-size: 10px; font-weight: 800; 
-        }
+/* ── Chips ── */
+.chip-row{display:flex;gap:8px;overflow-x:auto;padding:0 20px 2px;scrollbar-width:none;}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:50px;padding:9px 16px;white-space:nowrap;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;color:var(--dim);letter-spacing:0.2px;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);}
+.chip.active,.chip:active{background:var(--gold);color:#000;border-color:var(--gold);transform:scale(1.04);}
 
-        .card-body { padding: 20px; }
-        .card-body h3 { font-size: 18px; margin-bottom: 5px; font-weight: 700; }
-        .loc { color: var(--dim); font-size: 12px; margin-bottom: 15px; display: flex; align-items: center; gap: 5px; }
-        .price { font-weight: 800; font-size: 20px; color: var(--text); }
-        .price span { font-size: 12px; color: var(--dim); }
+/* ── Occasion Grid ── */
+.occ-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.occ-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:15px 5px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);}
+.occ-box:hover,.occ-box:active{transform:scale(1.06);border-color:var(--gold-border);}
+.occ-icon{width:44px;height:44px;background:var(--gold-soft);border-radius:14px;display:flex;align-items:center;justify-content:center;transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);}
+.occ-box:hover .occ-icon{transform:scale(1.12) rotate(-5deg);}
+.occ-icon i{font-size:19px;color:var(--gold);}
+.occ-label{font-size:10px;font-weight:700;color:var(--dim);text-align:center;letter-spacing:0.3px;}
+.occ-box.active{background:var(--gold);border-color:var(--gold);}
+.occ-box.active .occ-icon{background:rgba(0,0,0,0.12);}
+.occ-box.active .occ-icon i,.occ-box.active .occ-label{color:#000;}
 
-        /* Bottom Dock */
-        .dock { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            width: 92%; max-width: 420px; height: 72px; 
-            background: rgba(15, 19, 30, 0.96); backdrop-filter: blur(24px); 
-            border-radius: 24px; border: 1px solid var(--border); 
-            display: flex; justify-content: space-around; align-items: center; z-index: 2000;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        }
-        .dock-item { color: var(--dim); text-decoration: none; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; transition: 0.3s; }
-        .dock-item i { font-size: 20px; }
-        .dock-item span { font-size: 10px; font-weight: 700; }
-        .dock-item.active { color: var(--gold); }
-        .dock-item.active i { transform: translateY(-3px); }
+/* ── Venue Cards ── */
+.venues-scroll{display:flex;gap:14px;overflow-x:auto;padding:0 20px 4px;scrollbar-width:none;}
+.venue-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.28s,border-color 0.28s;}
+.venue-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,0.6);border-color:var(--gold-border);}
+.venue-card:active{transform:scale(0.96);}
+.venue-card .img-wrap{position:relative;overflow:hidden;}
+.venue-card .img-wrap img{width:100%;object-fit:cover;display:block;transition:transform 0.5s ease;}
+.venue-card:hover .img-wrap img{transform:scale(1.05);}
+.venue-card-h{flex-shrink:0;width:232px;}
+.venue-card-h .img-wrap img{height:140px;}
+.venue-card-v{width:100%;}
+.venue-card-v .img-wrap img{height:196px;}
+.venue-tag-badge{position:absolute;top:10px;left:10px;background:rgba(6,8,16,0.82);backdrop-filter:blur(10px);border-radius:8px;padding:3px 8px;font-size:8px;font-weight:800;color:var(--gold);letter-spacing:1.2px;border:1px solid var(--gold-border);text-transform:uppercase;}
+.venue-urgency-badge{position:absolute;bottom:10px;left:10px;background:rgba(6,8,16,0.82);backdrop-filter:blur(10px);border-radius:8px;padding:3px 8px;font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;gap:5px;}
+.venue-urg-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse-dot 1.2s infinite;}
+.venue-fav{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(6,8,16,0.82);backdrop-filter:blur(10px);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.venue-fav:active{transform:scale(0.82);}
+.venue-fav.liked{background:rgba(224,84,84,0.2);}
+.venue-fav i{font-size:12px;color:var(--dim);transition:color 0.2s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+.venue-fav.liked i{color:var(--red);transform:scale(1.2);}
+.venue-info{padding:14px 15px 15px;}
+.venue-card-v .venue-info{padding:16px 18px 18px;}
+.venue-name{font-size:14px;font-weight:700;margin-bottom:4px;font-family:var(--display);}
+.venue-card-v .venue-name{font-size:17px;}
+.venue-loc{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:4px;margin-bottom:11px;}
+.venue-card-v .venue-loc{font-size:12px;}
+.venue-loc i{color:var(--gold);font-size:9px;}
+.venue-bottom{display:flex;justify-content:space-between;align-items:center;}
+.venue-price{font-size:15px;font-weight:800;}
+.venue-card-v .venue-price{font-size:18px;}
+.venue-price-sub{font-size:10px;color:var(--dim);}
+.venue-rating{display:flex;align-items:center;gap:4px;background:var(--gold-soft);border:1px solid var(--gold-border);padding:4px 9px;border-radius:8px;}
+.venue-rating i{font-size:9px;color:var(--gold);}
+.venue-rating span{font-size:11px;font-weight:800;color:var(--gold);}
 
-        @media (min-width: 768px) { .hall-grid { grid-template-columns: repeat(2, 1fr); } }
-    </style>
+/* ── Sections ── */
+.section{padding:22px 20px 0;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-title{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:2px;}
+.see-all{font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;}
+
+/* ── Skeleton ── */
+.skeleton{background:linear-gradient(90deg,var(--card) 25%,var(--card2) 50%,var(--card) 75%);background-size:400px 100%;animation:shimmer 1.4s infinite;border-radius:10px;}
+
+/* ── Booking Cards ── */
+.booking-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;animation:fadeUp 0.35s ease;transition:border-color 0.2s;}
+.booking-card:hover{border-color:var(--border2);}
+.booking-status{font-size:9px;font-weight:800;padding:4px 10px;border-radius:8px;letter-spacing:0.8px;white-space:nowrap;flex-shrink:0;}
+.s-confirmed{background:rgba(52,199,123,0.12);color:var(--green);border:1px solid rgba(52,199,123,0.2);}
+.s-pending{background:rgba(212,168,67,0.12);color:var(--gold);border:1px solid var(--gold-border);}
+.s-completed{background:rgba(107,117,148,0.12);color:var(--dim);border:1px solid var(--border);}
+.s-cancelled{background:rgba(224,84,84,0.12);color:var(--red);border:1px solid rgba(224,84,84,0.2);}
+
+/* ── Profile ── */
+.menu-item{display:flex;align-items:center;gap:14px;padding:15px;background:var(--card);border:1px solid var(--border);border-radius:16px;cursor:pointer;transition:all 0.18s;}
+.menu-item:hover{border-color:var(--border2);background:var(--card2);}
+.menu-item:active{transform:scale(0.98);background:var(--card3);}
+.menu-icon{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1);}
+.menu-item:hover .menu-icon{transform:scale(1.12) rotate(-4deg);}
+
+/* ── SHEET ── */
+.sheet-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:600;align-items:flex-end;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.sheet-overlay.open{display:flex;animation:fadeIn 0.2s ease;}
+.sheet{background:var(--card);width:100%;border-radius:24px 24px 0 0;padding:0 0 calc(24px + var(--safe-b));max-height:92vh;overflow-y:auto;animation:slideUp 0.36s cubic-bezier(0.32,0.72,0,1);box-shadow:0 -8px 60px rgba(0,0,0,0.7);}
+.sheet-handle{width:36px;height:4px;background:var(--dim2);border-radius:2px;margin:13px auto 0;opacity:0.5;}
+
+/* ── Modal ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(14px);}
+.modal-overlay.open{display:flex;animation:fadeIn 0.22s ease;}
+.modal{background:var(--card);border:1px solid var(--gold-border);border-radius:28px;padding:28px;width:100%;max-width:400px;animation:scaleIn 0.32s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 32px 80px rgba(0,0,0,0.75);}
+
+/* ── Gold Button ── */
+.gold-btn{width:100%;padding:16px 24px;background:var(--gold);color:#000;font-weight:800;font-size:15px;border-radius:16px;border:none;font-family:var(--font);cursor:pointer;letter-spacing:0.2px;box-shadow:0 6px 24px rgba(212,168,67,0.3);transition:all 0.2s;position:relative;overflow:hidden;}
+.gold-btn:active{transform:scale(0.97);background:var(--gold2);}
+.gold-btn:hover{box-shadow:0 10px 36px rgba(212,168,67,0.4);}
+.ripple-span{position:absolute;width:10px;height:10px;background:rgba(0,0,0,0.2);border-radius:50%;transform:scale(0);animation:rippleOut 0.55s ease;pointer-events:none;}
+
+/* ── Pay box ── */
+.pay-box{background:var(--card2);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:18px;}
+.pay-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;font-size:14px;}
+.pay-row:last-child{margin-bottom:0;}
+.pay-divider{border:none;border-top:1px solid var(--border);margin:13px 0;}
+.pay-highlight{color:var(--gold);}
+.info-box{background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:14px;padding:13px 15px;margin-bottom:18px;font-size:12px;color:var(--dim);line-height:1.65;}
+.info-box i{color:var(--gold);margin-right:6px;}
+.info-box strong{color:var(--text2);}
+
+/* ── Auth ── */
+.auth-tab{flex:1;text-align:center;padding:11px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);color:var(--dim);}
+.auth-tab.active{background:var(--gold);color:#000;transform:scale(1.02);}
+.auth-form{display:none;}
+.auth-form.active{display:block;animation:fadeUp 0.28s ease;}
+.field-label{font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.2px;display:block;margin-bottom:7px;}
+.field-input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;color:var(--text);font-family:var(--font);font-size:15px;outline:none;transition:border-color 0.18s,box-shadow 0.18s;margin-bottom:14px;}
+.field-input:focus{border-color:var(--gold-border);box-shadow:0 0 0 3px rgba(212,168,67,0.08);}
+.field-input::placeholder{color:var(--dim2);}
+
+/* ── OTP ── */
+.otp-box{width:46px;height:54px;border-radius:12px;background:var(--card2);border:2px solid var(--border);text-align:center;font-size:22px;font-weight:800;color:var(--text);outline:none;caret-color:var(--gold);transition:border-color 0.18s,transform 0.18s,box-shadow 0.18s;font-family:var(--display);}
+.otp-box:focus{border-color:var(--gold);transform:scale(1.06);box-shadow:0 0 0 3px rgba(212,168,67,0.15);}
+.otp-box.filled{border-color:var(--gold-border);background:rgba(212,168,67,0.05);}
+.otp-shake{animation:otpShake 0.35s ease;}
+
+/* ── Calendar ── */
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;cursor:pointer;position:relative;transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);font-size:13px;font-weight:600;}
+.cal-day:hover:not(.booked):not(.past){transform:scale(1.12);background:var(--card3);}
+.cal-day.today{border:1.5px solid var(--gold-border);color:var(--gold);}
+.cal-day.selected{background:var(--gold);color:#000;transform:scale(1.1);}
+.cal-day.booked{background:rgba(224,84,84,0.1);color:var(--dim2);cursor:not-allowed;}
+.cal-day.past{opacity:0.28;cursor:not-allowed;pointer-events:none;}
+.cal-day.peak{color:var(--gold);}
+.cal-price{font-size:7px;font-weight:700;opacity:0.8;}
+.cal-day.selected .cal-price{color:#000;}
+.cal-wrap{animation:calPop 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+
+/* ── Booking flow ── */
+.flow-step{display:none;}
+.flow-step.active{display:block;animation:fadeUp 0.3s ease;}
+.step-dot{height:8px;border-radius:4px;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+
+/* ── Success ── */
+.success-icon{width:80px;height:80px;background:rgba(52,199,123,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;color:var(--green);animation:successPop 0.5s cubic-bezier(0.34,1.56,0.64,1), successGlow 1.5s ease 0.5s;}
+
+/* ── Dock ── */
+.dock{position:fixed;bottom:calc(14px + var(--safe-b));left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:420px;height:68px;background:rgba(12,16,32,0.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border-radius:24px;border:1px solid var(--border);display:flex;align-items:center;z-index:1000;box-shadow:0 8px 40px rgba(0,0,0,0.65),0 1px 0 rgba(255,255,255,0.04) inset;animation:slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+.dock-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--dim2);transition:all 0.24s cubic-bezier(0.34,1.56,0.64,1);padding:10px 0;position:relative;}
+.dock-item.active{color:var(--gold);}
+.dock-item.active i{transform:translateY(-3px) scale(1.12);}
+.dock-item:active{transform:scale(0.88);}
+.dock-item i{font-size:20px;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);}
+.dock-item span{font-size:10px;font-weight:700;letter-spacing:0.2px;}
+.dock-badge{position:absolute;top:6px;left:50%;transform:translateX(4px);min-width:16px;height:16px;background:var(--red);border-radius:8px;font-size:9px;font-weight:800;display:none;align-items:center;justify-content:center;color:#fff;padding:0 4px;border:2px solid var(--bg);animation:successPop 0.35s ease;}
+
+/* ── Toast ── */
+#toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:rgba(20,25,42,0.97);color:var(--text);border:1px solid var(--border2);font-weight:600;font-size:13px;padding:11px 22px;border-radius:50px;z-index:3000;opacity:0;transition:opacity 0.3s;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,0.55);pointer-events:none;}
+
+/* ── Profile header ── */
+.avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#000;font-family:var(--display);margin-bottom:14px;box-shadow:0 8px 32px rgba(212,168,67,0.3);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;z-index:1;}
+.avatar:hover{transform:scale(1.07);}
+
+/* ── Razorpay button ── */
+.rzpay-btn{background:linear-gradient(135deg,#0D6EFD,#0A56C7);box-shadow:0 6px 24px rgba(13,110,253,0.4);color:#fff;font-weight:800;font-size:15px;border-radius:16px;border:none;padding:16px;width:100%;cursor:pointer;font-family:var(--font);transition:all 0.2s;position:relative;overflow:hidden;}
+.rzpay-btn:hover{box-shadow:0 10px 36px rgba(13,110,253,0.55);transform:translateY(-1px);}
+.rzpay-btn:active{transform:scale(0.97);}
+
+/* ── Stagger ── */
+.s1{animation:stagger 0.4s ease 0.05s both;}
+.s2{animation:stagger 0.4s ease 0.13s both;}
+.s3{animation:stagger 0.4s ease 0.21s both;}
+.s4{animation:stagger 0.4s ease 0.29s both;}
+.s5{animation:stagger 0.4s ease 0.37s both;}
+</style>
 </head>
 <body>
 
-<main class="container">
-    <div class="hero">
-        <h1>Kalyanam Hub</h1>
-        <div class="search-row">
-            <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--gold);"></i>
-                <input type="text" id="hallSearch" placeholder="Search venues or cities...">
-            </div>
-            <div class="filter-btn"><i class="fa-solid fa-sliders"></i></div>
-        </div>
-
-        <span class="section-label">Popular Cities</span>
-        <div class="city-row">
-            <div class="city-chip">Kakinada</div>
-            <div class="city-chip">Vijayawada</div>
-            <div class="city-chip">Hyderabad</div>
-            <div class="city-chip">Vizag</div>
-            <div class="city-chip">Rajahmundry</div>
-        </div>
-
-        <span class="section-label">Browse by Occasion</span>
-        <div class="occasion-grid">
-            <div class="occasion-box"><i class="fa-solid fa-heart"></i><span>Wedding</span></div>
-            <div class="occasion-box"><i class="fa-solid fa-glass-cheers"></i><span>Reception</span></div>
-            <div class="occasion-box"><i class="fa-solid fa-handshake"></i><span>Engagement</span></div>
-            <div class="occasion-box"><i class="fa-solid fa-cake-candles"></i><span>Birthday</span></div>
-        </div>
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar">
+    <div>
+      <div class="topbar-greeting" id="home-greeting">Namaste 🙏</div>
+      <div class="topbar-brand">Vivaha Venue</div>
     </div>
-
-    <div class="hall-grid" id="hallGrid">
-        <!-- Hall 1 -->
-        <a href="javascript:void(0)" class="hall-card">
-            <div class="img-box"><div class="tag">ULTRA LUXE</div><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800"></div>
-            <div class="card-body">
-                <h3>V Convention Center</h3>
-                <div class="loc"><i class="fa-solid fa-location-dot"></i> Benz Circle, Vijayawada</div>
-                <div class="price">₹4,50,000 <span>/day</span></div>
-            </div>
-        </a>
-        <!-- Hall 2 -->
-        <a href="javascript:void(0)" class="hall-card">
-            <div class="img-box"><div class="tag">VERIFIED</div><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800"></div>
-            <div class="card-body">
-                <h3>River Bay Resort</h3>
-                <div class="loc"><i class="fa-solid fa-location-dot"></i> Godavari Bank, Rajahmundry</div>
-                <div class="price">₹2,20,000 <span>/day</span></div>
-            </div>
-        </a>
-        <!-- Hall 3 -->
-        <a href="javascript:void(0)" class="hall-card">
-            <div class="img-box"><div class="tag">POPULAR</div><img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800"></div>
-            <div class="card-body">
-                <h3>Grand Elite Gardens</h3>
-                <div class="loc"><i class="fa-solid fa-location-dot"></i> Madhapur, Hyderabad</div>
-                <div class="price">₹5,00,000 <span>/day</span></div>
-            </div>
-        </a>
-        <!-- Hall 4 -->
-        <a href="javascript:void(0)" class="hall-card">
-            <div class="img-box"><div class="tag">ELITE</div><img src="https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=800"></div>
-            <div class="card-body">
-                <h3>S Convention</h3>
-                <div class="loc"><i class="fa-solid fa-location-dot"></i> Main Road, Kakinada</div>
-                <div class="price">₹1,80,000 <span>/day</span></div>
-            </div>
-        </a>
+    <div class="icon-btn" onclick="openAuthModal()"><i class="fa-solid fa-circle-user"></i></div>
+  </div>
+  <div style="padding:0 0 20px;">
+    <!-- Search -->
+    <div style="padding:16px 20px 0;">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="homeSearch" type="text" placeholder="Search city, hall name...">
+      </div>
     </div>
-</main>
+    <!-- Hero -->
+    <div class="hero-banner" onclick="goPage('explore')">
+      <div class="urgency-pill"><div class="live-dot"></div> 47 bookings confirmed this week</div>
+      <div class="hero-title">Your Dream<br><em>Wedding Venue</em><br>Awaits</div>
+      <div class="hero-sub">500+ premium halls across AP & Telangana. Pay just 30% to lock your date.</div>
+      <div class="hero-cta"><i class="fa-solid fa-calendar-check"></i> Book Now</div>
+    </div>
+    <!-- Cities -->
+    <div class="section"><div class="section-header"><span class="section-title">Browse by City</span></div></div>
+    <div class="chip-row" id="cityChips">
+      <div class="chip active" data-city="All" onclick="filterByCity(this)">All Cities</div>
+      <div class="chip" data-city="Hyderabad" onclick="filterByCity(this)">Hyderabad</div>
+      <div class="chip" data-city="Vijayawada" onclick="filterByCity(this)">Vijayawada</div>
+      <div class="chip" data-city="Rajahmundry" onclick="filterByCity(this)">Rajahmundry</div>
+      <div class="chip" data-city="Tirupati" onclick="filterByCity(this)">Tirupati</div>
+      <div class="chip" data-city="Vizag" onclick="filterByCity(this)">Vizag</div>
+    </div>
+    <!-- Occasions -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">What's the Occasion?</span></div>
+      <div class="occ-grid">
+        <div class="occ-box" onclick="occFilter('wedding')"><div class="occ-icon"><i class="fa-solid fa-rings-wedding"></i></div><div class="occ-label">Wedding</div></div>
+        <div class="occ-box" onclick="occFilter('reception')"><div class="occ-icon"><i class="fa-solid fa-champagne-glasses"></i></div><div class="occ-label">Reception</div></div>
+        <div class="occ-box" onclick="occFilter('engagement')"><div class="occ-icon"><i class="fa-solid fa-gem"></i></div><div class="occ-label">Engagement</div></div>
+        <div class="occ-box" onclick="occFilter('sangeet')"><div class="occ-icon"><i class="fa-solid fa-music"></i></div><div class="occ-label">Sangeet</div></div>
+        <div class="occ-box" onclick="occFilter('mehendi')"><div class="occ-icon"><i class="fa-solid fa-hand-holding-heart"></i></div><div class="occ-label">Mehendi</div></div>
+        <div class="occ-box" onclick="occFilter('birthday')"><div class="occ-icon"><i class="fa-solid fa-cake-candles"></i></div><div class="occ-label">Birthday</div></div>
+        <div class="occ-box" onclick="occFilter('corporate')"><div class="occ-icon"><i class="fa-solid fa-briefcase"></i></div><div class="occ-label">Corporate</div></div>
+        <div class="occ-box" onclick="occFilter('haldi')"><div class="occ-icon"><i class="fa-solid fa-sun"></i></div><div class="occ-label">Haldi</div></div>
+      </div>
+    </div>
+    <!-- Featured -->
+    <div class="section">
+      <div class="section-header"><span class="section-title">Top Venues</span><span class="see-all" onclick="goPage('explore')">See All →</span></div>
+    </div>
+    <div class="venues-scroll" id="featuredVenues"></div>
+  </div>
+</div>
 
+<!-- ══ EXPLORE ══ -->
+<div class="page" id="page-explore">
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar">
+    <div><div class="topbar-greeting">500+ Venues</div><div class="topbar-brand">Explore</div></div>
+    <div class="icon-btn" onclick="openSheet('filter-sheet')"><i class="fa-solid fa-sliders"></i></div>
+  </div>
+  <div style="padding:0 0 20px;">
+    <div style="padding:16px 20px 0;">
+      <div class="search-bar"><i class="fa-solid fa-magnifying-glass"></i><input id="exploreSearch" type="text" placeholder="Search venues or cities..."></div>
+    </div>
+    <div class="chip-row" style="padding:14px 20px 0;" id="exploreChips">
+      <div class="chip active" onclick="filterExplore(this,'All')">All</div>
+      <div class="chip" onclick="filterExplore(this,'Under ₹2L')">Under ₹2L</div>
+      <div class="chip" onclick="filterExplore(this,'₹2L–₹5L')">₹2L–₹5L</div>
+      <div class="chip" onclick="filterExplore(this,'5★')">5★ Only</div>
+      <div class="chip" onclick="filterExplore(this,'Outdoor')">Outdoor</div>
+      <div class="chip" onclick="filterExplore(this,'AC Hall')">AC Hall</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;padding:16px 20px 0;" id="venueGrid"></div>
+  </div>
+</div>
+
+<!-- ══ BOOKINGS ══ -->
+<div class="page" id="page-bookings">
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar"><div><div class="topbar-greeting">My Events</div><div class="topbar-brand">Bookings</div></div></div>
+  <div style="display:flex;flex-direction:column;gap:14px;padding:20px 20px 0;" id="bookingsList"></div>
+</div>
+
+<!-- ══ PROFILE ══ -->
+<div class="page" id="page-profile">
+  <div style="height:calc(var(--safe-t) + 4px)"></div>
+  <div class="topbar">
+    <div><div class="topbar-greeting">Account</div><div class="topbar-brand">Profile</div></div>
+    <div class="icon-btn" onclick="openEditProfile()"><i class="fa-solid fa-pen"></i></div>
+  </div>
+  <div>
+    <!-- Header -->
+    <div style="padding:28px 20px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:140px;background:linear-gradient(180deg,rgba(212,168,67,0.07),transparent);border-radius:0 0 40px 40px;pointer-events:none;"></div>
+      <div class="avatar" id="profileAvatar">?</div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:700;margin-bottom:4px;" id="profileName">Guest User</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:20px;" id="profileEmail">Sign in to continue</div>
+      <div style="display:flex;gap:10px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 16px;text-align:center;"><div style="font-size:19px;font-weight:800;color:var(--gold);font-family:var(--display);" id="profileBookingCount">0</div><div style="font-size:10px;color:var(--dim);font-weight:600;margin-top:2px;">Bookings</div></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 16px;text-align:center;"><div style="font-size:19px;font-weight:800;color:var(--gold);font-family:var(--display);" id="profileSavedCount">0</div><div style="font-size:10px;color:var(--dim);font-weight:600;margin-top:2px;">Saved</div></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 16px;text-align:center;"><div style="font-size:19px;font-weight:800;color:var(--gold);font-family:var(--display);">4.9★</div><div style="font-size:10px;color:var(--dim);font-weight:600;margin-top:2px;">Rating</div></div>
+      </div>
+    </div>
+    <!-- Menu -->
+    <div style="display:flex;flex-direction:column;gap:8px;padding:0 20px;">
+      <div class="menu-item s1" onclick="goPage('bookings')"><div class="menu-icon" style="background:rgba(79,142,245,0.1);border:1px solid rgba(79,142,245,0.2);color:var(--blue);"><i class="fa-solid fa-calendar-check"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;">My Bookings</div><div style="font-size:11px;color:var(--dim);margin-top:2px;" id="profileBookingSub">View all your bookings</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+      <div class="menu-item s2" onclick="openEditProfile()"><div class="menu-icon" style="background:var(--gold-soft);border:1px solid var(--gold-border);color:var(--gold);"><i class="fa-solid fa-user-pen"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;">Edit Profile</div><div style="font-size:11px;color:var(--dim);margin-top:2px;">Update name, email & phone</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+      <div class="menu-item s3" onclick="alert('📞 +91 98765 43210\n✉️ support@vivahavenue.in')"><div class="menu-icon" style="background:rgba(52,199,123,0.1);border:1px solid rgba(52,199,123,0.2);color:var(--green);"><i class="fa-solid fa-headset"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;">Help & Support</div><div style="font-size:11px;color:var(--dim);margin-top:2px;">support@vivahavenue.in</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+      <div class="menu-item s4" id="authMenuItem" onclick="handleAuthMenu()"><div class="menu-icon" style="background:rgba(224,84,84,0.1);border:1px solid rgba(224,84,84,0.2);color:var(--red);"><i class="fa-solid fa-right-to-bracket" id="authMenuIcon"></i></div><div style="flex:1;"><div style="font-size:14px;font-weight:600;" id="authMenuLabel">Sign In / Sign Up</div><div style="font-size:11px;color:var(--dim);margin-top:2px;" id="authMenuSub">Login or create account</div></div><i class="fa-solid fa-chevron-right" style="color:var(--dim2);font-size:12px;"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DOCK ══ -->
 <nav class="dock">
-    <a href="#" class="dock-item"><i class="fa-solid fa-house-chimney"></i><span>Home</span></a>
-    <a href="#" class="dock-item active"><i class="fa-solid fa-compass"></i><span>Explore</span></a>
-    <a href="#" class="dock-item"><i class="fa-solid fa-calendar-check"></i><span>Bookings</span></a>
-    <a href="#" class="dock-item"><i class="fa-solid fa-circle-user"></i><span>Profile</span></a>
+  <div class="dock-item active" id="dock-home" onclick="goPage('home')"><i class="fa-solid fa-house-chimney"></i><span>Home</span></div>
+  <div class="dock-item" id="dock-explore" onclick="goPage('explore')"><i class="fa-solid fa-compass"></i><span>Explore</span></div>
+  <div class="dock-item" id="dock-bookings" onclick="goPage('bookings')"><i class="fa-solid fa-calendar-check"></i><span>Bookings</span><div class="dock-badge" id="dockBadge">0</div></div>
+  <div class="dock-item" id="dock-profile" onclick="goPage('profile')"><i class="fa-solid fa-circle-user"></i><span>Profile</span></div>
 </nav>
+<div id="toast"></div>
+
+<!-- ══ VENUE DETAIL SHEET ══ -->
+<div class="sheet-overlay" id="venue-sheet">
+  <div class="sheet"><div class="sheet-handle"></div><div id="venueContent"></div></div>
+</div>
+
+<!-- ══ BOOKING SHEET ══ -->
+<div class="sheet-overlay" id="booking-sheet">
+  <div class="sheet" id="bookingSheetInner">
+    <div class="sheet-handle"></div>
+    <!-- Step dots -->
+    <div style="display:flex;gap:6px;justify-content:center;margin:20px 0 24px;" id="stepDots">
+      <div class="step-dot" id="sdot0" style="width:28px;background:var(--gold);"></div>
+      <div class="step-dot" id="sdot1" style="width:8px;background:var(--dim2);"></div>
+      <div class="step-dot" id="sdot2" style="width:8px;background:var(--dim2);"></div>
+    </div>
+    <!-- Step 0: Calendar + event -->
+    <div class="flow-step active" id="fstep0" style="padding:0 20px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;">STEP 1 OF 3</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:4px;">Pick Your Date</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:20px;">Peak dates cost more. Red = already booked.</div>
+      <!-- Calendar rendered by JS -->
+      <div id="calendarContainer"></div>
+      <div id="selectedDateBanner" style="display:none;background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:14px;padding:12px 16px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;animation:fadeUp 0.25s ease;">
+        <div><div style="font-size:11px;color:var(--dim);font-weight:600;">Selected Date</div><div style="font-weight:700;color:var(--gold);font-family:var(--display);font-size:15px;" id="selectedDateLabel">—</div></div>
+        <div id="peakBadge" style="display:none;background:rgba(212,168,67,0.15);border-radius:10px;padding:4px 10px;font-size:11px;font-weight:800;color:var(--gold);">+0% peak</div>
+      </div>
+      <div style="margin-top:18px;"><label class="field-label">Occasion</label>
+        <select class="field-input" id="b-occasion"><option value="">Select...</option><option>Wedding</option><option>Reception</option><option>Engagement</option><option>Sangeet</option><option>Mehendi / Haldi</option><option>Birthday</option><option>Corporate</option></select>
+      </div>
+      <div><label class="field-label">Expected Guests</label><input class="field-input" type="number" id="b-guests" placeholder="e.g. 500"></div>
+      <button class="gold-btn" style="margin-top:8px;margin-bottom:24px;" onclick="bookNext(1)">Continue <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></button>
+    </div>
+    <!-- Step 1: Contact + breakdown -->
+    <div class="flow-step" id="fstep1" style="padding:0 20px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;">STEP 2 OF 3</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:4px;">Contact & Payment</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:20px;">Only 30% advance to confirm your booking.</div>
+      <label class="field-label">Your Name</label><input class="field-input" id="b-name" placeholder="Full name">
+      <label class="field-label">Phone</label><input class="field-input" type="tel" id="b-phone" placeholder="+91 9XXXXXXXXX">
+      <div class="pay-box" id="payBreakdown"></div>
+      <div class="info-box"><i class="fa-solid fa-circle-info"></i><strong>How it works:</strong> 30% advance secures your date. Remaining 70% paid at the hall on the day.</div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;">
+        <button onclick="bookNext(0)" style="padding:14px 18px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">← Back</button>
+        <button class="gold-btn" style="flex:1;" onclick="bookNext(2)">Review & Confirm</button>
+      </div>
+    </div>
+    <!-- Step 2: Confirm + pay -->
+    <div class="flow-step" id="fstep2" style="padding:0 20px;">
+      <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:8px;">STEP 3 OF 3</div>
+      <div style="font-family:var(--display);font-size:24px;font-weight:700;margin-bottom:20px;">Confirm & Pay</div>
+      <div class="pay-box" id="confirmSummary"></div>
+      <div style="background:linear-gradient(135deg,rgba(13,110,253,0.08),rgba(13,110,253,0.04));border:1px solid rgba(13,110,253,0.2);border-radius:14px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;background:rgba(13,110,253,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💳</div>
+        <div><div style="font-weight:700;font-size:14px;margin-bottom:2px;">Razorpay Secure Payment</div><div style="font-size:11px;color:var(--dim);">256-bit SSL · UPI · Cards · Net Banking · Wallets</div></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;">
+        <button onclick="bookNext(1)" style="padding:14px 18px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">← Back</button>
+        <button class="rzpay-btn" style="flex:2;" id="payBtn" onclick="processPayment()">🔒 Pay Now</button>
+      </div>
+    </div>
+    <!-- Success -->
+    <div class="flow-step" id="fstep-success" style="padding:0 20px;">
+      <div style="text-align:center;padding:30px 0;">
+        <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+        <div style="font-family:var(--display);font-size:28px;font-weight:700;margin-bottom:8px;">Booking Confirmed! 🎉</div>
+        <div style="font-size:14px;color:var(--dim);line-height:1.65;margin-bottom:22px;">Your advance is received. The venue has been notified. Pay the remaining 70% at the hall on your event day.</div>
+        <div style="background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:12px;padding:11px 18px;font-size:13px;color:var(--gold);font-weight:800;display:inline-block;margin-bottom:22px;letter-spacing:1px;" id="successRef">Ref: KH-000000</div>
+        <button class="gold-btn" onclick="closeSheet('booking-sheet');goPage('bookings');resetBookingFlow();">View My Bookings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FILTER SHEET ══ -->
+<div class="sheet-overlay" id="filter-sheet">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div style="font-family:var(--display);font-size:20px;font-weight:700;padding:16px 20px 0;margin-bottom:20px;">Filter Venues</div>
+    <div style="padding:0 20px;margin-bottom:22px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;">Budget</div><div style="display:flex;flex-wrap:wrap;gap:8px;" id="filterBudget"><div class="chip" onclick="toggleFilterChip(this)">Under ₹1L</div><div class="chip" onclick="toggleFilterChip(this)">₹1L–₹2L</div><div class="chip" onclick="toggleFilterChip(this)">₹2L–₹5L</div><div class="chip" onclick="toggleFilterChip(this)">Above ₹5L</div></div></div>
+    <div style="padding:0 20px;margin-bottom:22px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:12px;">Occasion</div><div style="display:flex;flex-wrap:wrap;gap:8px;"><div class="chip" onclick="toggleFilterChip(this)">Wedding</div><div class="chip" onclick="toggleFilterChip(this)">Reception</div><div class="chip" onclick="toggleFilterChip(this)">Engagement</div><div class="chip" onclick="toggleFilterChip(this)">Corporate</div></div></div>
+    <div style="padding:0 20px;display:flex;gap:10px;">
+      <button onclick="closeSheet('filter-sheet')" style="flex:1;padding:14px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">Reset</button>
+      <button class="gold-btn" style="flex:2;" onclick="closeSheet('filter-sheet');showToast('Filters applied ✓');">Apply Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AUTH MODAL ══ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <div style="font-family:var(--display);font-size:34px;color:var(--gold);text-align:center;margin-bottom:5px;">Vivaha Venue</div>
+    <div style="font-size:13px;color:var(--dim);text-align:center;margin-bottom:24px;">Book your dream Telugu wedding hall</div>
+    <!-- Auth main view -->
+    <div id="authMainView">
+      <div style="display:flex;background:var(--card2);border-radius:12px;padding:4px;margin-bottom:24px;">
+        <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Sign In</div>
+        <div class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Sign Up</div>
+      </div>
+      <!-- Login -->
+      <div class="auth-form active" id="formLogin">
+        <label class="field-label">Email / Phone / Name</label><input class="field-input" type="text" id="loginEmail" placeholder="your@email.com">
+        <label class="field-label">Password</label><input class="field-input" type="password" id="loginPass" placeholder="Password">
+        <button class="gold-btn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket" style="margin-right:8px;"></i>Sign In</button>
+      </div>
+      <!-- Signup -->
+      <div class="auth-form" id="formSignup">
+        <label class="field-label">Full Name</label><input class="field-input" id="signupName" placeholder="Ravi Kumar">
+        <label class="field-label">Email</label><input class="field-input" type="email" id="signupEmail" placeholder="you@email.com">
+        <label class="field-label">Phone</label><input class="field-input" type="tel" id="signupPhone" placeholder="+91 9XXXXXXXXX">
+        <label class="field-label">Password</label><input class="field-input" type="password" id="signupPass" placeholder="Create password">
+        <button class="gold-btn" onclick="doSignup()"><i class="fa-solid fa-user-plus" style="margin-right:8px;"></i>Create Account & Verify OTP</button>
+      </div>
+      <div style="font-size:12px;color:var(--dim);text-align:center;margin-top:16px;cursor:pointer;" onclick="closeModal('auth-modal')">Continue as guest &nbsp;<span style="color:var(--gold);font-weight:700;">Skip →</span></div>
+    </div>
+    <!-- OTP view -->
+    <div id="authOtpView" style="display:none;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;cursor:pointer;" onclick="backFromOTP()">
+        <div style="width:32px;height:32px;background:var(--card2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--dim);">←</div>
+        <span style="font-size:12px;color:var(--dim);font-weight:600;">Back</span>
+      </div>
+      <div style="font-family:var(--display);font-size:26px;font-weight:700;margin-bottom:6px;">Verify OTP</div>
+      <div style="font-size:13px;color:var(--dim);margin-bottom:10px;line-height:1.55;" id="otpSubText">Enter the 6-digit code sent to your phone.</div>
+      <div style="background:rgba(79,142,245,0.08);border:1px solid rgba(79,142,245,0.2);border-radius:12px;padding:10px 14px;margin-bottom:22px;font-size:12px;color:var(--blue);">
+        <i class="fa-solid fa-circle-info" style="margin-right:6px;"></i> Demo OTP: <strong style="font-size:16px;letter-spacing:4px;" id="demoOtpDisplay">——</strong>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="otpBoxes">
+        <input class="otp-box" maxlength="1" type="tel" id="otp0">
+        <input class="otp-box" maxlength="1" type="tel" id="otp1">
+        <input class="otp-box" maxlength="1" type="tel" id="otp2">
+        <input class="otp-box" maxlength="1" type="tel" id="otp3">
+        <input class="otp-box" maxlength="1" type="tel" id="otp4">
+        <input class="otp-box" maxlength="1" type="tel" id="otp5">
+      </div>
+      <div style="font-size:12px;color:var(--red);text-align:center;margin-bottom:10px;min-height:18px;" id="otpError"></div>
+      <div style="font-size:12px;color:var(--dim);text-align:center;" id="otpTimerDisplay">Resend in 60s</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EDIT PROFILE MODAL ══ -->
+<div class="modal-overlay" id="edit-profile-modal">
+  <div class="modal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+      <div style="font-family:var(--display);font-size:20px;font-weight:700;">Edit Profile</div>
+      <div onclick="closeModal('edit-profile-modal')" style="width:32px;height:32px;background:var(--card2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--dim);">✕</div>
+    </div>
+    <label class="field-label">Full Name</label><input class="field-input" id="editName">
+    <label class="field-label">Email</label><input class="field-input" type="email" id="editEmail">
+    <label class="field-label">Phone</label><input class="field-input" type="tel" id="editPhone">
+    <button class="gold-btn" onclick="saveProfile()">Save Changes</button>
+  </div>
+</div>
+
+<!-- ══ CANCEL MODAL ══ -->
+<div class="modal-overlay" id="cancel-modal">
+  <div class="modal">
+    <div style="width:56px;height:56px;background:rgba(224,84,84,0.12);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--red);margin-bottom:16px;border:1px solid rgba(224,84,84,0.2);"><i class="fa-solid fa-circle-xmark"></i></div>
+    <div style="font-family:var(--display);font-size:20px;font-weight:700;margin-bottom:8px;">Cancel Booking?</div>
+    <div style="font-size:13px;color:var(--dim);line-height:1.65;margin-bottom:16px;">This cannot be undone.</div>
+    <div style="background:rgba(224,84,84,0.06);border:1px solid rgba(224,84,84,0.18);border-radius:14px;padding:14px;margin-bottom:20px;" id="cancelBreakdown"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="closeModal('cancel-modal')" style="flex:1;padding:13px;background:transparent;border:1px solid var(--border2);border-radius:14px;color:var(--text2);font-weight:700;cursor:pointer;font-family:var(--font);">Keep</button>
+      <button onclick="processCancellation()" style="flex:1;padding:13px;background:var(--red);border:none;border-radius:14px;color:#fff;font-weight:800;cursor:pointer;font-family:var(--font);">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INVOICE MODAL ══ -->
+<div class="modal-overlay" id="invoice-modal">
+  <div class="modal" style="max-height:88vh;overflow-y:auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-family:var(--display);font-size:20px;font-weight:700;"><i class="fa-solid fa-file-invoice" style="color:var(--gold);margin-right:8px;"></i>Invoice</div>
+      <div onclick="closeModal('invoice-modal')" style="width:32px;height:32px;background:var(--card2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--dim);">✕</div>
+    </div>
+    <div id="invoiceContent"></div>
+    <button class="gold-btn" onclick="closeModal('invoice-modal')">Close</button>
+  </div>
+</div>
+
+<!-- ══ RAZORPAY MOCK ══ -->
+<div class="modal-overlay" id="rzpay-modal">
+  <div class="modal" style="background:#12122A;border-color:rgba(13,110,253,0.3);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="width:38px;height:38px;background:#0D6EFD;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">💳</div>
+      <div>
+        <div style="font-size:12px;color:#aaa;">Razorpay Secure Checkout</div>
+        <div style="font-family:var(--display);font-size:17px;font-weight:700;" id="rzVenueName">—</div>
+      </div>
+    </div>
+    <div style="background:rgba(13,110,253,0.08);border:1px solid rgba(13,110,253,0.2);border-radius:14px;padding:18px;margin-bottom:20px;">
+      <div style="font-size:10px;color:#aaa;letter-spacing:1px;margin-bottom:4px;">TOTAL AMOUNT</div>
+      <div style="font-family:var(--display);font-size:28px;font-weight:700;" id="rzAmount">—</div>
+      <div style="font-size:11px;color:#aaa;margin-top:4px;">30% advance + platform fee</div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Card Number</div>
+      <input readonly value="4242 4242 4242 4242" style="width:100%;background:#0d1117;border:1px solid #222;border-radius:12px;padding:13px;color:#fff;font-family:var(--font);font-size:15px;outline:none;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Expiry</div><input readonly value="12/27" style="width:100%;background:#0d1117;border:1px solid #222;border-radius:12px;padding:13px;color:#fff;font-family:var(--font);font-size:15px;outline:none;"></div>
+      <div><div style="font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">CVV</div><input type="password" readonly value="123" style="width:100%;background:#0d1117;border:1px solid #222;border-radius:12px;padding:13px;color:#fff;font-family:var(--font);font-size:15px;outline:none;"></div>
+    </div>
+    <button class="rzpay-btn" id="rzPayBtn" onclick="rzPayConfirm()">Pay <span id="rzPayAmount">—</span> Securely →</button>
+    <div style="text-align:center;margin-top:12px;font-size:11px;color:#555;">🔒 256-bit SSL encrypted · Razorpay certified</div>
+  </div>
+</div>
 
 <script>
-    // 1. Functional Search Logic
-    const searchInput = document.getElementById('hallSearch');
-    const hallCards = document.querySelectorAll('.hall-card');
+/* ═══════════════════════════════════════════════════
+   VIVAHA VENUE — PREMIUM HTML
+   OYO-level polish, OTP, Razorpay, Calendar
+═══════════════════════════════════════════════════ */
 
-    searchInput.addEventListener('input', () => {
-        const query = searchInput.value.toLowerCase();
-        hallCards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.display = text.includes(query) ? 'block' : 'none';
-        });
-    });
+// ── Storage ──
+const sGet=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}};
+const sSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
 
-    // 2. Toggleable Occasion Logic (Check/Uncheck)
-    const boxes = document.querySelectorAll('.occasion-box');
-    boxes.forEach(box => {
-        box.addEventListener('click', () => {
-            if (box.classList.contains('active')) {
-                box.classList.remove('active');
-            } else {
-                boxes.forEach(b => b.classList.remove('active'));
-                box.classList.add('active');
-            }
-        });
-    });
+// ── Venue Data ──
+const VENUES={
+  v1:{id:'v1',name:'Dasapalla Convention',city:'Vijayawada',loc:'M.G. Road, Vijayawada',tag:'ULTRA LUXE',priceRaw:480000,price:'₹4,80,000',rating:4.9,reviews:312,cap:1400,urgency:'Only 2 dates left in June',img:'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=90',desc:'Vijayawada\'s most iconic five-star convention with 1,400 capacity AC banquets, in-house Andhra catering, valet parking, and 10,000 sq ft of landscaped lawns. Trusted by 300+ royal weddings.',amenities:['AC Banquet','Catering','Parking','Decor','DJ Hall','Bridal Suite'],reviews:[{name:'Ravi K.',stars:5,text:'Absolutely magnificent. Every detail was taken care of.'},{name:'Priya M.',stars:5,text:'Felt like a 5-star. Highly recommend!'}]},
+  v2:{id:'v2',name:'Godavari Riverfront',city:'Rajahmundry',loc:'Innispeta, Rajahmundry',tag:'SCENIC',priceRaw:240000,price:'₹2,40,000',rating:4.7,reviews:189,cap:700,urgency:'Booked 14× this month',img:'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=90',desc:'Set on the banks of the Godavari, this resort offers breathtaking river views, open-air mandapam, floating flower décor, and traditional Kuchipudi performance arrangements.',amenities:['River View','Mandapam','Catering','Boat Ride','Decor','Sound'],reviews:[{name:'Lakshmi T.',stars:5,text:'Magical setting. Our guests were stunned.'},{name:'Vikram N.',stars:4,text:'The river view is unmatched.'}]},
+  v3:{id:'v3',name:'Taj Mahal Gardens',city:'Hyderabad',loc:'Jubilee Hills, Hyderabad',tag:'PREMIUM',priceRaw:550000,price:'₹5,50,000',rating:4.8,reviews:428,cap:1800,urgency:'Booked 23× this week',img:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=90',desc:'Hyderabad\'s grandest wedding garden — 3 acres in Jubilee Hills with crystal ballroom, Mughal-style lawns, open amphitheatre, and 18-cuisine catering.',amenities:['Crystal Ballroom','3 Acres','Amphitheatre','18 Cuisines','Valet','Bridal Suite'],reviews:[{name:'Sai P.',stars:5,text:'Absolutely the best venue in Hyderabad.'},{name:'Kavya R.',stars:5,text:'Every rupee well spent!'}]},
+  v4:{id:'v4',name:'Sri Tirumala Convention',city:'Tirupati',loc:'TP Area, Tirupati',tag:'DIVINE',priceRaw:195000,price:'₹1,95,000',rating:4.6,reviews:134,cap:500,urgency:'Available — book now!',img:'https://images.unsplash.com/photo-1544161513-0179fe746fd5?w=900&q=90',desc:'A spiritually serene venue near the sacred hills of Tirupati. Perfect for traditional Brahmin weddings with in-house purohit arrangements and sattvic catering.',amenities:['Purohit','Sattvic Catering','AC Hall','Parking','Decor','Gen Set'],reviews:[{name:'Venkateswara R.',stars:5,text:'Divine experience. Perfect for our vedic wedding.'}]},
+  v5:{id:'v5',name:'Novotel Vizag Bay',city:'Vizag',loc:'Beach Road, Visakhapatnam',tag:'BEACHFRONT',priceRaw:720000,price:'₹7,20,000',rating:4.9,reviews:267,cap:1200,urgency:'Only 1 slot left in July',img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=900&q=90',desc:'The only beachfront 5-star wedding venue on the Bay of Bengal. Sunset ceremonies on private beach, infinity pool receptions, and international catering by Michelin-trained chefs.',amenities:['Private Beach','Infinity Pool','International Cuisine','Spa','Penthouse','Helipad'],reviews:[{name:'Rohit A.',stars:5,text:'Sunset wedding on the beach — unforgettable!'},{name:'Deepika V.',stars:5,text:'5-star in every sense.'}]}
+};
 
-    // 3. Bottom Dock Switcher
-    const dockItems = document.querySelectorAll('.dock-item');
-    dockItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            dockItems.forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+const fmt=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const ADVANCE=0.30,PLATFORM=0.02;
 
-    // 4. Scroll Reveal Animation
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-    }, { threshold: 0.1 });
+// ── State ──
+let currentUser=sGet('vv_user',null);
+let myBookings=sGet('vv_bookings',[]);
+let savedVenues=sGet('vv_saved',0);
+let currentPage='home';
+let currentVenueId=null;
+let bookingVenueId=null;
+let cancelIdx=-1;
+let invoiceIdx=-1;
+let selectedBookingDate=null;
+let bookingMultiplier=1.0;
 
-    hallCards.forEach(card => observer.observe(card));
+// ── Calendar data ──
+const TODAY=new Date(); TODAY.setHours(0,0,0,0);
+const BOOKED_DATES=new Set();
+[3,7,14,18,22,28,35,42,50,58,65].forEach(off=>{const d=new Date(TODAY);d.setDate(d.getDate()+off);BOOKED_DATES.add(d.toDateString());});
+function getMultiplier(d){const m=d.getMonth(),dow=d.getDay(),dt=d.getDate();if(m>=10||m<=1)return 1.30;if(dow>=5||dow===0)return 1.20;if([6,11,16,22,27].includes(dt))return 1.15;return 1.0;}
+function isPeak(d){return getMultiplier(d)>=1.15;}
+
+// ── Toast ──
+let toastT=null;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(toastT);toastT=setTimeout(()=>t.style.opacity='0',2800);
+}
+
+// ── Ripple ──
+function addRipple(e,btn){
+  const r=document.createElement('span');r.className='ripple-span';
+  const rect=btn.getBoundingClientRect();
+  r.style.left=(e.clientX-rect.left-5)+'px';r.style.top=(e.clientY-rect.top-5)+'px';
+  btn.appendChild(r);r.addEventListener('animationend',()=>r.remove());
+}
+document.querySelectorAll('.gold-btn,.rzpay-btn,.hero-cta').forEach(b=>b.addEventListener('click',e=>addRipple(e,b)));
+
+// ── Page Nav ──
+function goPage(name){
+  if(name===currentPage)return;
+  document.getElementById('page-'+currentPage).classList.remove('active');
+  document.getElementById('dock-'+currentPage).classList.remove('active');
+  currentPage=name;
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('dock-'+name).classList.add('active');
+  if(name==='bookings')renderBookings();
+  if(name==='profile')updateProfileUI();
+  if(name==='explore')renderVenueGrid();
+}
+
+// ── Dock Badge ──
+function updateDockBadge(){
+  const cnt=myBookings.filter(b=>b.status==='confirmed'||b.status==='pending').length;
+  const el=document.getElementById('dockBadge');
+  el.textContent=cnt;el.style.display=cnt>0?'flex':'none';
+}
+
+// ── Render Venue Card HTML ──
+function venueCardHTML(v,variant='h'){
+  const isV=variant==='v';
+  const imgH=isV?196:140;
+  return `<div class="venue-card ${isV?'venue-card-v':'venue-card-h'}" onclick="openVenue('${v.id}')">
+    <div class="img-wrap">
+      <img src="${v.img}" alt="${v.name}" style="height:${imgH}px;">
+      <div class="venue-tag-badge">${v.tag}</div>
+      <div class="venue-urgency-badge"><div class="venue-urg-dot"></div>${v.urgency}</div>
+      <div class="venue-fav" onclick="toggleFav(event,this)"><i class="fa-regular fa-heart"></i></div>
+    </div>
+    <div class="venue-info">
+      <div class="venue-name">${v.name}</div>
+      <div class="venue-loc"><i class="fa-solid fa-location-dot"></i>${v.loc}</div>
+      <div class="venue-bottom">
+        <div><div class="venue-price">${v.price}<span class="venue-price-sub"> /day</span></div></div>
+        <div class="venue-rating"><i class="fa-solid fa-star"></i><span>${v.rating}</span></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── Featured Venues (Home) ──
+function renderFeatured(){
+  const el=document.getElementById('featuredVenues');
+  el.innerHTML=Object.values(VENUES).slice(0,5).map(v=>venueCardHTML(v,'h')).join('');
+}
+
+// ── Explore Grid ──
+let exploreFilterMode='All';
+function renderVenueGrid(){
+  const q=document.getElementById('exploreSearch').value.toLowerCase();
+  const filtered=Object.values(VENUES).filter(v=>{
+    if(q&&!v.name.toLowerCase().includes(q)&&!v.city.toLowerCase().includes(q))return false;
+    if(exploreFilterMode==='Under ₹2L')return v.priceRaw<200000;
+    if(exploreFilterMode==='₹2L–₹5L')return v.priceRaw>=200000&&v.priceRaw<=500000;
+    if(exploreFilterMode==='5★')return v.rating>=4.8;
+    if(exploreFilterMode==='Outdoor')return v.tag==='SCENIC'||v.tag==='BEACHFRONT'||v.name.includes('Garden');
+    if(exploreFilterMode==='AC Hall')return v.tag==='ULTRA LUXE'||v.tag==='DIVINE'||v.cap>800;
+    return true;
+  });
+  const grid=document.getElementById('venueGrid');
+  if(!filtered.length){grid.innerHTML='<div style="text-align:center;padding:64px 20px;"><div style="font-size:52px;opacity:0.2;margin-bottom:16px;">🏛️</div><div style="font-family:var(--display);font-size:20px;font-weight:700;margin-bottom:8px;">No venues found</div><div style="font-size:14px;color:var(--dim);">Try a different filter</div></div>';return;}
+  grid.innerHTML=filtered.map((v,i)=>`<div class="s${Math.min(i+1,5)}">${venueCardHTML(v,'v')}</div>`).join('');
+}
+
+function filterExplore(chip,mode){
+  document.querySelectorAll('#exploreChips .chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  exploreFilterMode=mode;
+  renderVenueGrid();
+}
+
+document.getElementById('exploreSearch').addEventListener('input',renderVenueGrid);
+document.getElementById('homeSearch').addEventListener('input',function(){
+  if(this.value.length>1){goPage('explore');setTimeout(()=>{document.getElementById('exploreSearch').value=this.value;renderVenueGrid();},60);}
+});
+
+// ── City filter ──
+function filterByCity(chip){
+  document.querySelectorAll('#cityChips .chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  const city=chip.dataset.city;
+  if(city!=='All') goPage('explore');
+  if(city==='All'){Object.values(VENUES).forEach(()=>{});}
+  // Filter apply when rendering
+}
+
+function occFilter(type){
+  goPage('explore');
+  document.getElementById('b-occasion').value=type.charAt(0).toUpperCase()+type.slice(1);
+}
+
+function toggleFilterChip(c){c.classList.toggle('active');}
+
+// ── Fav ──
+function toggleFav(e,el){
+  e.stopPropagation();
+  el.classList.toggle('liked');
+  el.innerHTML=el.classList.contains('liked')?'<i class="fa-solid fa-heart"></i>':'<i class="fa-regular fa-heart"></i>';
+  savedVenues=document.querySelectorAll('.venue-fav.liked').length;
+  sSet('vv_saved',savedVenues);
+  const c=document.getElementById('profileSavedCount');if(c)c.textContent=savedVenues;
+}
+
+// ── Sheets ──
+function openSheet(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeSheet(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+['venue-sheet','booking-sheet','filter-sheet'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeSheet(id);});
+});
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+['auth-modal','edit-profile-modal','cancel-modal','invoice-modal','rzpay-modal'].forEach(id=>{
+  const el=document.getElementById(id);if(el)el.addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+
+// ── Calendar Render ──
+function renderCalendar(venuePrice){
+  const container=document.getElementById('calendarContainer');
+  const now=new Date();
+  let viewYear=now.getFullYear(),viewMonth=now.getMonth();
+
+  function draw(){
+    const first=new Date(viewYear,viewMonth,1).getDay();
+    const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
+    const monthName=new Date(viewYear,viewMonth,1).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+
+    const cells=[];
+    for(let i=0;i<first;i++)cells.push(null);
+    for(let d=1;d<=daysInMonth;d++)cells.push(new Date(viewYear,viewMonth,d));
+
+    container.innerHTML=`<div class="cal-wrap" style="background:var(--card2);border-radius:18px;padding:20px 16px;border:1px solid var(--border);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <button onclick="calPrev(${venuePrice})" style="background:var(--card3);border:1px solid var(--border);border-radius:10px;width:34px;height:34px;color:var(--text);cursor:pointer;font-size:16px;">‹</button>
+        <div style="font-family:var(--display);font-size:17px;font-weight:700;">${monthName}</div>
+        <button onclick="calNext(${venuePrice})" style="background:var(--card3);border:1px solid var(--border);border-radius:10px;width:34px;height:34px;color:var(--text);cursor:pointer;font-size:16px;">›</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;">
+        ${['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div style="text-align:center;font-size:10px;font-weight:700;color:var(--dim);padding-bottom:6px;">${d}</div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">
+        ${cells.map(d=>{
+          if(!d) return '<div></div>';
+          const isBooked=BOOKED_DATES.has(d.toDateString());
+          const isPast=d<TODAY;
+          const isToday=d.toDateString()===TODAY.toDateString();
+          const isSel=selectedBookingDate&&d.toDateString()===selectedBookingDate.toDateString();
+          const mult=getMultiplier(d);
+          const peak=mult>=1.15;
+          let cls='cal-day';
+          if(isSel)cls+=' selected';
+          else if(isBooked)cls+=' booked';
+          else if(isPast)cls+=' past';
+          else if(isToday)cls+=' today';
+          else if(peak)cls+=' peak';
+          const pctLabel=mult===1.30?'+30%':mult===1.20?'+20%':mult===1.15?'+15%':'';
+          return `<div class="${cls}" onclick="selectCalDate(${d.getTime()},${venuePrice})" title="${isBooked?'Booked':isPast?'Past':peak?`Peak: ${fmt(venuePrice*mult)}`:'Available'}">
+            <span>${d.getDate()}</span>
+            ${!isPast&&!isBooked&&peak?`<span class="cal-price">${pctLabel}</span>`:''}
+            ${isBooked?`<span class="cal-price" style="color:var(--red);">✕</span>`:''}
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:14px;margin-top:16px;flex-wrap:wrap;">
+        ${[['var(--red)','Booked'],['var(--gold)','Peak Price'],['var(--green)','Available']].map(([c,l])=>`<div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dim);"><div style="width:8px;height:8px;border-radius:2px;background:${c};"></div>${l}</div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  window._calVenuePrice=venuePrice;
+  window.calPrev=function(vp){viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}draw();};
+  window.calNext=function(vp){viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}draw();};
+
+  draw();
+}
+
+function selectCalDate(ts,venuePrice){
+  const d=new Date(ts);
+  if(BOOKED_DATES.has(d.toDateString())||d<TODAY)return;
+  selectedBookingDate=d;
+  bookingMultiplier=getMultiplier(d);
+  renderCalendar(venuePrice);
+  const banner=document.getElementById('selectedDateBanner');
+  banner.style.display='flex';
+  document.getElementById('selectedDateLabel').textContent=d.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  const pb=document.getElementById('peakBadge');
+  if(bookingMultiplier>1){
+    pb.style.display='block';
+    pb.textContent=`+${Math.round((bookingMultiplier-1)*100)}% peak`;
+  } else pb.style.display='none';
+}
+
+// ── Venue Detail ──
+function openVenue(id){
+  currentVenueId=id;
+  const v=VENUES[id];if(!v)return;
+  const adv=v.priceRaw*ADVANCE,pf=v.priceRaw*PLATFORM;
+  document.getElementById('venueContent').innerHTML=`
+    <img src="${v.img}" alt="${v.name}" style="width:100%;height:250px;object-fit:cover;display:block;">
+    <div style="padding:20px 20px 0;">
+      <div style="display:flex;gap:8px;margin-bottom:14px;"><div style="font-size:9px;font-weight:800;letter-spacing:1.2px;padding:4px 10px;border-radius:8px;background:var(--gold-soft);color:var(--gold);border:1px solid var(--gold-border);text-transform:uppercase;">${v.tag}</div></div>
+      <div style="font-family:var(--display);font-size:26px;font-weight:700;line-height:1.2;margin-bottom:6px;">${v.name}</div>
+      <div style="font-size:13px;color:var(--dim);display:flex;align-items:center;gap:6px;margin-bottom:18px;"><i class="fa-solid fa-location-dot" style="color:var(--gold);"></i>${v.loc}</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;">
+        ${[[`${v.rating}★`,'Rating'],[v.reviews,'Reviews'],[v.cap,'Capacity']].map(([val,lbl])=>`<div style="background:var(--card2);border-radius:14px;padding:12px;text-align:center;border:1px solid var(--border);"><div style="font-size:17px;font-weight:800;color:var(--gold);font-family:var(--display);">${val}</div><div style="font-size:10px;color:var(--dim);margin-top:3px;font-weight:600;">${lbl}</div></div>`).join('')}
+      </div>
+      <div style="font-size:14px;color:var(--dim);line-height:1.72;margin-bottom:20px;">${v.desc}</div>
+      <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Amenities</div><div style="display:flex;flex-wrap:wrap;gap:8px;">${v.amenities.map(a=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text2);">${a}</div>`).join('')}</div></div>
+      <div class="pay-box">
+        <div class="pay-row"><span style="color:var(--dim);">Full Hall Cost</span><span style="font-weight:600;">${v.price}</span></div>
+        <div class="pay-row"><span style="color:var(--gold);">30% Advance Online</span><span class="pay-highlight" style="font-weight:700;">${fmt(adv)}</span></div>
+        <div class="pay-row"><span style="color:var(--dim);">Platform Fee (2%)</span><span style="font-weight:600;">${fmt(pf)}</span></div>
+        <hr class="pay-divider">
+        <div class="pay-row"><span style="font-weight:700;font-size:15px;">💳 Pay Now</span><span class="pay-highlight" style="font-weight:800;font-size:17px;">${fmt(adv+pf)}</span></div>
+        <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall on Event Day</span><span style="color:var(--green);font-weight:700;">${fmt(v.priceRaw*0.70)}</span></div>
+      </div>
+      <div style="margin-bottom:20px;"><div style="font-size:10px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">Guest Reviews</div>${v.reviews.map(r=>`<div style="background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--gold);font-family:var(--display);">${r.name.charAt(0)}</div><div><div style="font-size:13px;font-weight:700;">${r.name}</div><div style="color:var(--gold);font-size:12px;">${'★'.repeat(r.stars)}</div></div></div><div style="font-size:13px;color:var(--dim);line-height:1.5;">${r.text}</div></div>`).join('')}</div>
+      <div style="background:linear-gradient(0,var(--card) 60%,transparent);position:sticky;bottom:0;padding-top:16px;padding-bottom:8px;">
+        <button class="gold-btn" onclick="startBooking('${v.id}')"><i class="fa-solid fa-calendar-check" style="margin-right:8px;"></i>Book Now — ${fmt(adv+pf)} advance</button>
+      </div>
+      <div style="height:16px;"></div>
+    </div>`;
+  openSheet('venue-sheet');
+}
+
+// ── Start Booking ──
+function startBooking(id){
+  if(!currentUser){closeSheet('venue-sheet');setTimeout(()=>openAuthModal(),300);showToast('Please sign in to book');return;}
+  bookingVenueId=id;closeSheet('venue-sheet');
+  selectedBookingDate=null;bookingMultiplier=1.0;
+  resetBookingFlow();
+  const v=VENUES[id];
+  document.getElementById('b-name').value=currentUser.name||'';
+  document.getElementById('b-phone').value=currentUser.phone||'';
+  // Render calendar
+  renderCalendar(v.priceRaw);
+  setTimeout(()=>openSheet('booking-sheet'),200);
+}
+
+function resetBookingFlow(){
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep0').classList.add('active');
+  updateStepDots(0);
+  document.getElementById('b-occasion').value='';
+  document.getElementById('b-guests').value='';
+  const b=document.getElementById('selectedDateBanner');if(b)b.style.display='none';
+}
+
+function updateStepDots(step){
+  [0,1,2].forEach(i=>{
+    const d=document.getElementById('sdot'+i);if(!d)return;
+    d.style.width=i===step?'28px':'8px';
+    d.style.background=i===step?'var(--gold)':i<step?'rgba(212,168,67,0.4)':'var(--dim2)';
+  });
+}
+
+function bookNext(step){
+  if(step===1){
+    if(!selectedBookingDate){showToast('Please select a date');return;}
+    if(!document.getElementById('b-occasion').value){showToast('Select an occasion');return;}
+    if(!document.getElementById('b-guests').value){showToast('Enter guest count');return;}
+    // Build pay breakdown
+    const v=VENUES[bookingVenueId];
+    const adjPrice=v.priceRaw*bookingMultiplier;
+    const adv=adjPrice*ADVANCE,pf=adjPrice*PLATFORM;
+    const dateLabel=selectedBookingDate.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+    document.getElementById('payBreakdown').innerHTML=`
+      <div class="pay-row"><span style="color:var(--dim);">Date</span><span style="font-weight:600;">${dateLabel}</span></div>
+      <div class="pay-row"><span style="color:var(--dim);">Occasion</span><span style="font-weight:600;">${document.getElementById('b-occasion').value}</span></div>
+      ${bookingMultiplier>1?`<div class="pay-row"><span style="color:var(--dim);">Peak Adjustment</span><span style="color:var(--gold);font-weight:600;">+${Math.round((bookingMultiplier-1)*100)}%</span></div>`:''}
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="color:var(--dim);">Full Hall Cost</span><span style="font-weight:600;">${fmt(adjPrice)}</span></div>
+      <div class="pay-row"><span style="color:var(--gold);">30% Advance</span><span class="pay-highlight" style="font-weight:700;">${fmt(adv)}</span></div>
+      <div class="pay-row"><span style="color:var(--dim);">Platform Fee (2%)</span><span style="font-weight:600;">${fmt(pf)}</span></div>
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="font-weight:700;font-size:15px;">💳 Pay via Razorpay</span><span class="pay-highlight" style="font-weight:800;font-size:17px;">${fmt(adv+pf)}</span></div>
+      <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall</span><span style="color:var(--green);font-weight:700;">${fmt(adjPrice*0.70)}</span></div>`;
+  }
+  if(step===2){
+    if(!document.getElementById('b-name').value){showToast('Enter your name');return;}
+    if(!document.getElementById('b-phone').value){showToast('Enter your phone');return;}
+    // Build confirm summary
+    const v=VENUES[bookingVenueId];
+    const adjPrice=v.priceRaw*bookingMultiplier;
+    const adv=adjPrice*ADVANCE,pf=adjPrice*PLATFORM;
+    const dateLabel=selectedBookingDate.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+    document.getElementById('confirmSummary').innerHTML=`
+      ${[['Venue',v.name],['Location',v.loc],['Date',dateLabel],['Occasion',document.getElementById('b-occasion').value],['Guests',document.getElementById('b-guests').value+' pax'],['Name',document.getElementById('b-name').value],['Phone',document.getElementById('b-phone').value]].map(([l,val])=>`<div class="pay-row"><span style="color:var(--dim);">${l}</span><span style="font-weight:600;text-align:right;max-width:55%;">${val}</span></div>`).join('')}
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="font-weight:700;font-size:16px;">💳 Pay via Razorpay</span><span class="pay-highlight" style="font-weight:800;font-size:18px;">${fmt(adv+pf)}</span></div>
+      <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall</span><span style="color:var(--green);font-weight:700;">${fmt(adjPrice*0.70)}</span></div>`;
+    // Update pay button
+    document.getElementById('rzPayBtn').innerHTML=`🔒 Pay ${fmt(adv+pf)} Securely →`;
+  }
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep'+step).classList.add('active');
+  updateStepDots(step);
+  const inner=document.getElementById('bookingSheetInner');if(inner)inner.scrollTop=0;
+}
+
+// ── Razorpay Mock ──
+function processPayment(){
+  const v=VENUES[bookingVenueId];
+  const adjPrice=v.priceRaw*bookingMultiplier;
+  const adv=adjPrice*ADVANCE,pf=adjPrice*PLATFORM;
+  document.getElementById('rzVenueName').textContent=v.name;
+  document.getElementById('rzAmount').textContent=fmt(adv+pf);
+  document.getElementById('rzPayAmount').textContent=fmt(adv+pf);
+  openModal('rzpay-modal');
+}
+
+function rzPayConfirm(){
+  const btn=document.getElementById('rzPayBtn');
+  btn.textContent='⏳ Processing...';btn.disabled=true;btn.style.opacity='0.7';
+  setTimeout(()=>{
+    closeModal('rzpay-modal');
+    confirmBookingFinal();
+  },1800);
+}
+
+function confirmBookingFinal(){
+  const v=VENUES[bookingVenueId];
+  const refId='KH-'+Date.now().toString().slice(-6);
+  const adjPrice=v.priceRaw*bookingMultiplier;
+  const dateLabel=selectedBookingDate.toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'});
+  myBookings.unshift({
+    id:refId,venue:v.name,loc:v.loc,date:dateLabel,
+    guests:parseInt(document.getElementById('b-guests').value)||0,
+    occasion:document.getElementById('b-occasion').value,
+    status:'confirmed',priceRaw:adjPrice,
+    name:document.getElementById('b-name').value,
+    phone:document.getElementById('b-phone').value,
+    multiplier:bookingMultiplier,
+    peakNote:bookingMultiplier>1?`Peak pricing applied (+${Math.round((bookingMultiplier-1)*100)}%)`:'',
+    // mark date as booked
+    bookedDateStr:selectedBookingDate.toDateString()
+  });
+  BOOKED_DATES.add(selectedBookingDate.toDateString());
+  sSet('vv_bookings',myBookings);
+  updateDockBadge();
+  document.getElementById('successRef').textContent='Ref: '+refId;
+  document.querySelectorAll('.flow-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('fstep-success').classList.add('active');
+  document.querySelectorAll('#stepDots .step-dot').forEach(d=>{d.style.background='var(--green)';d.style.width='8px';});
+  const inner=document.getElementById('bookingSheetInner');if(inner)inner.scrollTop=0;
+  showToast(`🎉 Confirmed! Ref: ${refId}`);
+}
+
+// ── Render Bookings ──
+function renderBookings(){
+  const list=document.getElementById('bookingsList');if(!list)return;
+  if(!myBookings.length){
+    list.innerHTML='<div style="text-align:center;padding:80px 20px;"><div style="font-size:52px;opacity:0.2;margin-bottom:16px;">📅</div><div style="font-family:var(--display);font-size:20px;font-weight:700;margin-bottom:8px;">No Bookings Yet</div><div style="font-size:14px;color:var(--dim);line-height:1.6;">Book a venue — persists after refresh!</div></div>';
+    return;
+  }
+  const sc={confirmed:'s-confirmed',pending:'s-pending',completed:'s-completed',cancelled:'s-cancelled'};
+  const sl={confirmed:'CONFIRMED',pending:'PENDING',completed:'COMPLETED',cancelled:'CANCELLED'};
+  list.innerHTML=myBookings.map((b,i)=>{
+    const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+    let btns='';
+    if(b.status==='cancelled')btns=`<button style="flex:1;padding:10px;background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--dim2);font-weight:700;font-size:12px;cursor:default;font-family:var(--font);opacity:0.5;">Cancelled</button>`;
+    else btns=`<button onclick="showInvoice(${i})" style="flex:1;padding:10px;background:transparent;border:1px solid var(--border2);border-radius:12px;color:var(--text2);font-weight:700;font-size:12px;cursor:pointer;font-family:var(--font);"><i class="fa-solid fa-file-invoice" style="margin-right:6px;"></i>Invoice</button><button onclick="showCancelModal(${i})" style="flex:1;padding:10px;background:rgba(224,84,84,0.1);border:1px solid rgba(224,84,84,0.2);border-radius:12px;color:var(--red);font-weight:700;font-size:12px;cursor:pointer;font-family:var(--font);">Cancel</button>`;
+    return `<div class="booking-card s${Math.min(i+1,5)}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:13px;gap:8px;">
+        <div style="font-family:var(--display);font-size:16px;font-weight:700;flex:1;">${b.venue}</div>
+        <div class="booking-status ${sc[b.status]||'s-completed'}">${sl[b.status]||b.status.toUpperCase()}</div>
+      </div>
+      ${[['fa-calendar',b.date],['fa-location-dot',b.loc],['fa-users',`${b.guests} guests · ${b.occasion}`]].map(([ico,val])=>`<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);margin-bottom:6px;"><i class="fa-solid ${ico}" style="width:14px;font-size:10px;color:var(--dim2);flex-shrink:0;"></i>${val}</div>`).join('')}
+      ${b.peakNote?`<div style="font-size:11px;color:var(--gold);margin-bottom:6px;">⚡ ${b.peakNote}</div>`:''}
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);margin-bottom:10px;"><i class="fa-solid fa-indian-rupee-sign" style="width:14px;font-size:10px;color:var(--dim2);"></i>Advance: <strong style="color:var(--text);margin-left:2px;">${fmt(adv)}</strong>&nbsp;·&nbsp;<span style="color:var(--gold);font-weight:700;font-size:11px;">${b.id}</span></div>
+      <div style="display:flex;align-items:center;gap:8px;background:rgba(52,199,123,0.06);border-radius:10px;padding:8px 10px;margin-bottom:12px;font-size:12px;"><i class="fa-solid fa-store" style="color:var(--green);font-size:11px;"></i><span style="color:var(--green);font-weight:600;">Pay ${fmt(b.priceRaw*0.70)} at hall on event day</span></div>
+      <div style="display:flex;gap:8px;">${btns}</div>
+    </div>`;
+  }).join('');
+}
+
+function showCancelModal(i){
+  cancelIdx=i;
+  const b=myBookings[i];
+  const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+  const pen=adv*0.05,ref=Math.max(0,adv-pen-pf);
+  document.getElementById('cancelBreakdown').innerHTML=`
+    ${[['Advance Paid',fmt(adv),''],['5% Penalty',`-${fmt(pen)}`,'var(--red)'],['Platform Fee',`-${fmt(pf)}`,'var(--red)']].map(([l,v,c])=>`<div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;"><span style="color:var(--dim);">${l}</span><span style="color:${c||'var(--text)'};font-weight:600;">${v}</span></div>`).join('')}
+    <div style="border-top:1px solid rgba(224,84,84,0.18);margin:10px 0;"></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="font-weight:700;">Refund</span><span style="color:var(--green);font-weight:800;">${fmt(ref)}</span></div>`;
+  openModal('cancel-modal');
+}
+
+function processCancellation(){
+  if(cancelIdx<0)return;
+  const b=myBookings[cancelIdx];
+  const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+  const pen=adv*0.05,ref=Math.max(0,adv-pen-pf);
+  myBookings[cancelIdx].status='cancelled';
+  sSet('vv_bookings',myBookings);
+  closeModal('cancel-modal');
+  showToast(`Cancelled. Refund of ${fmt(ref)} in 5–7 days.`);
+  renderBookings();updateDockBadge();cancelIdx=-1;
+}
+
+function showInvoice(i){
+  invoiceIdx=i;const b=myBookings[i];
+  const adv=b.priceRaw*ADVANCE,pf=b.priceRaw*PLATFORM;
+  document.getElementById('invoiceContent').innerHTML=`
+    <div style="background:var(--gold-soft);border:1px solid var(--gold-border);border-radius:14px;padding:14px;margin-bottom:16px;">
+      <div style="font-size:10px;color:var(--dim);font-weight:700;letter-spacing:1px;margin-bottom:4px;">BOOKING REFERENCE</div>
+      <div style="font-family:var(--display);font-size:20px;font-weight:800;color:var(--gold);letter-spacing:1px;">${b.id}</div>
+    </div>
+    <div class="pay-box" style="margin-bottom:16px;">
+      ${[['Venue',b.venue],['Date',b.date],['Occasion',b.occasion],['Guests',b.guests],['Name',b.name]].map(([l,v])=>`<div class="pay-row"><span style="color:var(--dim);">${l}</span><span style="font-weight:600;text-align:right;max-width:55%;">${v}</span></div>`).join('')}
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="color:var(--dim);">Advance Paid</span><span class="pay-highlight" style="font-weight:700;">${fmt(adv)}</span></div>
+      <div class="pay-row"><span style="color:var(--dim);">Platform Fee</span><span style="font-weight:600;">${fmt(pf)}</span></div>
+      <hr class="pay-divider">
+      <div class="pay-row"><span style="font-weight:700;font-size:15px;">Total Paid Online</span><span class="pay-highlight" style="font-weight:800;font-size:17px;">${fmt(adv+pf)}</span></div>
+      <div style="display:flex;justify-content:space-between;background:rgba(52,199,123,0.07);padding:9px 12px;border-radius:10px;margin-top:10px;font-size:12px;"><span style="color:var(--dim);">🏛️ Pay at Hall</span><span style="color:var(--green);font-weight:700;">${fmt(b.priceRaw*0.70)}</span></div>
+    </div>`;
+  openModal('invoice-modal');
+}
+
+// ── Profile UI ──
+function updateProfileUI(){
+  const init=currentUser?currentUser.name.charAt(0).toUpperCase():'?';
+  document.getElementById('profileAvatar').textContent=init;
+  document.getElementById('profileName').textContent=currentUser?currentUser.name:'Guest User';
+  document.getElementById('profileEmail').textContent=currentUser?currentUser.email:'Sign in to continue';
+  document.getElementById('profileBookingCount').textContent=myBookings.length;
+  document.getElementById('profileSavedCount').textContent=typeof savedVenues==='number'?savedVenues:0;
+  document.getElementById('profileBookingSub').textContent=myBookings.length+' booking'+(myBookings.length!==1?'s':'')+' total';
+  document.getElementById('home-greeting').textContent=currentUser?`Namaste, ${currentUser.name.split(' ')[0]} 🙏`:'Namaste 🙏';
+  document.getElementById('authMenuLabel').textContent=currentUser?'Sign Out':'Sign In / Sign Up';
+  document.getElementById('authMenuSub').textContent=currentUser?currentUser.name:'Login or create account';
+  document.getElementById('authMenuIcon').className=currentUser?'fa-solid fa-right-from-bracket':'fa-solid fa-right-to-bracket';
+  updateDockBadge();
+}
+
+function handleAuthMenu(){
+  if(currentUser){if(confirm(`Sign out of ${currentUser.name}?`)){currentUser=null;sSet('vv_user',null);updateProfileUI();showToast('Signed out.');}}
+  else openAuthModal();
+}
+
+function openEditProfile(){
+  if(!currentUser){openAuthModal();return;}
+  document.getElementById('editName').value=currentUser.name||'';
+  document.getElementById('editEmail').value=currentUser.email||'';
+  document.getElementById('editPhone').value=currentUser.phone||'';
+  openModal('edit-profile-modal');
+}
+function saveProfile(){
+  const name=document.getElementById('editName').value.trim();
+  const email=document.getElementById('editEmail').value.trim();
+  const phone=document.getElementById('editPhone').value.trim();
+  if(!name||!email){showToast('Name and email required');return;}
+  currentUser={...currentUser,name,email,phone};sSet('vv_user',currentUser);
+  closeModal('edit-profile-modal');updateProfileUI();showToast('Profile updated!');
+}
+
+// ── AUTH ──
+let otpCode='',otpContext='',otpTimer=null,otpSeconds=60;
+let pendingUser=null;
+
+function openAuthModal(){
+  switchTab('login');
+  document.getElementById('authMainView').style.display='block';
+  document.getElementById('authOtpView').style.display='none';
+  openModal('auth-modal');
+}
+function switchTab(t){
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('tabSignup').classList.toggle('active',t==='signup');
+  document.getElementById('formLogin').classList.toggle('active',t==='login');
+  document.getElementById('formSignup').classList.toggle('active',t==='signup');
+}
+function doLogin(){
+  const cred=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPass').value.trim();
+  if(!cred||!pass){showToast('Fill all fields');return;}
+  const accounts=sGet('vv_accounts',[]);
+  const found=accounts.find(a=>(a.email===cred||a.phone===cred||a.name===cred)&&a.pass===pass);
+  if(!found){showToast('Invalid credentials');return;}
+  currentUser={name:found.name,email:found.email,phone:found.phone||''};
+  sSet('vv_user',currentUser);closeModal('auth-modal');updateProfileUI();showToast(`Welcome back, ${currentUser.name.split(' ')[0]}! 🎉`);
+}
+function doSignup(){
+  const name=document.getElementById('signupName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const phone=document.getElementById('signupPhone').value.trim();
+  const pass=document.getElementById('signupPass').value.trim();
+  if(!name||!email||!pass){showToast('Fill all fields');return;}
+  pendingUser={name,email,phone,pass};
+  switchToOTP();
+}
+function switchToOTP(){
+  otpCode=String(Math.floor(100000+Math.random()*900000));
+  document.getElementById('demoOtpDisplay').textContent=otpCode;
+  document.getElementById('otpSubText').textContent=`OTP sent to ${pendingUser?.phone||'your phone'}. Enter below.`;
+  document.getElementById('authMainView').style.display='none';
+  document.getElementById('authOtpView').style.display='block';
+  [0,1,2,3,4,5].forEach(i=>{const b=document.getElementById('otp'+i);b.value='';b.classList.remove('filled');});
+  document.getElementById('otpError').textContent='';
+  startOTPTimer();
+  setTimeout(()=>document.getElementById('otp0').focus(),300);
+}
+function startOTPTimer(){
+  clearInterval(otpTimer);otpSeconds=60;
+  const el=document.getElementById('otpTimerDisplay');
+  el.textContent='Resend in 60s';
+  otpTimer=setInterval(()=>{
+    otpSeconds--;
+    if(otpSeconds<=0){clearInterval(otpTimer);el.innerHTML='<span onclick="resendOTP()" style="color:var(--gold);cursor:pointer;font-weight:700;">Resend OTP</span>';}
+    else el.textContent=`Resend in ${otpSeconds}s`;
+  },1000);
+}
+function resendOTP(){otpCode=String(Math.floor(100000+Math.random()*900000));document.getElementById('demoOtpDisplay').textContent=otpCode;startOTPTimer();showToast('New OTP sent!');}
+function backFromOTP(){clearInterval(otpTimer);document.getElementById('authOtpView').style.display='none';document.getElementById('authMainView').style.display='block';}
+
+// OTP box wiring
+[0,1,2,3,4,5].forEach(i=>{
+  const box=document.getElementById('otp'+i);
+  box.addEventListener('input',e=>{
+    const v=e.target.value.replace(/\D/,'').slice(-1);
+    box.value=v;box.classList.toggle('filled',v!=='');
+    if(v&&i<5)document.getElementById('otp'+(i+1)).focus();
+    const full=[0,1,2,3,4,5].map(j=>document.getElementById('otp'+j).value).join('');
+    if(full.length===6)verifyOTP(full);
+  });
+  box.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!box.value&&i>0)document.getElementById('otp'+(i-1)).focus();});
+});
+
+function verifyOTP(entered){
+  if(entered===otpCode){
+    clearInterval(otpTimer);
+    const accounts=sGet('vv_accounts',[]);
+    if(!accounts.find(a=>a.email===pendingUser.email))accounts.push(pendingUser);
+    sSet('vv_accounts',accounts);
+    currentUser={name:pendingUser.name,email:pendingUser.email,phone:pendingUser.phone};
+    sSet('vv_user',currentUser);
+    closeModal('auth-modal');updateProfileUI();
+    showToast(`Account created! Welcome, ${currentUser.name.split(' ')[0]}! 🎉`);
+  } else {
+    document.getElementById('otpError').textContent='Wrong OTP. Try again.';
+    const boxes=document.getElementById('otpBoxes');
+    boxes.classList.add('otp-shake');setTimeout(()=>boxes.classList.remove('otp-shake'),400);
+    [0,1,2,3,4,5].forEach(i=>{document.getElementById('otp'+i).value='';document.getElementById('otp'+i).classList.remove('filled');});
+    document.getElementById('otp0').focus();
+  }
+}
+
+// ── INIT ──
+renderFeatured();
+renderVenueGrid();
+renderBookings();
+updateProfileUI();
+updateDockBadge();
+if(!currentUser)setTimeout(()=>openAuthModal(),900);
 </script>
-
 </body>
 </html>
